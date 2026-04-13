@@ -1,6 +1,7 @@
 {
-  "name": "quito-fresh-pro",
-  "version": "1.0.0",
+  "name": "quito-fresh-digital-ecosystem",
+  "version": "2.0.0",
+  "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,12 +11,18 @@
     "next": "14.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "framer-motion": "^11.0.3",
-    "zustand": "^4.5.0",
-    "tailwindcss": "^3.4.1",
+    "framer-motion": "^11.0.8",
+    "zustand": "^4.5.2",
+    "lucide-react": "^0.344.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.1"
+  },
+  "devDependencies": {
     "typescript": "^5.3.3",
-    "@types/node": "^20.11.16",
-    "@types/react": "^18.2.52",
-    "@types/react-dom": "^18.2.18"
+    "@types/node": "^20.11.24",
+    "@types/react": "^18.2.61",
+    "@types/react-dom": "^18.2.19",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
   }
 }

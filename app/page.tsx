@@ -1,112 +1,94 @@
 "use client";
 
-export default function QuitoFreshMasterpiece() {
-  const whatsappLink = "https://wa.me/593995849214?text=Hola%20Quito%20Fresh%2C%20deseo%20el%20Pack%20Premium.%20Solicito%20asesor%C3%ADa%20sobre%20la%20disponibilidad%20de%20sabores.";
+export default function QuitoFreshVibrantLuxe() {
+  const whatsappLink = "https://wa.me/593995849214?text=Hola%20Quito%20Fresh%2C%20solicito%20acceso%20a%20la%20experiencia%20Premium.";
 
   const flavors = [
-    { name: "Mora Silvestre", desc: "Antioxidante natural de altura.", color: "#4A0E0E" },
-    { name: "Frutos Rojos", desc: "Mix vital de fresas y arándanos.", color: "#8B0000" },
-    { name: "Verde Detox", desc: "Manzana verde, apio y espinaca.", color: "#1A2F1A" },
-    { name: "Maracuyá Real", desc: "Energía tropical pura.", color: "#B8860B" }
+    { name: "ANDINA", type: "Blackberry", color: "#631024", bg: "#FCE4EC" },
+    { name: "VITAL", type: "Red Fruits", color: "#A34848", bg: "#FFEBEE" },
+    { name: "DETOX", type: "Green Apple", color: "#4A6B4A", bg: "#F1F8E9" },
+    { name: "GOLD", type: "Passion Fruit", color: "#B8860B", bg: "#FFFDE7" }
   ];
 
   return (
-    <div style={{ backgroundColor: '#000', color: '#fff', fontFamily: '"Inter", sans-serif', margin: 0, padding: 0, overflowX: 'hidden' }}>
+    <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: '"Inter", sans-serif', margin: 0, padding: 0 }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300;1,700&family=Inter:wght@200;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;400;900&family=Playfair+Display:ital,wght@1,700&display=swap');
         
-        body { margin: 0; background: #000; }
-        .font-luxury { font-family: 'Cormorant Garamond', serif; }
-        .text-red { color: #D32F2F; }
+        .font-brand { font-family: 'Outfit', sans-serif; }
+        .font-serif { font-family: 'Playfair Display', serif; }
         
-        .hero-section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding-top: 80px; }
-        
-        .bottle-container {
-          position: relative; width: 100%; max-width: 500px; margin: 40px auto;
-          display: flex; justify-content: center;
+        .hero-text-back {
+          font-size: 25vw; font-weight: 900; color: #F0F0F0;
+          position: absolute; z-index: 1; top: 10%; letter-spacing: -1vw;
         }
 
-        .bottle-image {
-          width: 90%; border-radius: 40px; border: 1px solid rgba(255,255,255,0.1);
-          filter: contrast(1.1) brightness(0.9); transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        .product-image {
+          position: relative; z-index: 2; width: 85%; max-width: 400px;
+          filter: drop-shadow(0 20px 50px rgba(0,0,0,0.15));
+          transition: transform 0.6s cubic-bezier(0.17, 0.67, 0.83, 0.67);
         }
+        .product-image:hover { transform: scale(1.05) rotate(2deg); }
 
-        .cta-main {
-          background: #D32F2F; color: #fff; padding: 22px 60px; border-radius: 100px;
-          font-weight: 700; text-decoration: none; text-transform: uppercase;
-          letter-spacing: 4px; font-size: 13px; transition: 0.5s;
-          display: inline-block; border: none; cursor: pointer;
-          box-shadow: 0 20px 40px rgba(211,47,47,0.3);
+        .btn-luxury {
+          background: #1A1A1A; color: #fff; padding: 22px 50px;
+          border-radius: 100px; font-weight: 700; text-decoration: none;
+          letter-spacing: 2px; font-size: 14px; transition: 0.4s;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .cta-main:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(211,47,47,0.5); background: #f00; }
+        .btn-luxury:hover { background: #D32F2F; transform: translateY(-3px); }
 
-        .flavor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 0 20px; }
-        
         .flavor-card {
-          background: rgba(255,255,255,0.03); backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.05); padding: 40px;
-          border-radius: 35px; transition: 0.5s ease;
+          padding: 60px 40px; border-radius: 50px; transition: 0.5s;
+          display: flex; flex-direction: column; align-items: center;
+          border: 1px solid transparent;
         }
-        .flavor-card:hover { background: rgba(211,47,47,0.05); border-color: #D32F2F; transform: scale(1.02); }
+        .flavor-card:hover { transform: translateY(-10px); }
       ` }} />
 
-      {/* NAV PREMIUM */}
-      <nav style={{ position: 'fixed', top: 0, width: '100%', padding: '25px 40px', zIndex: 1000, display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(15px)' }}>
-        <div className="font-luxury" style={{ fontSize: '26px', fontWeight: '700', letterSpacing: '-1px' }}>QUITO FRESH</div>
-        <a href={whatsappLink} style={{ color: '#fff', textDecoration: 'none', fontSize: '11px', border: '1px solid #D32F2F', padding: '12px 25px', borderRadius: '50px', letterSpacing: '2px', fontWeight: '700' }}>CONCIERGE</a>
+      {/* HEADER MINIMALISTA */}
+      <nav style={{ padding: '30px 50px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'fixed', width: '100%', zIndex: 100, background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(10px)' }}>
+        <div className="font-brand" style={{ fontWeight: 900, fontSize: '24px', letterSpacing: '2px' }}>QUITO FRESH</div>
+        <a href={whatsappLink} style={{ color: '#1A1A1A', textDecoration: 'none', fontWeight: 700, fontSize: '12px', borderBottom: '2px solid #D32F2F' }}>CONCIERGE</a>
       </nav>
 
       {/* HERO SECTION */}
-      <section className="hero-section">
-        <h1 className="font-luxury" style={{ fontSize: '14vw', textAlign: 'center', margin: 0, lineHeight: 0.9 }}>
-          PUREZA <br/> <span className="text-red">ANDINA</span>
-        </h1>
-        
-        <div className="bottle-container">
-          <img src="/botella-hero.png" className="bottle-image" alt="Quito Fresh Premium" />
-        </div>
-
-        <div style={{ textAlign: 'center', padding: '0 20px' }}>
-          <p className="font-luxury" style={{ fontSize: '22px', fontStyle: 'italic', marginBottom: '40px', color: 'rgba(255,255,255,0.6)' }}>
-            "Prensado en frío para quienes no aceptan menos que la perfección."
-          </p>
-          <a href={whatsappLink} className="cta-main">ADQUIRIR EXPERIENCIA</a>
+      <section style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div className="hero-text-back font-brand">FRESH</div>
+        <img src="/botella-hero.png" className="product-image" alt="Premium Juice" />
+        <div style={{ zIndex: 10, textAlign: 'center', marginTop: '20px' }}>
+          <h2 className="font-serif" style={{ fontSize: '3rem', margin: '0' }}>Vitalidad Andina</h2>
+          <p style={{ color: '#666', marginBottom: '40px', letterSpacing: '1px' }}>100% ORGÁNICO • PRENSADO EN FRÍO</p>
+          <a href={whatsappLink} className="btn-luxury font-brand">PROBAR AHORA</a>
         </div>
       </section>
 
-      {/* SECCIÓN SABORES */}
-      <section style={{ padding: '120px 0' }}>
+      {/* SECCIÓN DE PRODUCTOS */}
+      <section style={{ padding: '100px 20px', backgroundColor: '#fff' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h2 className="font-luxury" style={{ fontSize: '60px', textAlign: 'center', marginBottom: '80px' }}>
-            Colección de <span className="text-red italic">Temporada</span>
-          </h2>
+          <div style={{ textAlign: 'left', marginBottom: '60px' }}>
+            <h3 className="font-brand" style={{ fontSize: '14px', color: '#D32F2F', fontWeight: 900 }}>EL MENÚ</h3>
+            <h2 className="font-serif" style={{ fontSize: '4rem' }}>Sabores Reales</h2>
+          </div>
           
-          <div className="flavor-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px' }}>
             {flavors.map((f, i) => (
-              <div key={i} className="flavor-card">
-                <div style={{ width: '50px', height: '5px', backgroundColor: f.color, marginBottom: '30px' }}></div>
-                <h3 className="font-luxury" style={{ fontSize: '35px', margin: '0 0 15px 0' }}>{f.name}</h3>
-                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '16px', lineHeight: '1.8' }}>{f.desc}</p>
-                <div style={{ marginTop: '30px', fontSize: '11px', letterSpacing: '3px', color: '#D32F2F', fontWeight: '700' }}>DISPONIBLE</div>
+              <div key={i} className="flavor-card" style={{ backgroundColor: f.bg }}>
+                <div style={{ fontSize: '12px', fontWeight: 900, color: f.color, marginBottom: '20px' }}>{f.name}</div>
+                <h4 className="font-serif" style={{ fontSize: '32px', margin: '0 0 10px 0' }}>{f.type}</h4>
+                <p style={{ textAlign: 'center', fontSize: '14px', color: '#555', lineHeight: '1.6' }}>{f.desc}</p>
+                <div style={{ marginTop: '30px', width: '40px', height: '40px', borderRadius: '50%', backgroundColor: f.color, display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#fff', fontSize: '20px' }}>+</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* MANIFIESTO ORCA */}
-      <section style={{ padding: '150px 20px', textAlign: 'center', background: 'linear-gradient(to bottom, #000, #0a0a0a)' }}>
-        <div style={{ maxWidth: '850px', margin: '0 auto' }}>
-          <h2 className="font-luxury" style={{ fontSize: '45px', marginBottom: '30px' }}>Visión de Lujo</h2>
-          <p style={{ color: 'rgba(255,255,255,0.5)', lineHeight: '2.2', fontSize: '18px' }}>
-            Desarrollado bajo los estándares de **ORCA Studios**, Quito Fresh redefine la nutrición premium. No entregamos solo un producto, entregamos un activo para tu rendimiento diario.
-          </p>
-        </div>
-      </section>
-
-      <footer style={{ padding: '80px 40px', textAlign: 'center', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-        <p style={{ fontSize: '10px', letterSpacing: '4px', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase' }}>
-          Estratégicamente desarrollado por ECOS Branding & ORCA Studios © 2026
+      {/* FOOTER ELEGANTE */}
+      <footer style={{ padding: '100px 20px', textAlign: 'center', borderTop: '1px solid #EEE' }}>
+        <div className="font-brand" style={{ fontSize: '40px', fontWeight: 900, opacity: 0.1, marginBottom: '20px' }}>QUITO FRESH</div>
+        <p style={{ fontSize: '10px', letterSpacing: '2px', color: '#AAA' }}>
+          DESARROLLADO POR ECOS BRANDING & ORCA STUDIOS © 2026
         </p>
       </footer>
     </div>

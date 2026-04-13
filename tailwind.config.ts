@@ -5,14 +5,27 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        freshRed: '#D32F2F', 
-        iceWhite: '#F5F7FA', 
-        deepBottle: '#1A1A1A',
+        freshRed: {
+          DEFAULT: '#D32F2F',
+          dark: '#A12323',
+          light: '#FF5252'
+        },
+        deepDark: '#0A0A0A',
+        iceGray: '#F8FAFC'
       },
       fontFamily: {
         display: ['var(--font-cormorant)'],
-        sans: ['var(--font-inter)'],
+        sans: ['var(--font-inter)']
       },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        }
+      }
     },
   },
   plugins: [],

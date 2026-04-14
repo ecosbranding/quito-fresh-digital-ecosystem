@@ -1,124 +1,136 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function QuitoFreshEcommerce() {
+export default function QuitoFreshUltimate() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const flavors = [
-    { id: 1, name: "ANDINA", type: "Mora Silvestre", price: 4.50, accent: "#3b0a0a", bg: "#f7d9e1" },
-    { id: 2, name: "VITAL", type: "Frutos Rojos", price: 4.50, accent: "#8B0000", bg: "#FFE4E1" },
-    { id: 3, name: "DETOX", type: "Manzana Verde", price: 4.50, accent: "#1A2F1A", bg: "#E8F5E9" },
-    { id: 4, name: "GOLD", type: "Maracuyá Real", price: 4.50, accent: "#B8860B", bg: "#FFFDE7" },
-    { id: 5, name: "AMAZON", type: "Guayusa & Limón", price: 5.00, accent: "#2E7D32", bg: "#DCEDC8" },
-    { id: 6, name: "SUNRISE", type: "Naranja & Cúrcuma", price: 4.75, accent: "#E65100", bg: "#FFF3E0" }
+  useEffect(() => { setMounted(true); }, []);
+
+  const products = [
+    { id: 1, name: "ANDINA", desc: "Mora Silvestre & Esencias", price: 4.50, color: "#631024", bg: "#FCE4EC" },
+    { id: 2, name: "VITAL", desc: "Mix de Frutos Rojos Premium", price: 4.50, color: "#A34848", bg: "#FFEBEE" },
+    { id: 3, name: "DETOX", desc: "Manzana Verde & Espinaca", price: 4.50, color: "#4A6B4A", bg: "#F1F8E9" },
+    { id: 4, name: "GOLD", desc: "Maracuyá Real & Cúrcuma", price: 4.50, color: "#B8860B", bg: "#FFFDE7" },
+    { id: 5, name: "AMAZON", desc: "Guayusa Energizante", price: 5.00, color: "#2E7D32", bg: "#E8F5E9" },
+    { id: 6, name: "SUNRISE", desc: "Zanahoria & Jengibre", price: 4.75, color: "#E65100", bg: "#FFF3E0" },
+    { id: 7, name: "PURE", desc: "Agua de Coco & Electrolitos", price: 4.00, color: "#0288D1", bg: "#E1F5FE" },
+    { id: 8, name: "RELAX", desc: "Lavanda & Arándanos", price: 5.50, color: "#512DA8", bg: "#EDE7F6" }
   ];
 
-  const addToCart = (flavor) => {
+  const addToCart = (p) => {
     setCart(prev => {
-      const existing = prev.find(item => item.id === flavor.id);
-      if (existing) {
-        return prev.map(item => item.id === flavor.id ? { ...item, qty: item.qty + 1 } : item);
-      }
-      return [...prev, { ...flavor, qty: 1 }];
+      const exists = prev.find(i => i.id === p.id);
+      if (exists) return prev.map(i => i.id === p.id ? { ...i, qty: i.qty + 1 } : i);
+      return [...prev, { ...p, qty: 1 }];
     });
     setIsCartOpen(true);
   };
 
-  const sendWhatsApp = () => {
-    const detail = cart.map(item => `🥤 *${item.name}* (${item.type}) x${item.qty}`).join('%0A');
-    const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0).toFixed(2);
-    const text = `✨ *NUEVO PEDIDO - QUITO FRESH* ✨%0A%0AHola, quiero mi pack premium:%0A%0A${detail}%0A%0A💰 *Total:* $${total}%0A%0A📍 *¡Espero mi entrega andina!* 🏔️🍏`;
-    window.open(`https://wa.me/593995849214?text=${text}`, '_blank');
+  const removeFromCart = (id) => {
+    setCart(prev => prev.filter(i => i.id !== id));
   };
 
+  const checkout = () => {
+    const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0).toFixed(2);
+    const items = cart.map(i => `🥤 *${i.name}* x${i.qty} ($${(i.price * i.qty).toFixed(2)})`).join('%0A');
+    const msg = `✨ *ORDEN PREMIUM - QUITO FRESH* ✨%0A%0A¡Hola! He seleccionado estos productos para mi pack de bienestar:%0A%0A${items}%0A%0A💰 *TOTAL:* $${total}%0A%0A📍 *Por favor, confírmenme disponibilidad para entrega.* 🏔️🍃`;
+    window.open(`https://wa.me/593995849214?text=${msg}`, '_blank');
+  };
+
+  if (!mounted) return null;
+
   return (
-    <div style={{ backgroundColor: '#FAFAFA', color: '#1A1A1A', fontFamily: '"Outfit", sans-serif', margin: 0, padding: 0 }}>
+    <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'system-ui, -apple-system, sans-serif', margin: 0, padding: 0, minHeight: '100vh' }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;400;700;900&family=Playfair+Display:ital,wght@1,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&family=Playfair+Display:ital,wght@1,600&display=swap');
+        .font-brand { font-family: 'Outfit', sans-serif; }
         .font-serif { font-family: 'Playfair Display', serif; }
-        .flavor-card { padding: 40px; border-radius: 40px; transition: 0.4s; display: flex; flex-direction: column; align-items: center; border: 1px solid transparent; cursor: pointer; }
-        .flavor-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
-        .cart-sidebar { position: fixed; right: 0; top: 0; height: 100%; width: 350px; background: white; z-index: 1000; box-shadow: -10px 0 30px rgba(0,0,0,0.1); padding: 40px; transition: 0.5s; transform: ${isCartOpen ? 'translateX(0)' : 'translateX(100%)'}; }
+        .card { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .cart-overlay { position: fixed; right: 0; top: 0; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 1000; box-shadow: -10px 0 50px rgba(0,0,0,0.1); transform: translateX(${isCartOpen ? '0' : '100%'}); transition: 0.5s; padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; }
       ` }} />
 
-      {/* HEADER */}
-      <nav style={{ padding: '30px 40px', display: 'flex', justifyContent: 'space-between', position: 'fixed', width: '100%', z_index: 100, boxSizing: 'border-box', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(10px)' }}>
-        <div style={{ fontWeight: 900, letterSpacing: '4px' }}>QUITO FRESH</div>
-        <button onClick={() => setIsCartOpen(true)} style={{ background: 'none', border: 'none', fontWeight: 700, cursor: 'pointer' }}>
-          🛒 CARRITO ({cart.reduce((a, b) => a + b.qty, 0)})
+      {/* HEADER BAR */}
+      <nav style={{ position: 'fixed', top: 0, width: '100%', padding: '25px 50px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', zIndex: 100, boxSizing: 'border-box' }}>
+        <div className="font-brand" style={{ fontWeight: 900, fontSize: '22px', letterSpacing: '4px' }}>QUITO FRESH</div>
+        <button onClick={() => setIsCartOpen(true)} className="font-brand" style={{ background: '#1A1A1A', color: '#fff', border: 'none', padding: '10px 25px', borderRadius: '50px', cursor: 'pointer', fontWeight: 600 }}>
+          PEDIDO ({cart.reduce((a, b) => a + b.qty, 0)})
         </button>
       </nav>
 
-      {/* HERO */}
-      <section style={{ height: '90vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-        <h1 className="font-serif" style={{ fontSize: '8vw', margin: 0 }}>The Cold <span style={{ fontStyle: 'italic', color: '#D32F2F' }}>Press</span></h1>
-        <p style={{ letterSpacing: '3px', color: '#666' }}>COLECCIÓN PREMIUM 2026</p>
-      </section>
+      {/* HERO SECTION */}
+      <header style={{ height: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', background: '#FAFAFA', padding: '0 20px' }}>
+        <h1 className="font-serif" style={{ fontSize: 'clamp(3rem, 10vw, 7rem)', margin: 0 }}>Natural <span style={{ fontStyle: 'italic', color: '#D32F2F' }}>Performance</span></h1>
+        <p className="font-brand" style={{ letterSpacing: '5px', opacity: 0.5, marginTop: '20px', fontSize: '12px' }}>PRENSADO EN FRÍO • SIN ADITIVOS • 100% REAL</p>
+      </header>
 
-      {/* GRID DE PRODUCTOS */}
-      <section style={{ padding: '0 40px 100px 40px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
-          {flavors.map(f => (
-            <div key={f.id} className="flavor-card" style={{ backgroundColor: f.bg }}>
-              <span style={{ fontSize: '10px', fontWeight: 900, color: f.accent }}>EDICIÓN LIMITADA</span>
-              <h3 className="font-serif" style={{ fontSize: '2rem', margin: '10px 0' }}>{f.name}</h3>
-              <p style={{ color: '#555', fontSize: '0.9rem' }}>{f.type}</p>
-              <p style={{ fontWeight: 700, margin: '20px 0' }}>${f.price.toFixed(2)}</p>
-              <button onClick={() => addToCart(f)} style={{ background: f.accent, color: 'white', border: 'none', padding: '12px 30px', borderRadius: '50px', fontWeight: 700, cursor: 'pointer' }}>
-                AÑADIR +
-              </button>
-            </div>
-          ))}
+      {/* MARCA E INFO */}
+      <section style={{ padding: '100px 50px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '50px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div>
+          <h2 className="font-serif" style={{ fontSize: '3rem' }}>Nuestra Filosofía</h2>
+          <p className="font-brand" style={{ lineHeight: 1.8, opacity: 0.7 }}>Extraemos la esencia de la tierra para alimentar tu potencial. En Quito Fresh, el lujo es la pureza absoluta. Cada gota es un activo para tu bienestar físico y mental.</p>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div style={{ marginBottom: '20px' }}>⭐ <strong>Prensado en frío:</strong> Máxima retención de nutrientes.</div>
+          <div style={{ marginBottom: '20px' }}>🌿 <strong>Sostenible:</strong> Apoyo directo a valles locales.</div>
+          <div>♻️ <strong>Envase Premium:</strong> Diseñado para conservar la frescura.</div>
         </div>
       </section>
 
-      {/* INFORMACIÓN EXTRA DE MARCA */}
-      <section style={{ padding: '100px 40px', background: '#fff', textAlign: 'center' }}>
-          <h2 className="font-serif" style={{ fontSize: '3rem' }}>Pureza sin Concesiones</h2>
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '50px', marginTop: '50px' }}>
-              <div style={{ maxWidth: '250px' }}>
-                  <h4 style={{ fontWeight: 900 }}>SOSTENIBLE</h4>
-                  <p style={{ fontSize: '0.9rem', color: '#666' }}>Frutas seleccionadas directamente de valles andinos, apoyando al productor local.</p>
-              </div>
-              <div style={{ maxWidth: '250px' }}>
-                  <h4 style={{ fontWeight: 900 }}>TECNOLOGÍA</h4>
-                  <p style={{ fontSize: '0.9rem', color: '#666' }}>Prensado en frío que mantiene el 100% de los nutrientes y enzimas vivas.</p>
-              </div>
-          </div>
-      </section>
+      {/* PRODUCT GRID */}
+      <main style={{ padding: '50px', maxWidth: '1400px', margin: '0 auto' }}>
+        <h2 className="font-serif" style={{ fontSize: '3.5rem', marginBottom: '50px', textAlign: 'center' }}>El Catálogo</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px' }}>
+          {products.map(p => (
+            <div key={p.id} className="card" style={{ backgroundColor: p.bg, padding: '50px 30px', borderRadius: '40px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ fontSize: '10px', fontWeight: 900, color: p.color, letterSpacing: '2px', marginBottom: '15px' }}>LIMITED EDITION</div>
+              <h3 className="font-serif" style={{ fontSize: '2.5rem', margin: 0 }}>{p.name}</h3>
+              <p className="font-brand" style={{ fontSize: '14px', opacity: 0.6, margin: '10px 0 25px 0' }}>{p.desc}</p>
+              <div style={{ fontSize: '20px', fontWeight: 600, marginBottom: '25px' }}>${p.price.toFixed(2)}</div>
+              <button onClick={() => addToCart(p)} style={{ background: '#1A1A1A', color: '#fff', border: 'none', padding: '15px 40px', borderRadius: '50px', fontWeight: 900, cursor: 'pointer', width: '100%' }}>AÑADIR +</button>
+            </div>
+          ))}
+        </div>
+      </main>
 
-      {/* SIDEBAR DEL CARRITO */}
-      <div className="cart-sidebar">
-        <button onClick={() => setIsCartOpen(false)} style={{ float: 'right', background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}>×</button>
-        <h2 className="font-serif" style={{ marginTop: '40px' }}>Tu Pack</h2>
-        <div style={{ margin: '40px 0', maxHeight: '60vh', overflowY: 'auto' }}>
-          {cart.map(item => (
-            <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', borderBottom: '1px solid #eee', paddingBottom: '10px' }}>
+      {/* CARRITO SIDEBAR */}
+      <div className="cart-overlay">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h2 className="font-serif" style={{ fontSize: '2rem' }}>Tu Selección</h2>
+          <button onClick={() => setIsCartOpen(false)} style={{ background: 'none', border: 'none', fontSize: '30px', cursor: 'pointer' }}>×</button>
+        </div>
+        
+        <div style={{ flex: 1, overflowY: 'auto', margin: '30px 0' }}>
+          {cart.map(i => (
+            <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 0', borderBottom: '1px solid #eee' }}>
               <div>
-                <div style={{ fontWeight: 700 }}>{item.name}</div>
-                <div style={{ fontSize: '0.8rem', color: '#666' }}>x{item.qty}</div>
+                <div style={{ fontWeight: 700 }}>{i.name}</div>
+                <div style={{ fontSize: '12px', opacity: 0.5 }}>Cant: {i.qty}</div>
               </div>
-              <div>${(item.price * item.qty).toFixed(2)}</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                <strong>${(i.price * i.qty).toFixed(2)}</strong>
+                <button onClick={() => removeFromCart(i.id)} style={{ color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}>🗑️</button>
+              </div>
             </div>
           ))}
-          {cart.length === 0 && <p>Tu carrito está vacío.</p>}
+          {cart.length === 0 && <p style={{ textAlign: 'center', opacity: 0.4, marginTop: '50px' }}>Tu pack está vacío</p>}
         </div>
+
         {cart.length > 0 && (
-          <div style={{ borderTop: '2px solid #1A1A1A', paddingTop: '20px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 900, fontSize: '1.2rem', marginBottom: '30px' }}>
+          <div style={{ borderTop: '2px solid #000', paddingTop: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '20px', fontWeight: 900, marginBottom: '20px' }}>
               <span>TOTAL</span>
-              <span>${cart.reduce((acc, item) => acc + (item.price * item.qty), 0).toFixed(2)}</span>
+              <span>${cart.reduce((acc, i) => acc + (i.price * i.qty), 0).toFixed(2)}</span>
             </div>
-            <button onClick={sendWhatsApp} style={{ width: '100%', background: '#25D366', color: 'white', border: 'none', padding: '20px', borderRadius: '15px', fontWeight: 700, cursor: 'pointer', fontSize: '1rem' }}>
-              ORDENAR POR WHATSAPP 📱
-            </button>
+            <button onClick={checkout} style={{ width: '100%', background: '#25D366', color: '#fff', padding: '20px', borderRadius: '20px', border: 'none', fontWeight: 900, fontSize: '1rem', cursor: 'pointer' }}>PEDIR POR WHATSAPP 📱</button>
           </div>
         )}
       </div>
 
-      <footer style={{ padding: '60px', textAlign: 'center', color: '#AAA', fontSize: '0.8rem' }}>
-        QUITO FRESH BY ECOS BRANDING & ORCA STUDIOS © 2026
+      <footer style={{ padding: '80px 20px', textAlign: 'center', background: '#FAFAFA', borderTop: '1px solid #EEE' }}>
+        <p className="font-brand" style={{ fontSize: '10px', letterSpacing: '3px', opacity: 0.3 }}>DESARROLLADO POR ECOS BRANDING & ORCA STUDIOS © 2026</p>
       </footer>
     </div>
   );

@@ -1,23 +1,22 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-export default function QuitoFreshFinalPremium() {
+export default function QuitoFreshCleanStyle() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Paleta de colores reforzada basada en tus referencias favoritas
   const products = [
-    { id: 1, name: "ANDINA", desc: "Mora Silvestre seleccionada de los valles", price: 4.50, color: "#FFFFFF", accent: "#880E4F", bg: "#E91E63" },
-    { id: 2, name: "VITAL", desc: "Mix vital de fresas y arándanos", price: 4.50, color: "#FFFFFF", accent: "#B71C1C", bg: "#F44336" },
-    { id: 3, name: "DETOX", desc: "Manzana verde, apio y espinaca", price: 4.50, color: "#FFFFFF", accent: "#1B5E20", bg: "#4CAF50" },
-    { id: 4, name: "GOLD", desc: "Maracuyá Real & Cúrcuma", price: 4.50, color: "#1A1A1A", accent: "#F57F17", bg: "#FFEB3B" },
-    { id: 5, name: "AMAZON", desc: "Guayusa pura y revitalizante", price: 5.00, color: "#FFFFFF", accent: "#004D40", bg: "#009688" },
-    { id: 6, name: "SUNRISE", desc: "Zanahoria, Jengibre y Naranja", price: 4.75, color: "#FFFFFF", accent: "#E65100", bg: "#FF9800" },
-    { id: 7, name: "PURE", desc: "Agua de Coco 100% natural", price: 4.00, color: "#FFFFFF", accent: "#01579B", bg: "#03A9F4" },
-    { id: 8, name: "RELAX", desc: "Lavanda y Arándanos Azules", price: 5.50, color: "#FFFFFF", accent: "#311B92", bg: "#673AB7" }
+    { id: 1, name: "Green Boost", desc: "Manzana, Apio, Espinaca", price: 4.50, accent: "#8CC63F", bg: "#F1F8E9", tag: "100% Natural" },
+    { id: 2, name: "Berry Bliss", desc: "Frutos Rojos y Mora Silvestre", price: 4.50, accent: "#E64A19", bg: "#FFEBEE", tag: "Antioxidante" },
+    { id: 3, name: "Zest Citrus", desc: "Maracuyá y Cítricos", price: 4.50, accent: "#FFB300", bg: "#FFFDE7", tag: "Full Energía" },
+    { id: 4, name: "Andina Mora", desc: "Mora de altura premium", price: 4.50, accent: "#880E4F", bg: "#FCE4EC", tag: "Hierro +" },
+    { id: 5, name: "Amazon Power", desc: "Guayusa y Limón", price: 5.00, accent: "#2E7D32", bg: "#E8F5E9", tag: "Enfoque" },
+    { id: 6, name: "Sunrise Mix", desc: "Zanahoria y Naranja", price: 4.75, accent: "#FB8C00", bg: "#FFF3E0", tag: "Vitamina C" },
+    { id: 7, name: "Pure Water", desc: "Agua de Coco Real", price: 4.00, accent: "#03A9F4", bg: "#E1F5FE", tag: "Hidratación" },
+    { id: 8, name: "Relax Blue", desc: "Lavanda y Arándanos", price: 5.50, accent: "#5E35B1", bg: "#EDE7F6", tag: "Calma" }
   ];
 
   const addToCart = (p) => {
@@ -31,108 +30,113 @@ export default function QuitoFreshFinalPremium() {
 
   const checkout = () => {
     const total = cart.reduce((acc, i) => acc + (i.price * i.qty), 0).toFixed(2);
-    const items = cart.map(i => `🥤 *${i.name}* x${i.qty} ($${(i.price * i.qty).toFixed(2)})`).join('%0A');
-    const msg = `✨ *ORDEN PREMIUM - QUITO FRESH* ✨%0A%0AHola! Quiero mi pack de bienestar:%0A%0A${items}%0A%0A💰 *TOTAL:* $${total}%0A%0A📍 *¡Espero mi entrega!* 🏔️🍏`;
+    const items = cart.map(i => `🥤 *${i.name}* x${i.qty}`).join('%0A');
+    const msg = `✨ *ORDEN QUITO FRESH* ✨%0A%0A¡Hola! Quiero armar mi pack:%0A%0A${items}%0A%0A💰 *TOTAL:* $${total}%0A%0A📍 *¿Me confirman el tiempo de entrega?* 🏔️🍏`;
     window.open(`https://wa.me/593995849214?text=${msg}`, '_blank');
   };
 
   if (!mounted) return null;
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'system-ui, sans-serif', margin: 0, padding: 0 }}>
+    <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: '"Montserrat", sans-serif', margin: 0, padding: 0 }}>
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;800&family=Playfair+Display:ital,wght@1,700&display=swap');
-        .font-brand { font-family: 'Outfit', sans-serif; }
-        .font-serif { font-family: 'Playfair Display', serif; }
-        .btn-add { transition: 0.3s; border: 2px solid transparent; }
-        .btn-add:hover { transform: scale(1.05); background: #FFF !important; color: #000 !important; border-color: #000; }
-        .cart-sidebar { position: fixed; right: 0; top: 0; width: 100%; max-width: 450px; height: 100%; background: #fff; z-index: 1000; box-shadow: -20px 0 60px rgba(0,0,0,0.15); transform: translateX(${isCartOpen ? '0' : '100%'}); transition: 0.4s ease-out; padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; }
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+        .text-bold { font-weight: 900; text-transform: uppercase; }
+        .btn-green { background: #8CC63F; color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .btn-green:hover { background: #76A935; transform: scale(1.02); }
+        .product-card { border-radius: 25px; padding: 40px 20px; transition: 0.3s; border: 2px solid transparent; }
+        .product-card:hover { border-color: #EEE; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .cart-sidebar { position: fixed; right: 0; top: 0; width: 100%; max-width: 400px; height: 100%; background: #fff; z-index: 1000; box-shadow: -10px 0 50px rgba(0,0,0,0.1); transform: translateX(${isCartOpen ? '0' : '100%'}); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; }
       ` }} />
 
-      {/* HEADER DINÁMICO */}
-      <nav style={{ position: 'fixed', top: 0, width: '100%', padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(15px)', zIndex: 100, boxSizing: 'border-box', borderBottom: '1px solid #EEE' }}>
-        <div className="font-brand" style={{ fontWeight: 800, fontSize: '24px', letterSpacing: '2px' }}>QUITO FRESH</div>
-        <button onClick={() => setIsCartOpen(true)} className="font-brand" style={{ background: '#000', color: '#FFF', border: 'none', padding: '12px 25px', borderRadius: '10px', cursor: 'pointer', fontWeight: 600, fontSize: '16px' }}>
-          VER MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})
+      {/* NAVBAR */}
+      <nav style={{ position: 'fixed', top: 0, width: '100%', padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#FFF', zIndex: 100, boxSizing: 'border-box', borderBottom: '1px solid #F0F0F0' }}>
+        <div className="text-bold" style={{ fontSize: '22px', letterSpacing: '-1px' }}>QUITO FRESH</div>
+        <button onClick={() => setIsCartOpen(true)} className="btn-green" style={{ padding: '10px 25px', fontSize: '14px' }}>
+          CARRITO ({cart.reduce((a, b) => a + b.qty, 0)})
         </button>
       </nav>
 
-      {/* HERO SECTION - TEXTO GRANDE Y LEGIBLE */}
-      <header style={{ height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 20px', marginTop: '80px' }}>
-        <h1 className="font-serif" style={{ fontSize: 'clamp(3.5rem, 12vw, 8rem)', margin: 0, lineHeight: 1 }}>Natural <br/><span style={{ fontStyle: 'italic', color: '#D32F2F' }}>Performance</span></h1>
-        <p className="font-brand" style={{ letterSpacing: '4px', marginTop: '30px', fontSize: '18px', fontWeight: 400, maxWidth: '600px', opacity: 0.8 }}>PRENSADO EN FRÍO • SIN ADITIVOS • 100% NATURAL</p>
-      </header>
-
-      {/* NUESTRA FILOSOFÍA - REFORZADA */}
-      <section style={{ padding: '80px 40px', maxWidth: '1100px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '60px' }}>
-        <div>
-          <h2 className="font-serif" style={{ fontSize: '3.5rem', marginBottom: '20px' }}>La Ciencia de lo Natural</h2>
-          <p className="font-brand" style={{ fontSize: '20px', lineHeight: 1.7, color: '#444' }}>Extraemos la esencia pura de la tierra. Nuestro compromiso es con la pureza absoluta: sin colorantes, sin preservantes, solo nutrición de alto rendimiento.</p>
+      {/* HERO SECTION - ESTILO FOTO */}
+      <section style={{ padding: '140px 40px 80px 40px', maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '40px' }}>
+        <div style={{ flex: '1', minWidth: '300px' }}>
+          <h1 className="text-bold" style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', lineHeight: 1, marginBottom: '20px' }}>
+            TU VIDA <br/><span style={{ color: '#8CC63F' }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.
+          </h1>
+          <p style={{ fontSize: '18px', lineHeight: 1.6, color: '#666', marginBottom: '30px', maxWidth: '450px' }}>
+            Jugos 100% orgánicos, prensados en frío para que tú y tu familia disfruten de la pureza de los Andes en cada trago.
+          </p>
+          <button className="btn-green" style={{ padding: '18px 40px', fontSize: '16px' }}>VER NUESTRO MENÚ</button>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '20px' }}>
-          <div style={{ fontSize: '18px' }}>🍎 <strong>100% Orgánico:</strong> Fruta seleccionada a mano.</div>
-          <div style={{ fontSize: '18px' }}>⚡ <strong>Cold Pressed:</strong> Conservamos cada enzima vital.</div>
-          <div style={{ fontSize: '18px' }}>🛡️ <strong>Sin Filtros:</strong> Pureza total en cada gota.</div>
+        <div style={{ flex: '1', minWidth: '300px', textAlign: 'center' }}>
+          {/* Círculo decorativo similar a la foto */}
+          <div style={{ width: '100%', maxWidth: '450px', aspectRatio: '1/1', background: '#E8F5E9', borderRadius: '50%', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+             <img src="/api/placeholder/400/600" alt="Botellas Quito Fresh" style={{ width: '80%', transform: 'rotate(-5deg)' }} />
+          </div>
         </div>
       </section>
 
-      {/* EL CATÁLOGO - COLORES VIBRANTES */}
-      <main style={{ padding: '60px 20px', maxWidth: '1300px', margin: '0 auto' }}>
-        <h2 className="font-serif" style={{ fontSize: '4rem', textAlign: 'center', marginBottom: '60px' }}>Nuestro Surtido</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+      {/* CATALOGO - NUESTRO SURTIDO */}
+      <main style={{ padding: '80px 40px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <h2 className="text-bold" style={{ fontSize: '3rem' }}>Nuestro Surtido</h2>
+          <p style={{ color: '#888' }}>Prensado en frío. Sin azúcar añadida. Cero conservantes.</p>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '25px' }}>
           {products.map(p => (
-            <div key={p.id} className="card" style={{ backgroundColor: p.bg, color: p.color, padding: '50px 35px', borderRadius: '30px', textAlign: 'center' }}>
-              <div style={{ fontSize: '12px', fontWeight: 800, letterSpacing: '2px', marginBottom: '15px', opacity: 0.9 }}>QUITO FRESH ®</div>
-              <h3 className="font-serif" style={{ fontSize: '2.8rem', margin: '0 0 10px 0' }}>{p.name}</h3>
-              <p className="font-brand" style={{ fontSize: '18px', margin: '0 0 30px 0', fontWeight: 400 }}>{p.desc}</p>
-              <div style={{ fontSize: '24px', fontWeight: 800, marginBottom: '30px' }}>${p.price.toFixed(2)}</div>
-              <button onClick={() => addToCart(p)} className="btn-add" style={{ background: p.accent, color: '#FFF', border: 'none', padding: '18px 0', width: '100%', borderRadius: '15px', fontWeight: 800, fontSize: '16px', cursor: 'pointer' }}>
-                AÑADIR AL PACK
+            <div key={p.id} className="product-card" style={{ backgroundColor: '#FFF', border: `2px solid ${p.bg}` }}>
+              <h3 className="text-bold" style={{ fontSize: '1.8rem', color: p.accent, margin: '0 0 10px 0' }}>{p.name}</h3>
+              <p style={{ fontSize: '15px', color: '#666', marginBottom: '20px' }}>{p.desc}</p>
+              <div style={{ display: 'inline-block', padding: '5px 15px', borderRadius: '20px', backgroundColor: p.bg, color: p.accent, fontSize: '12px', fontWeight: 700, marginBottom: '20px' }}>
+                {p.tag}
+              </div>
+              <div style={{ fontSize: '22px', fontWeight: 900, marginBottom: '25px' }}>${p.price.toFixed(2)}</div>
+              <button onClick={() => addToCart(p)} className="btn-green" style={{ width: '100%', padding: '15px', background: p.accent }}>
+                SELECCIONAR
               </button>
             </div>
           ))}
         </div>
       </main>
 
-      {/* CARRITO SIDEBAR */}
+      {/* FOOTER */}
+      <footer style={{ padding: '60px 40px', textAlign: 'center', background: '#F9F9F9', borderTop: '1px solid #EEE' }}>
+        <p style={{ fontSize: '12px', fontWeight: 700, opacity: 0.4, letterSpacing: '1px' }}>ESTRATÉGICAMENTE DESARROLLADO POR ECOS BRANDING & ORCA STUDIOS © 2026</p>
+      </footer>
+
+      {/* SIDEBAR DEL CARRITO */}
       <div className="cart-sidebar">
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <h2 className="font-serif" style={{ fontSize: '2.5rem' }}>Tu Selección</h2>
-          <button onClick={() => setIsCartOpen(false)} style={{ background: 'none', border: 'none', fontSize: '40px', cursor: 'pointer' }}>×</button>
+          <h2 className="text-bold" style={{ fontSize: '1.5rem' }}>Tu Selección</h2>
+          <button onClick={() => setIsCartOpen(false)} style={{ background: 'none', border: 'none', fontSize: '30px', cursor: 'pointer' }}>×</button>
         </div>
         
-        <div style={{ flex: 1, overflowY: 'auto', margin: '40px 0' }}>
+        <div style={{ flex: 1, overflowY: 'auto', margin: '30px 0' }}>
           {cart.map(i => (
-            <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '25px 0', borderBottom: '1px solid #EEE' }}>
+            <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0', borderBottom: '1px solid #F5F5F5' }}>
               <div>
-                <div style={{ fontWeight: 800, fontSize: '18px' }}>{i.name}</div>
-                <div style={{ fontSize: '14px', color: '#666' }}>Cantidad: {i.qty}</div>
+                <div style={{ fontWeight: 700 }}>{i.name}</div>
+                <div style={{ fontSize: '13px', color: '#888' }}>Cantidad: {i.qty}</div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                <strong style={{ fontSize: '18px' }}>${(i.price * i.qty).toFixed(2)}</strong>
-                <button onClick={() => setCart(cart.filter(item => item.id !== i.id))} style={{ border: 'none', background: 'none', fontSize: '20px', cursor: 'pointer' }}>🗑️</button>
-              </div>
+              <div style={{ fontWeight: 700 }}>${(i.price * i.qty).toFixed(2)}</div>
             </div>
           ))}
-          {cart.length === 0 && <p style={{ textAlign: 'center', fontSize: '18px', marginTop: '100px', opacity: 0.5 }}>Tu pack está vacío.</p>}
+          {cart.length === 0 && <p style={{ textAlign: 'center', color: '#AAA', marginTop: '40px' }}>Tu pack está vacío</p>}
         </div>
 
         {cart.length > 0 && (
-          <div style={{ borderTop: '3px solid #000', paddingTop: '30px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '24px', fontWeight: 800, marginBottom: '30px' }}>
+          <div style={{ paddingTop: '20px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '20px', fontWeight: 900, marginBottom: '25px' }}>
               <span>TOTAL</span>
               <span>${cart.reduce((acc, i) => acc + (i.price * i.qty), 0).toFixed(2)}</span>
             </div>
-            <button onClick={checkout} style={{ width: '100%', background: '#25D366', color: '#FFF', padding: '25px', borderRadius: '15px', border: 'none', fontWeight: 800, fontSize: '18px', cursor: 'pointer' }}>
-              PEDIR POR WHATSAPP 📱
+            <button onClick={checkout} className="btn-green" style={{ width: '100%', padding: '20px', fontSize: '16px', background: '#25D366' }}>
+              ORDENAR POR WHATSAPP 📱
             </button>
           </div>
         )}
       </div>
-
-      <footer style={{ padding: '80px 20px', textAlign: 'center', borderTop: '1px solid #EEE' }}>
-        <p className="font-brand" style={{ fontSize: '12px', letterSpacing: '2px', opacity: 0.5 }}>STRATEGICALLY DEVELOPED BY ECOS BRANDING & ORCA STUDIOS © 2026</p>
-      </footer>
     </div>
   );
 }

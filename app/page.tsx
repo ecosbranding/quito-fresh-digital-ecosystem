@@ -47,46 +47,31 @@ export default function QuitoFreshVersionFinal() {
     <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
       
       <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes wind { 0%, 100% { transform: rotate(-5deg) translate(0,0); } 50% { transform: rotate(5deg) translate(10px, -5px); } }
-        @keyframes splashFloat { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-15px) scale(1.05); } }
+        @keyframes float3D { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(3deg); } }
+        @keyframes sway { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
         
-        /* Hojas de Palmera 3D Programadas */
-        .palm-leaf { position: fixed; width: 150px; height: 250px; z-index: 0; opacity: 0.2; pointer-events: none; animation: wind 8s infinite ease-in-out; }
-        .palm-leaf path { fill: url(#palmGrad); }
-        
-        /* Splashes Laterales estilo 3D */
-        .splash-3d { position: fixed; width: 300px; height: 300px; border-radius: 50%; z-index: 0; opacity: 0.1; pointer-events: none; filter: blur(40px); animation: splashFloat 10s infinite ease-in-out; }
+        .real-leaf { position: fixed; z-index: 0; pointer-events: none; filter: drop-shadow(10px 10px 20px rgba(0,0,0,0.1)); animation: sway 6s infinite ease-in-out; }
+        .splash-fx { position: fixed; z-index: 0; pointer-events: none; opacity: 0.6; filter: blur(2px); animation: float3D 8s infinite ease-in-out; }
         
         .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
-        .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: white; position: relative; z-index: 1; }
-        .featured { border: 4px solid #E91E63; box-shadow: 0 20px 40px rgba(233,30,99,0.1); }
+        .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); position: relative; z-index: 1; }
+        .featured { border: 4px solid #E91E63; }
         .btn-main { background: #8CC63F; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; }
       ` }} />
 
-      {/* SVG DEFS PARA GRADIENTES 3D */}
-      <svg style={{ width: 0, height: 0, position: 'absolute' }}>
-        <defs>
-          <linearGradient id="palmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style={{ stopColor: '#8CC63F' }} />
-            <stop offset="100%" style={{ stopColor: '#1B5E20' }} />
-          </linearGradient>
-        </defs>
-      </svg>
-
-      {/* ELEMENTOS DECORATIVOS LATERALES (SPLASH Y PALMERAS) */}
-      <div className="splash-3d" style={{ top: '10%', right: '-50px', background: '#E91E63' }} />
-      <div className="splash-3d" style={{ bottom: '20%', left: '-50px', background: '#8CC63F', animationDelay: '2s' }} />
+      {/* DECORACIÓN REALISTA 3D - HOJAS Y SPLASHES */}
+      {/* Splash Superior Derecha */}
+      <img src="1000786726.jpg" className="splash-fx" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
       
-      <svg className="palm-leaf" style={{ top: '-20px', left: '-30px' }} viewBox="0 0 100 200">
-        <path d="M0 200 Q50 100 0 0 Q100 100 0 200" />
-        <path d="M10 180 Q60 80 10 20" opacity="0.5" />
-      </svg>
-      <svg className="palm-leaf" style={{ bottom: '50px', right: '-30px', transform: 'rotate(180deg)' }} viewBox="0 0 100 200">
-        <path d="M0 200 Q50 100 0 0 Q100 100 0 200" />
-      </svg>
+      {/* Palmeras Realistas (Izquierda y Derecha) */}
+      <img src="1000786829.png" className="real-leaf" style={{ top: '10%', left: '-80px', width: '300px', opacity: '0.4' }} />
+      <img src="1000786829.png" className="real-leaf" style={{ bottom: '15%', right: '-80px', width: '350px', transform: 'scaleX(-1) rotate(10deg)', opacity: '0.4' }} />
+      
+      {/* Splash Inferior Izquierda */}
+      <img src="1000786728.jpg" className="splash-fx" style={{ bottom: '5%', left: '-100px', width: '450px', opacity: '0.3' }} />
 
       {/* NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '15px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '15px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(15px)' }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '40px' }} />
         <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '10px 20px', fontSize: '12px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
@@ -95,7 +80,9 @@ export default function QuitoFreshVersionFinal() {
       <header style={{ textAlign: 'center', padding: '60px 20px', position: 'relative', zIndex: 1 }}>
         <div style={{ fontWeight: 900, fontSize: '12px', color: '#8CC63F', marginBottom: '15px' }}>EST. 2026</div>
         <h1 className="text-bold" style={{ fontSize: '3.5rem', lineHeight: 0.8, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: '#8CC63F' }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
-        <img src="1000786698.png" alt="Hero" style={{ maxWidth: '300px', margin: '0 auto' }} />
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+           <img src="1000786704.jpg" alt="Hero" style={{ maxWidth: '300px', borderRadius: '50%', boxShadow: '0 30px 60px rgba(0,0,0,0.1)' }} />
+        </div>
       </header>
 
       {/* ICONS */}
@@ -116,15 +103,15 @@ export default function QuitoFreshVersionFinal() {
 
       {/* CORPORATE INFO */}
       <section style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', position: 'relative', zIndex: 1 }}>
-        <div style={{ background: '#F9F9F9', padding: '40px', borderRadius: '30px' }}>
+        <div style={{ background: 'rgba(249,249,249,0.9)', padding: '40px', borderRadius: '30px', backdropFilter: 'blur(5px)' }}>
           <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '15px' }}>Nuestra Misión</h3>
           <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#555' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina, fomentando un estilo de vida consciente, natural y lleno de energía vital.</p>
         </div>
-        <div style={{ background: '#8CC63F', padding: '40px', borderRadius: '30px', color: 'white' }}>
+        <div style={{ background: '#8CC63F', padding: '40px', borderRadius: '30px', color: 'white', boxShadow: '0 20px 40px rgba(140,198,63,0.3)' }}>
           <h3 className="text-bold" style={{ marginBottom: '15px' }}>Llevando Felicidad</h3>
           <p style={{ fontSize: '14px', lineHeight: 1.6 }}>Llevamos la frescura absoluta del campo directamente a tu mano, sin aditivos, sin engaños, solo fruta pura.</p>
         </div>
-        <div style={{ background: '#F9F9F9', padding: '40px', borderRadius: '30px' }}>
+        <div style={{ background: 'rgba(249,249,249,0.9)', padding: '40px', borderRadius: '30px', backdropFilter: 'blur(5px)' }}>
           <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '15px' }}>Nuestra Visión</h3>
           <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#555' }}>Ser líderes en bienestar premium en Ecuador, reconocidos por la calidad inigualable Cold Pressed.</p>
         </div>
@@ -156,7 +143,7 @@ export default function QuitoFreshVersionFinal() {
         <div className="text-bold" style={{ fontSize: '12px', letterSpacing: '2px' }}>QUITO FRESH © 2026 — PUREZA REAL</div>
       </footer>
 
-      {/* CARRITO SIDEBAR */}
+      {/* CARRITO SIDEBAR (MANTIENE TU LÓGICA ORIGINAL) */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '350px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-5px 0 30px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>

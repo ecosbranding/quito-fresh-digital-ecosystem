@@ -1,14 +1,14 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-export default function QuitoFreshBotanicalInteractiveFinal() {
+export default function QuitoFreshCompleteBotanical() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => { setMounted(true); }, []);
 
-  const whatsappLink = "https://wa.me/593995849214?text=Hola%20Quito%20Fresh%2C%20quiero%20conocer%20m%C3%A1s%20sobre%20vuestro%20Prensado%20Andino.";
+  const whatsappLink = "https://wa.me/593995849214?text=Hola%20Quito%20Fresh%2C%20quiero%20conocer%20m%C3%A1s%20sobre%20su%20Manifiesto%20Andino.";
 
   const products = [
     { id: 1, name: "GREEN BOOST", desc: "Manzana, Apio, Espinaca", price: 4.50, accent: "#8CC63F", bg: "#F1F8E9", tag: "100% Natural" },
@@ -54,7 +54,7 @@ export default function QuitoFreshBotanicalInteractiveFinal() {
   if (!mounted) return null;
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: '"Montserrat", sans-serif', margin: 0, overflowX: 'hidden' }}>
+    <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: '"Montserrat", sans-serif', margin: 0 }}>
       {/* INYECCIÓN DE FUENTES, BOTÁNICOS Y CSS VIBRANTE */}
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@1,700&display=swap');
@@ -65,77 +65,40 @@ export default function QuitoFreshBotanicalInteractiveFinal() {
         .qty-btn { width: 32px; height: 32px; border-radius: 50%; border: 1px solid #DDD; background: white; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; }
         .qty-btn:hover { background: #EEE; }
         .sidebar { position: fixed; right: 0; top: 0; width: 100%; max-width: 420px; height: 100%; background: #fff; z-index: 1000; box-shadow: -10px 0 50px rgba(0,0,0,0.1); transform: translateX(${isCartOpen ? '0' : '100%'}); transition: 0.4s ease-in-out; padding: 40px; box-sizing: border-box; display: flex; flex-direction: column; }
+        
+        /* HOJAS Y SPLASHES LATERALES DEL PÓSTER */
+        .leaf-left { position: fixed; top: 15%; left: 0; width: 20%; max-width: 300px; transform: rotate(-5deg); z-index: -1; pointer-events: none; opacity: 0.5; }
+        .splash-right { position: fixed; bottom: 20%; right: 0; width: 25%; max-width: 350px; transform: rotate(10deg); z-index: -1; pointer-events: none; opacity: 0.6; }
+        .leaf-right { position: fixed; top: 60%; right: 0; width: 15%; max-width: 200px; z-index: -1; pointer-events: none; opacity: 0.4; }
       ` }} />
 
+      {/* ELEMENTOS DE DISEÑO FLOTANTES */}
+      <img src="/p-leaves-left.png" alt="" className="leaf-left" /> {/* Reemplaza con una imagen de las hojas de tu póster */}
+      <img src="/p-splash-right.png" alt="" className="splash-right" /> {/* Reemplaza con un splash de color de tu póster */}
+      <img src="/p-leaves-right.png" alt="" className="leaf-right" /> {/* Reemplaza con una hoja de tu póster */}
+
       {/* NAV PREMIUM */}
-      <nav style={{ position: 'fixed', top: 0, width: '100%', padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)', zIndex: 100, borderBottom: '1px solid #F0F0F0', boxSizing: 'border-box' }}>
+      <nav style={{ position: 'fixed', top: 0, width: '100%', padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(15px)', zIndex: 100, borderBottom: '1px solid #F0F0F0', boxSizing: 'border-box' }}>
         <div className="text-bold" style={{ fontSize: '22px', letterSpacing: '-1px' }}>QUITO FRESH</div>
         <button onClick={() => setIsCartOpen(true)} className="btn-green" style={{ padding: '12px 25px', fontSize: '14px' }}>
           🛒 VER MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})
         </button>
       </nav>
 
-      {/* HERO SECTION - USANDO TU NUEVA IMAGEN MAESTRA (CÓDIGO INYECTADO) */}
-      <header style={{ 
-        minHeight: '90vh', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        textAlign: 'center', 
-        padding: '120px 20px 60px 20px', 
-        position: 'relative',
-        background: 'radial-gradient(circle, #ffffff 0%, #f9f9f9 100%)' 
-      }}>
-        {/* TAG DE AÑO FLOTANTE */}
-        <div style={{ 
-          position: 'absolute', 
-          top: '140px', 
-          right: '5%', 
-          fontSize: '12px', 
-          letterSpacing: '3px', 
-          color: '#8CC63F', 
-          fontWeight: '900',
-          border: '2px solid #8CC63F',
-          padding: '8px 15px',
-          borderRadius: '50px'
-        }}>
-          EST. 2026
-        </div>
-
-        <h1 className="text-bold" style={{ 
-          fontSize: 'clamp(2.5rem, 8vw, 5rem)', 
-          lineHeight: 0.9, 
-          marginBottom: '40px', 
-          color: '#1A1A1A',
-          zIndex: 2
-        }}>
-          TU VIDA <br/>
-          <span style={{ color: '#8CC63F' }}>SALUDABLE</span> <br/>
-          EMPIEZA AQUÍ.
+      {/* HERO SECTION - REPLICA DEL PÓSTER */}
+      <header style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center', padding: '0 20px', position: 'relative' }}>
+        <div style={{ position: 'absolute', top: '160px', right: '100px', fontSize: '12px', letterSpacing: '2px', color: '#666' }}>EST. 2026</div>
+        
+        <h1 className="text-bold" style={{ fontSize: 'clamp(2.5rem, 8vw, 5.5rem)', lineHeight: 0.9, marginBottom: '25px', color: '#000' }}>
+          TU VIDA <br/><span style={{ color: '#8CC63F' }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.
         </h1>
-
-        {/* TU IMAGEN GENERADA: Aquí es donde ocurre la magia */}
-        <div style={{ position: 'relative', width: '100%', maxWidth: '600px', zIndex: 1 }}>
-          <img 
-            src="/hero-quito-fresh.png" 
-            alt="Quito Fresh Experiencia" 
-            style={{ 
-              width: '100%', 
-              height: 'auto', 
-              filter: 'drop-shadow(0 20px 50px rgba(0,0,0,0.1))',
-              animation: 'float 6s ease-in-out infinite' 
-            }} 
-          />
+        
+        {/* REPLICA DE LA MASCARA CIRCULAR Y BOTELLAS */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '30px', marginTop: '60px' }}>
+          <img src="/botella-green.png" alt="Green Boost Bottle" style={{ height: '35vh' }} /> {/* Reemplaza con imagen real */}
+          <img src="/botella-berry.png" alt="Berry Bliss Bottle" style={{ height: '35vh', transform: 'rotate(5deg)' }} /> {/* Reemplaza con imagen real */}
+          <img src="/botella-gold.png" alt="Gold Citrus Bottle" style={{ height: '35vh', transform: 'rotate(10deg)' }} /> {/* Reemplaza con imagen real */}
         </div>
-
-        <style dangerouslySetInnerHTML={{ __html: `
-          @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-          }
-        ` }} />
       </header>
 
       {/* INFORMACIÓN DE MARCA PROFUNDA (EL MANIFIESTO) */}
@@ -146,11 +109,11 @@ export default function QuitoFreshBotanicalInteractiveFinal() {
           <p style={{ maxWidth: '600px', margin: '0 auto', lineHeight: '2.4', fontSize: '1.2rem', fontWeight: 300, letterSpacing: '0.05rem', color: '#555' }}>
             Nuestra visión en Quito Fresh es redefinir el bienestar premium. No entregamos un producto simple; entregamos un activo para tu rendimiento y vitalidad diaria. Diseñado para el paladar que exige perfección, cada botella captura el alma intacta de los Andes.
           </p>
-          <a href={whatsappLink} className="btn-green sans" style={{ display: 'inline-block', padding: '20px 50px', fontSize: '1.2rem', marginTop: '60px', textDecoration: 'none' }}>ADQUIRIR EXPERIENCIA</a>
+          <a href={whatsappLink} className="btn-green sans" style={{ padding: '20px 50px', fontSize: '1.2rem', marginTop: '60px' }}>ADQUIRIR EXPERIENCIA</a>
         </div>
       </section>
 
-      {/* PRODUCT CATALOGO INTERACTIVO CON DISEÑO DE TARJETA PÓSTER */}
+      {/* CATALOGO INTERACTIVO CON DISEÑO DE TARJETA PÓSTER */}
       <main id="catalog" style={{ padding: '100px 40px', maxWidth: '1200px', margin: '0 auto' }}>
         <h2 className="text-bold" style={{ fontSize: '3rem', textAlign: 'center', marginBottom: '60px' }}>Nuestro Surtido</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '35px' }}>
@@ -189,9 +152,12 @@ export default function QuitoFreshBotanicalInteractiveFinal() {
 
       {/* FOOTER */}
       <footer style={{ padding: '80px 40px', textAlign: 'center', borderTop: '1px solid #EEE', background: '#FAFAFA' }}>
-        <div className="text-bold" style={{ fontSize: '1.5rem', marginBottom: '20px' }}>QUITO FRESH</div>
-        <p style={{ color: '#AAA', fontSize: '14px', marginBottom: '40px' }}>Quito, Ecuador • Establecidos en 2026</p>
-        <p style={{ fontSize: '10px', fontWeight: 700, opacity: 0.3, letterSpacing: '2px' }}>ESTRATÉGICAMENTE DESARROLLADO POR ECOS BRANDING & ORCA STUDIOS</p>
+        <p style={{ color: '#AAA', fontSize: '14px', marginBottom: '40px' }}>
+          QUITO FRESH © 2026 - PUREZA REAL.
+        </p>
+        <p style={{ fontSize: '10px', fontWeight: 700, opacity: 0.3, letterSpacing: '2px' }}>
+          DESARROLLADO POR ECOS BRANDING & ORCA STUDIOS
+        </p>
       </footer>
 
       {/* SIDEBAR DEL CARRITO INTERACTIVO */}

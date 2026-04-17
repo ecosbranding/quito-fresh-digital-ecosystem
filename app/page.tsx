@@ -1,30 +1,25 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-// 1. CONFIGURACIÓN ESTATICA (Esto es lo que Meta lee primero)
-// Si usas Next.js, esto debería ir idealmente en tu archivo layout.tsx o page.tsx
-// Pero aquí lo integramos de forma que no interfiera con tu estado.
-
 export default function QuitoFreshMaestroFinal() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Enlaces de alta prioridad
+  // Enlaces de alta prioridad para Meta y WhatsApp
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
 
   useEffect(() => {
     setMounted(true);
     
-    // Inyección forzada de Meta Tags en el HEAD para asegurar compatibilidad
-    const head = document.head;
+    // Inyección de Meta Tags sin afectar el renderizado visual
     const forceMeta = (property, content) => {
       let el = document.querySelector(`meta[property="${property}"]`);
       if (!el) {
         el = document.createElement('meta');
         el.setAttribute('property', property);
-        head.appendChild(el);
+        document.head.appendChild(el);
       }
       el.setAttribute('content', content);
     };
@@ -37,7 +32,6 @@ export default function QuitoFreshMaestroFinal() {
     forceMeta('og:image:height', '630');
     forceMeta('og:type', 'website');
     forceMeta('og:url', SITE_URL);
-
   }, []);
 
   const products = [
@@ -56,7 +50,8 @@ export default function QuitoFreshMaestroFinal() {
   };
 
   const removeItem = (id) => setCart(prev => prev.filter(item => item.id !== id));
-  
+  const clearCart = () => setCart([]);
+
   const addToCart = (p) => {
     if (!p.available) return;
     setCart(prev => {
@@ -75,85 +70,129 @@ export default function QuitoFreshMaestroFinal() {
   if (!mounted) return null;
 
   return (
-    <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative' }}>
+    <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
       
-      {/* ESTILOS INTERNOS */}
       <style dangerouslySetInnerHTML={{ __html: `
         .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
-        .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: white; }
+        .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: white; position: relative; z-index: 2; }
         .featured { border: 4px solid #E91E63; }
         .btn-main { background: #8CC63F; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
+        .bg-accent { position: absolute; pointer-events: none; z-index: 0; opacity: 0.6; }
       ` }} />
 
-      {/* HEADER / NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 100, padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(10px)' }}>
-        <img src="1000786698.png" alt="Logo" style={{ height: '50px' }} />
-        <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '10px 20px' }}>
-          PACK ({cart.reduce((a, b) => a + b.qty, 0)})
-        </button>
+      {/* NAVEGACIÓN */}
+      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: '1px solid #EEE' }}>
+        <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
+        <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
-      {/* HERO */}
-      <header style={{ padding: '80px 20px', textAlign: 'center' }}>
-        <h1 className="text-bold" style={{ fontSize: '3.5rem', lineHeight: 1 }}>TU VIDA <span style={{ color: '#8CC63F' }}>SALUDABLE</span><br/>EMPIEZA AQUÍ.</h1>
-        <p style={{ maxWidth: '600px', margin: '20px auto', color: '#666' }}>Jugos 100% orgánicos, prensados en frío para que tú y tu familia disfruten de la pureza de los Andes.</p>
-        <img src="1000786698.png" style={{ maxWidth: '300px', marginTop: '30px' }} />
+      {/* HERO SECTION CON IMÁGENES DE FONDO */}
+      <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
+        <img src="1000786975.png" className="bg-accent" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
+        <img src="1000786976.png" className="bg-accent" style={{ top: '20px', left: '-50px', width: '250px', opacity: 0.4 }} />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ fontWeight: 900, fontSize: '12px', color: '#8CC63F', marginBottom: '20px' }}>FRESCURA PURA</div>
+          <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: '#8CC63F' }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
+          <img src="1000786698.png" alt="Logo Hero" style={{ maxWidth: '380px', margin: '0 auto', display: 'block' }} />
+        </div>
       </header>
 
-      {/* SECCIÓN PRODUCTOS */}
-      <section style={{ padding: '60px 20px', maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '30px' }}>
-        {products.map(p => (
-          <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
-            <span style={{ fontSize: '10px', fontWeight: 800, color: p.accent }}>{p.tag}</span>
-            <h3 className="text-bold" style={{ fontSize: '1.8rem', margin: '10px 0' }}>{p.name}</h3>
-            <p style={{ fontSize: '13px', color: '#999', minHeight: '40px' }}>{p.desc}</p>
-            {p.price && <div style={{ fontSize: '2.5rem', fontWeight: 900, margin: '20px 0' }}>${p.price.toFixed(2)}</div>}
-            <button 
-              onClick={() => addToCart(p)} 
-              disabled={!p.available}
-              className="btn-main" 
-              style={{ background: p.available ? p.accent : '#EEE', color: p.available ? 'white' : '#AAA' }}
-            >
-              {p.available ? "AÑADIR AL PACK" : "PRÓXIMAMENTE"}
-            </button>
+      {/* BENEFICIOS */}
+      <section style={{ display: 'flex', justifyContent: 'center', gap: '50px', padding: '60px 20px', flexWrap: 'wrap', borderBottom: '1px solid #F5F5F5' }}>
+        {["100% PRENSADO EN FRÍO", "ORIGEN ANDINO", "ENERGÍA NATURAL"].map((text, i) => (
+          <div key={i} style={{ textAlign: 'center', maxWidth: '140px' }}>
+            <div style={{ fontSize: '32px' }}>{i === 0 ? "⚙️" : i === 1 ? "🏔️" : "⚡"}</div>
+            <div className="text-bold" style={{ fontSize: '10px', marginTop: '12px', color: '#666' }}>{text}</div>
           </div>
         ))}
       </section>
 
+      {/* SOBRE NOSOTROS */}
+      <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+        <img src="1000786977.png" className="bg-accent" style={{ bottom: '0', right: '-150px', width: '500px', opacity: 0.15 }} />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
+          <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
+            <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '20px' }}>Nuestra Misión</h3>
+            <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina, fomentando un estilo de vida consciente, natural y lleno de energía vital.</p>
+          </div>
+          <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
+            <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '20px' }}>Nuestra Visión</h3>
+            <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Ser líderes en bienestar premium en Ecuador, reconocidos por nuestra calidad inigualable Cold Pressed.</p>
+          </div>
+          <div style={{ background: '#8CC63F', padding: '50px', borderRadius: '40px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <h3 className="text-bold" style={{ marginBottom: '10px', fontSize: '1.2rem' }}>Llevando Felicidad</h3>
+            <div className="text-bold" style={{ fontSize: '3.5rem', lineHeight: 1, marginBottom: '15px' }}>2026</div>
+            <p style={{ fontSize: '15px', lineHeight: 1.8 }}>Llevamos la frescura absoluta del campo directamente a tu mano, sin aditivos, sin engaños, solo fruta pura.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* PRODUCTOS */}
+      <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+        <h2 className="text-bold" style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '70px' }}>NUESTRO SURTIDO</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
+          {products.map(p => (
+            <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
+              <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
+              <h3 className="text-bold" style={{ fontSize: '2.2rem', margin: '0 0 10px' }}>{p.name}</h3>
+              <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
+              {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px' }}>${p.price.toFixed(2)}</div>}
+              {p.available ? (
+                <button onClick={() => addToCart(p)} className="btn-main" style={{ background: p.accent }}>AÑADIR AL PACK</button>
+              ) : (
+                <button disabled style={{ background: '#F5F5F5', color: '#BBB', border: 'none', padding: '18px', borderRadius: '50px', fontWeight: 900, width: '100%' }}>PRÓXIMAMENTE</button>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* FOOTER */}
-      <footer style={{ background: '#000', color: '#FFF', padding: '60px 20px', textAlign: 'center' }}>
-        <div className="text-bold" style={{ fontSize: '12px', opacity: 0.5 }}>Quito Fresh — 2026</div>
+      <footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center' }}>
+        <img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
+        <div className="text-bold" style={{ fontSize: '12px', letterSpacing: '4px', opacity: 0.8, marginBottom: '15px' }}>QUITO FRESH — PUREZA REAL</div>
+        <div style={{ fontSize: '10px', opacity: 0.4, letterSpacing: '1px', textTransform: 'uppercase' }}>
+          Hecho por <span style={{ fontWeight: 800 }}>ECOS Branding</span> & <span style={{ fontWeight: 800 }}>ORCA Studios</span> © 2026. Todos los derechos reservados.
+        </div>
       </footer>
 
-      {/* CARRITO LATERAL */}
+      {/* MODAL CARRITO */}
       {isCartOpen && (
-        <div style={{ position: 'fixed', top: 0, right: 0, width: '100%', maxWidth: '400px', height: '100%', background: 'white', zIndex: 1000, boxShadow: '-5px 0 20px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>
-            <span className="text-bold">MI PEDIDO</span>
-            <button onClick={() => setIsCartOpen(false)} style={{ border: 'none', background: 'none', fontSize: '20px', cursor: 'pointer' }}>✕</button>
+        <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>
+            <span className="text-bold">TU SELECCIÓN</span>
+            <button onClick={() => setIsCartOpen(false)} style={{ border: 'none', background: 'none', fontSize: '24px', cursor: 'pointer' }}>✕</button>
           </div>
-          <div style={{ flex: 1, padding: '20px', overflowY: 'auto' }}>
-            {cart.map(i => (
-              <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-                <div>
-                  <div className="text-bold" style={{ fontSize: '12px' }}>{i.name}</div>
-                  <div style={{ fontSize: '12px', color: '#8CC63F' }}>${(i.price * i.qty).toFixed(2)}</div>
+          <div style={{ flex: 1, padding: '25px', overflowY: 'auto' }}>
+            {cart.length === 0 ? (
+              <div style={{ textAlign: 'center', marginTop: '50px', color: '#CCC', fontWeight: 800 }}>TU PACK ESTÁ VACÍO</div>
+            ) : (
+              cart.map(i => (
+                <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', paddingBottom: '15px', borderBottom: '1px solid #F9F9F9' }}>
+                  <div style={{ flex: 1 }}>
+                    <div className="text-bold" style={{ fontSize: '14px' }}>{i.name}</div>
+                    <div style={{ fontSize: '13px', color: '#8CC63F', fontWeight: 700 }}>${(i.price * i.qty).toFixed(2)}</div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', background: 'white', cursor: 'pointer' }}>-</button>
+                    <span style={{ fontWeight: 900, width: '20px', textAlign: 'center' }}>{i.qty}</span>
+                    <button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', background: 'white', cursor: 'pointer' }}>+</button>
+                    <button onClick={() => removeItem(i.id)} style={{ marginLeft: '10px', border: 'none', background: 'none', fontSize: '18px', cursor: 'pointer' }}>❌</button>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <button onClick={() => updateQty(i.id, -1)} style={{ width: '25px', height: '25px', borderRadius: '50%', border: '1px solid #DDD' }}>-</button>
-                  <span style={{ fontWeight: 800 }}>{i.qty}</span>
-                  <button onClick={() => updateQty(i.id, 1)} style={{ width: '25px', height: '25px', borderRadius: '50%', border: '1px solid #DDD' }}>+</button>
-                </div>
+              ))
+            )}
+          </div>
+          {cart.length > 0 && (
+            <div style={{ padding: '30px', borderTop: '1px solid #EEE' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.8rem', fontWeight: 900, marginBottom: '25px' }}>
+                <span>TOTAL</span>
+                <span>${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}</span>
               </div>
-            ))}
-          </div>
-          <div style={{ padding: '20px', borderTop: '1px solid #EEE' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.5rem', fontWeight: 900, marginBottom: '20px' }}>
-              <span>TOTAL</span>
-              <span>${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}</span>
+              <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
+              <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP 📲</button>
             </div>
-            <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>ENVIAR PEDIDO POR WA</button>
-          </div>
+          )}
         </div>
       )}
     </div>

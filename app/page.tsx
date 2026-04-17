@@ -1,12 +1,33 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-export default function QuitoFreshFinalCorregido() {
+export default function QuitoFreshFinalPremium() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+    
+    // Configuración de Meta Tags para WhatsApp (Open Graph)
+    // Nota: Para que la imagen funcione al 100%, el sitio debe estar publicado en un dominio real.
+    const metaTags = [
+      { property: 'og:title', content: 'Quito Fresh — Pureza Real' },
+      { property: 'og:description', content: 'Extractos puros prensados en frío. ¡Pide tu pack saludable ahora!' },
+      { property: 'og:image', content: '1000786992.jpg' }, // WhatsApp leerá esta imagen
+      { property: 'og:type', content: 'website' }
+    ];
+
+    metaTags.forEach(tag => {
+      let element = document.querySelector(`meta[property="${tag.property}"]`);
+      if (!element) {
+        element = document.createElement('meta');
+        element.setAttribute('property', tag.property);
+        document.head.appendChild(element);
+      }
+      element.setAttribute('content', tag.content);
+    });
+  }, []);
 
   const products = [
     { id: 1, name: "MARACUMORA", desc: "La fusión perfecta: Maracuyá y Mora", price: 1.00, accent: "#E91E63", tag: "SABOR ESTRELLA", available: true },
@@ -54,13 +75,13 @@ export default function QuitoFreshFinalCorregido() {
         .bg-accent { position: absolute; pointer-events: none; z-index: 0; opacity: 0.6; }
       ` }} />
 
-      {/* NAV - Logo agrandado de 40px a 60px */}
+      {/* NAV - Logo 60px */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: '1px solid #EEE' }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
         <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
-      {/* HERO - Logo central agrandado de 280px a 380px */}
+      {/* HERO - Logo Central 380px */}
       <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
         <img src="1000786975.png" className="bg-accent" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
         <img src="1000786976.png" className="bg-accent" style={{ top: '20px', left: '-50px', width: '250px', opacity: 0.4 }} />
@@ -84,7 +105,6 @@ export default function QuitoFreshFinalCorregido() {
       {/* INFO CORPORATIVA */}
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <img src="1000786977.png" className="bg-accent" style={{ bottom: '0', right: '-150px', width: '500px', opacity: 0.15 }} />
-
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
             <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '20px' }}>Nuestra Misión</h3>
@@ -122,16 +142,16 @@ export default function QuitoFreshFinalCorregido() {
         </div>
       </section>
 
-      {/* FOOTER - Logo agrandado de 35px a 55px */}
+      {/* FOOTER ELEGANTE - Logo 55px */}
       <footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center' }}>
         <img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
         <div className="text-bold" style={{ fontSize: '12px', letterSpacing: '4px', opacity: 0.8, marginBottom: '15px' }}>QUITO FRESH — PUREZA REAL</div>
         <div style={{ fontSize: '10px', opacity: 0.4, letterSpacing: '1px', textTransform: 'uppercase' }}>
-          Diseñado por <span style={{ fontWeight: 800 }}>ECOS Branding</span> & <span style={{ fontWeight: 800 }}>ORCA Studios</span> © 2026. Todos los derechos reservados.
+          Hecho por <span style={{ fontWeight: 800 }}>ECOS Branding</span> & <span style={{ fontWeight: 800 }}>ORCA Studios</span> © 2026. Todos los derechos reservados.
         </div>
       </footer>
 
-      {/* CARRITO */}
+      {/* CARRITO - Con funciones de eliminar y vaciar */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>
@@ -166,7 +186,7 @@ export default function QuitoFreshFinalCorregido() {
               </div>
               <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
               <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <span>PEDIR POR WHATSAPP</span>
+                <span>PEDIR POR WHATSAPP 📲</span>
               </button>
             </div>
           )}

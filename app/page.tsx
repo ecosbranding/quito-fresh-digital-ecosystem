@@ -6,19 +6,21 @@ export default function QuitoFreshFinalPremium() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  // CAMBIA ESTO cuando tengas tu dominio real (ejemplo: https://quitofresh.com)
+  const SITE_URL = "https://tu-dominio-aqui.com"; 
+
   useEffect(() => {
     setMounted(true);
     
-    // Configuración de Meta Tags para WhatsApp (Open Graph)
-    // Nota: Para que la imagen funcione al 100%, el sitio debe estar publicado en un dominio real.
-    const metaTags = [
+    const metaData = [
       { property: 'og:title', content: 'Quito Fresh — Pureza Real' },
       { property: 'og:description', content: 'Extractos puros prensados en frío. ¡Pide tu pack saludable ahora!' },
-      { property: 'og:image', content: '1000786992.jpg' }, // WhatsApp leerá esta imagen
+      { property: 'og:image', content: `${SITE_URL}/1000786992.jpg` }, // URL Completa para WhatsApp
+      { property: 'og:url', content: SITE_URL },
       { property: 'og:type', content: 'website' }
     ];
 
-    metaTags.forEach(tag => {
+    metaData.forEach(tag => {
       let element = document.querySelector(`meta[property="${tag.property}"]`);
       if (!element) {
         element = document.createElement('meta');
@@ -27,7 +29,7 @@ export default function QuitoFreshFinalPremium() {
       }
       element.setAttribute('content', tag.content);
     });
-  }, []);
+  }, [SITE_URL]);
 
   const products = [
     { id: 1, name: "MARACUMORA", desc: "La fusión perfecta: Maracuyá y Mora", price: 1.00, accent: "#E91E63", tag: "SABOR ESTRELLA", available: true },
@@ -75,13 +77,13 @@ export default function QuitoFreshFinalPremium() {
         .bg-accent { position: absolute; pointer-events: none; z-index: 0; opacity: 0.6; }
       ` }} />
 
-      {/* NAV - Logo 60px */}
+      {/* NAV */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: '1px solid #EEE' }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
         <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
-      {/* HERO - Logo Central 380px */}
+      {/* HERO */}
       <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
         <img src="1000786975.png" className="bg-accent" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
         <img src="1000786976.png" className="bg-accent" style={{ top: '20px', left: '-50px', width: '250px', opacity: 0.4 }} />
@@ -92,7 +94,7 @@ export default function QuitoFreshFinalPremium() {
         </div>
       </header>
 
-      {/* ICONOS TÉCNICOS */}
+      {/* SECCIONES INTERMEDIAS IGUALES ... */}
       <section style={{ display: 'flex', justifyContent: 'center', gap: '50px', padding: '60px 20px', flexWrap: 'wrap', borderBottom: '1px solid #F5F5F5' }}>
         {["100% PRENSADO EN FRÍO", "ORIGEN ANDINO", "ENERGÍA NATURAL"].map((text, i) => (
           <div key={i} style={{ textAlign: 'center', maxWidth: '140px' }}>
@@ -100,26 +102,6 @@ export default function QuitoFreshFinalPremium() {
             <div className="text-bold" style={{ fontSize: '10px', marginTop: '12px', color: '#666' }}>{text}</div>
           </div>
         ))}
-      </section>
-
-      {/* INFO CORPORATIVA */}
-      <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-        <img src="1000786977.png" className="bg-accent" style={{ bottom: '0', right: '-150px', width: '500px', opacity: 0.15 }} />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
-          <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '20px' }}>Nuestra Misión</h3>
-            <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina, fomentando un estilo de vida consciente, natural y lleno de energía vital.</p>
-          </div>
-          <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '20px' }}>Nuestra Visión</h3>
-            <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Ser líderes en bienestar premium en Ecuador, reconocidos por nuestra calidad inigualable en procesos de extracción en frío.</p>
-          </div>
-          <div style={{ background: '#8CC63F', padding: '50px', borderRadius: '40px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <h3 className="text-bold" style={{ marginBottom: '10px', fontSize: '1.2rem' }}>Pura Frescura</h3>
-            <div className="text-bold" style={{ fontSize: '3.5rem', lineHeight: 1, marginBottom: '15px' }}>2026</div>
-            <p style={{ fontSize: '15px', lineHeight: 1.8 }}>Frescura absoluta del campo directamente a tu mano, sin aditivos, solo la verdad de la fruta.</p>
-          </div>
-        </div>
       </section>
 
       {/* SURTIDO */}
@@ -142,7 +124,7 @@ export default function QuitoFreshFinalPremium() {
         </div>
       </section>
 
-      {/* FOOTER ELEGANTE - Logo 55px */}
+      {/* FOOTER */}
       <footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center' }}>
         <img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
         <div className="text-bold" style={{ fontSize: '12px', letterSpacing: '4px', opacity: 0.8, marginBottom: '15px' }}>QUITO FRESH — PUREZA REAL</div>
@@ -151,7 +133,7 @@ export default function QuitoFreshFinalPremium() {
         </div>
       </footer>
 
-      {/* CARRITO - Con funciones de eliminar y vaciar */}
+      {/* CARRITO */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>

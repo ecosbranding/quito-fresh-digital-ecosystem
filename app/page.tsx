@@ -23,10 +23,7 @@ export default function QuitoFreshFinalCorregido() {
     setCart(prev => prev.map(item => item.id === id ? { ...item, qty: Math.max(0, item.qty + delta) } : item).filter(i => i.qty > 0));
   };
 
-  // Función para eliminar individualmente
   const removeItem = (id) => setCart(prev => prev.filter(item => item.id !== id));
-  
-  // Función para vaciar carrito
   const clearCart = () => setCart([]);
 
   const addToCart = (p) => {
@@ -57,20 +54,20 @@ export default function QuitoFreshFinalCorregido() {
         .bg-accent { position: absolute; pointer-events: none; z-index: 0; opacity: 0.6; }
       ` }} />
 
-      {/* NAV */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '15px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: '1px solid #EEE' }}>
-        <img src="1000786698.png" alt="Logo" style={{ height: '40px' }} />
-        <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '10px 20px', fontSize: '12px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
+      {/* NAV - Logo agrandado de 40px a 60px */}
+      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: '1px solid #EEE' }}>
+        <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
+        <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
-      {/* HERO */}
+      {/* HERO - Logo central agrandado de 280px a 380px */}
       <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
         <img src="1000786975.png" className="bg-accent" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
         <img src="1000786976.png" className="bg-accent" style={{ top: '20px', left: '-50px', width: '250px', opacity: 0.4 }} />
         <div style={{ position: 'relative', zIndex: 2 }}>
           <div style={{ fontWeight: 900, fontSize: '12px', color: '#8CC63F', marginBottom: '20px' }}>FRESCURA PURA</div>
           <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: '#8CC63F' }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
-          <img src="1000786698.png" alt="Logo Hero" style={{ maxWidth: '280px', margin: '0 auto', display: 'block' }} />
+          <img src="1000786698.png" alt="Logo Hero" style={{ maxWidth: '380px', margin: '0 auto', display: 'block' }} />
         </div>
       </header>
 
@@ -93,12 +90,10 @@ export default function QuitoFreshFinalCorregido() {
             <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '20px' }}>Nuestra Misión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina, fomentando un estilo de vida consciente, natural y lleno de energía vital.</p>
           </div>
-          
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
             <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '20px' }}>Nuestra Visión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Ser líderes en bienestar premium en Ecuador, reconocidos por nuestra calidad inigualable en procesos de extracción en frío.</p>
           </div>
-
           <div style={{ background: '#8CC63F', padding: '50px', borderRadius: '40px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <h3 className="text-bold" style={{ marginBottom: '10px', fontSize: '1.2rem' }}>Pura Frescura</h3>
             <div className="text-bold" style={{ fontSize: '3.5rem', lineHeight: 1, marginBottom: '15px' }}>2026</div>
@@ -127,23 +122,22 @@ export default function QuitoFreshFinalCorregido() {
         </div>
       </section>
 
-      {/* FOOTER ELEGANTE */}
+      {/* FOOTER - Logo agrandado de 35px a 55px */}
       <footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center' }}>
-        <img src="1000786698.png" alt="Footer Logo" style={{ height: '35px', marginBottom: '30px', filter: 'brightness(2)' }} />
+        <img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
         <div className="text-bold" style={{ fontSize: '12px', letterSpacing: '4px', opacity: 0.8, marginBottom: '15px' }}>QUITO FRESH — PUREZA REAL</div>
         <div style={{ fontSize: '10px', opacity: 0.4, letterSpacing: '1px', textTransform: 'uppercase' }}>
           Diseñado por <span style={{ fontWeight: 800 }}>ECOS Branding</span> & <span style={{ fontWeight: 800 }}>ORCA Studios</span> © 2026. Todos los derechos reservados.
         </div>
       </footer>
 
-      {/* CARRITO MEJORADO CON VACIAR Y ELIMINAR */}
+      {/* CARRITO */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>
             <span className="text-bold">TU SELECCIÓN</span>
             <button onClick={() => setIsCartOpen(false)} style={{ border: 'none', background: 'none', fontSize: '24px', cursor: 'pointer' }}>✕</button>
           </div>
-          
           <div style={{ flex: 1, padding: '25px', overflowY: 'auto' }}>
             {cart.length === 0 ? (
               <div style={{ textAlign: 'center', marginTop: '50px', color: '#CCC', fontWeight: 800 }}>TU PACK ESTÁ VACÍO</div>
@@ -158,24 +152,21 @@ export default function QuitoFreshFinalCorregido() {
                     <button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', background: 'white', cursor: 'pointer' }}>-</button>
                     <span style={{ fontWeight: 900, width: '20px', textAlign: 'center' }}>{i.qty}</span>
                     <button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', background: 'white', cursor: 'pointer' }}>+</button>
-                    <button onClick={() => removeItem(i.id)} style={{ marginLeft: '10px', border: 'none', background: 'none', fontSize: '18px', cursor: 'pointer' }}>🗑️</button>
+                    <button onClick={() => removeItem(i.id)} style={{ marginLeft: '10px', border: 'none', background: 'none', fontSize: '18px', cursor: 'pointer' }}>❌</button>
                   </div>
                 </div>
               ))
             )}
           </div>
-
           {cart.length > 0 && (
             <div style={{ padding: '30px', borderTop: '1px solid #EEE' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.8rem', fontWeight: 900, marginBottom: '25px' }}>
                 <span>TOTAL</span>
                 <span>${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}</span>
               </div>
-              
               <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
-              
               <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <span>PEDIR POR WHATSAPP📱</span>
+                <span>PEDIR POR WHATSAPP</span>
               </button>
             </div>
           )}

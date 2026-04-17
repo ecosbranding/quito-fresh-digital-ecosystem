@@ -6,19 +6,22 @@ export default function QuitoFreshMaestroFinal() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Link de tu sitio en Vercel
+  // Datos de enlace
   const SITE_URL = "https://quitofresh.vercel.app"; 
-  // EL LINK DIRECTO DE TU IMAGEN (Copiado de tu captura)
   const IMAGE_URL = "https://i.postimg.cc/fRhNzwq4/1000786992.jpg";
 
   useEffect(() => {
     setMounted(true);
     
-    // Inyectar Meta Tags para WhatsApp
+    // Configuración de Meta Tags para evitar que WhatsApp ignore la imagen
     const metaData = [
       { property: 'og:title', content: 'Quito Fresh — Pureza Real' },
       { property: 'og:description', content: 'Extractos puros prensados en frío. ¡Pide tu pack saludable ahora!' },
       { property: 'og:image', content: IMAGE_URL },
+      { property: 'og:image:secure_url', content: IMAGE_URL },
+      { property: 'og:image:type', content: 'image/jpeg' },
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
       { property: 'og:url', content: SITE_URL },
       { property: 'og:type', content: 'website' }
     ];
@@ -71,6 +74,7 @@ export default function QuitoFreshMaestroFinal() {
 
   return (
     <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
+      
       <style dangerouslySetInnerHTML={{ __html: `
         .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
         .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: white; position: relative; z-index: 2; }
@@ -106,7 +110,7 @@ export default function QuitoFreshMaestroFinal() {
         ))}
       </section>
 
-      {/* SECCIÓN MISIÓN Y VISIÓN */}
+      {/* SECCIÓN MISIÓN, VISIÓN Y FELICIDAD */}
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <img src="1000786977.png" className="bg-accent" style={{ bottom: '0', right: '-150px', width: '500px', opacity: 0.15 }} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
@@ -190,7 +194,7 @@ export default function QuitoFreshMaestroFinal() {
               </div>
               <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
               <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <span>PEDIR POR WHATSAPP</span>
+                <span>PEDIR POR WHATSAPP 📲</span>
               </button>
             </div>
           )}

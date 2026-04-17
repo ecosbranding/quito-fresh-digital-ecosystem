@@ -196,7 +196,7 @@ export default function QuitoFreshMaestroFinal() {
               </div>
               <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
               <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-                <span>PEDIR POR WHATSAPP 📲</span>
+                <span>PEDIR POR WHATSAPP</span>
               </button>
             </div>
           )}

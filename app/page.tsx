@@ -6,22 +6,24 @@ export default function QuitoFreshMaestroFinal() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Enlaces principales
+  // Enlaces principales actualizados
   const SITE_URL = "https://quitofresh.vercel.app"; 
-  const IMAGE_URL = "https://i.postimg.cc/fRhNzwq4/1000786992.jpg";
+  // Esta es la nueva imagen optimizada y compatible con WhatsApp
+  const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
 
   useEffect(() => {
     setMounted(true);
     
-    // Configuración agresiva de Meta Tags para evitar caché antigua
+    // Configuración agresiva de Meta Tags optimizada para la nueva imagen
     const metaData = [
       { property: 'og:title', content: 'Quito Fresh — Pureza Real' },
       { property: 'og:description', content: 'Extractos puros prensados en frío. ¡Pide tu pack saludable ahora!' },
       { property: 'og:image', content: IMAGE_URL },
       { property: 'og:image:secure_url', content: IMAGE_URL },
       { property: 'og:image:type', content: 'image/jpeg' },
-      { property: 'og:image:width', content: '1200' },
-      { property: 'og:image:height', content: '630' },
+      // Dimensiones ideales para WhatsApp
+      { property: 'og:image:width', content: '800' },
+      { property: 'og:image:height', content: '800' },
       { property: 'og:url', content: SITE_URL },
       { property: 'og:type', content: 'website' }
     ];

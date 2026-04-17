@@ -57,14 +57,9 @@ export default function QuitoFreshVersionFinal() {
         .btn-main { background: #8CC63F; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; }
       ` }} />
 
-      {/* ELEMENTOS DECORATIVOS USANDO TUS ARCHIVOS */}
-      {/* Splash Rosa de Maracumora (superior derecha) */}
+      {/* ELEMENTOS DECORATIVOS */}
       <img src="1000786726.jpg" className="floating-element" style={{ top: '5%', right: '-10%', width: '400px', opacity: 0.3, animation: 'float3D 10s infinite' }} />
-      
-      {/* Hojas Reales (izquierda) */}
       <img src="1000786829.png" className="floating-element" style={{ top: '25%', left: '-150px', width: '500px', opacity: 0.25, animation: 'sway 8s infinite ease-in-out' }} />
-
-      {/* Splash Azul/Lila (inferior izquierda) */}
       <img src="1000786728.jpg" className="floating-element" style={{ bottom: '10%', left: '-5%', width: '450px', opacity: 0.2, animation: 'float3D 12s infinite reverse' }} />
 
       {/* NAV */}
@@ -73,7 +68,7 @@ export default function QuitoFreshVersionFinal() {
         <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '10px 20px', fontSize: '12px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
-      {/* HERO (Restaurado Logo Centralizado) */}
+      {/* HERO */}
       <header style={{ textAlign: 'center', padding: '60px 20px', position: 'relative', zIndex: 1 }}>
         <div style={{ fontWeight: 900, fontSize: '12px', color: '#8CC63F', marginBottom: '15px' }}>EST. 2026</div>
         <h1 className="text-bold" style={{ fontSize: '3.5rem', lineHeight: 0.8, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: '#8CC63F' }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
@@ -102,7 +97,7 @@ export default function QuitoFreshVersionFinal() {
           <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '15px' }}>Nuestra Misión</h3>
           <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#555' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina, fomentando un estilo de vida consciente, natural y lleno de energía vital.</p>
         </div>
-        <div style={{ background: '#8CC63F', padding: '40px', borderRadius: '30px', color: white }}>
+        <div style={{ background: '#8CC63F', padding: '40px', borderRadius: '30px', color: 'white' }}>
           <h3 className="text-bold" style={{ marginBottom: '15px' }}>Llevando Felicidad</h3>
           <p style={{ fontSize: '14px', lineHeight: 1.6 }}>Llevamos la frescura absoluta del campo directamente a tu mano, sin aditivos, sin engaños, solo fruta pura.</p>
         </div>
@@ -138,7 +133,7 @@ export default function QuitoFreshVersionFinal() {
         <div className="text-bold" style={{ fontSize: '12px', letterSpacing: '2px' }}>QUITO FRESH © 2026 — PUREZA REAL</div>
       </footer>
 
-      {/* CARRITO SIDEBAR (TU LÓGICA SAGRADA) */}
+      {/* CARRITO */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '350px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-5px 0 30px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>

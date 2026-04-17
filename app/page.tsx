@@ -6,14 +6,14 @@ export default function QuitoFreshMaestroFinal() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Datos de enlace
+  // Enlaces principales
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/fRhNzwq4/1000786992.jpg";
 
   useEffect(() => {
     setMounted(true);
     
-    // Configuración de Meta Tags para evitar que WhatsApp ignore la imagen
+    // Configuración agresiva de Meta Tags para evitar caché antigua
     const metaData = [
       { property: 'og:title', content: 'Quito Fresh — Pureza Real' },
       { property: 'og:description', content: 'Extractos puros prensados en frío. ¡Pide tu pack saludable ahora!' },
@@ -28,12 +28,14 @@ export default function QuitoFreshMaestroFinal() {
 
     metaData.forEach(tag => {
       let element = document.querySelector(`meta[property="${tag.property}"]`);
-      if (!element) {
+      if (element) {
+        element.setAttribute('content', tag.content);
+      } else {
         element = document.createElement('meta');
         element.setAttribute('property', tag.property);
+        element.setAttribute('content', tag.content);
         document.head.appendChild(element);
       }
-      element.setAttribute('content', tag.content);
     });
   }, []);
 
@@ -83,13 +85,13 @@ export default function QuitoFreshMaestroFinal() {
         .bg-accent { position: absolute; pointer-events: none; z-index: 0; opacity: 0.6; }
       ` }} />
 
-      {/* NAV */}
+      {/* NAVEGACIÓN */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: '1px solid #EEE' }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
         <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
-      {/* HERO */}
+      {/* HERO SECTION */}
       <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
         <img src="1000786975.png" className="bg-accent" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
         <img src="1000786976.png" className="bg-accent" style={{ top: '20px', left: '-50px', width: '250px', opacity: 0.4 }} />
@@ -100,7 +102,7 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </header>
 
-      {/* ICONOS TÉCNICOS */}
+      {/* BENEFICIOS */}
       <section style={{ display: 'flex', justifyContent: 'center', gap: '50px', padding: '60px 20px', flexWrap: 'wrap', borderBottom: '1px solid #F5F5F5' }}>
         {["100% PRENSADO EN FRÍO", "ORIGEN ANDINO", "ENERGÍA NATURAL"].map((text, i) => (
           <div key={i} style={{ textAlign: 'center', maxWidth: '140px' }}>
@@ -110,7 +112,7 @@ export default function QuitoFreshMaestroFinal() {
         ))}
       </section>
 
-      {/* SECCIÓN MISIÓN, VISIÓN Y FELICIDAD */}
+      {/* SOBRE NOSOTROS */}
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <img src="1000786977.png" className="bg-accent" style={{ bottom: '0', right: '-150px', width: '500px', opacity: 0.15 }} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
@@ -130,7 +132,7 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </section>
 
-      {/* SURTIDO */}
+      {/* PRODUCTOS */}
       <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <h2 className="text-bold" style={{ textAlign: 'center', fontSize: '3rem', marginBottom: '70px' }}>NUESTRO SURTIDO</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
@@ -159,7 +161,7 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </footer>
 
-      {/* CARRITO */}
+      {/* MODAL CARRITO */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>

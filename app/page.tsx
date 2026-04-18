@@ -6,22 +6,13 @@ export default function QuitoFreshMaestroFinal() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   
-  // NUEVO: Estado para rastrear el cursor (para la niebla de "respiración")
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
-  // Enlaces de alta prioridad para Meta y WhatsApp
+  // Enlaces de alta prioridad para Meta y WhatsApp (Intacto)
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
   const CELESTE_LOGO = "#00ADEF"; // Color Celeste Tropical exacto del logo
 
   useEffect(() => {
     setMounted(true);
-    
-    // NUEVO: Listener para interacción de frescura (Niebla Atmosférica)
-    const handleMouseMove = (e) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
     
     // Inyección de Meta Tags Críticos para WhatsApp (Intacto)
     const forceMeta = (property, content) => {
@@ -35,15 +26,13 @@ export default function QuitoFreshMaestroFinal() {
     };
 
     forceMeta('og:title', 'Quito Fresh | Pureza Real');
-    forceMeta('og:description', 'Extractos puros prensados en frío de los Andes. ¡Pide tu pack saludable!');
+    forceMeta('og:description', 'Extractos puros prensados en frío de los Andes. ¡Siente la frescura!');
     forceMeta('og:image', IMAGE_URL);
     forceMeta('og:image:secure_url', IMAGE_URL);
     forceMeta('og:image:width', '1200');
     forceMeta('og:image:height', '630');
     forceMeta('og:type', 'website');
     forceMeta('og:url', SITE_URL);
-
-    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const products = [
@@ -57,13 +46,6 @@ export default function QuitoFreshMaestroFinal() {
     { id: 8, name: "Tropic Glow", desc: "Piña, Coco y Cúrcuma", price: null, accent: "#FFD600", tag: "PRÓXIMAMENTE", available: false },
   ];
 
-  const updateQty = (id, delta) => {
-    setCart(prev => prev.map(item => item.id === id ? { ...item, qty: Math.max(0, item.qty + delta) } : item).filter(i => i.qty > 0));
-  };
-
-  const removeItem = (id) => setCart(prev => prev.filter(item => item.id !== id));
-  const clearCart = () => setCart([]);
-
   const addToCart = (p) => {
     if (!p.available) return;
     setCart(prev => {
@@ -74,9 +56,16 @@ export default function QuitoFreshMaestroFinal() {
     setIsCartOpen(true);
   };
 
+  // NUEVO: Función de WhatsApp reescrita para ser profesional y estructurada (Point 3)
   const sendWhatsApp = () => {
-    const message = encodeURIComponent(`Hola Quito Fresh, mi pedido es:\n${cart.map(i => `- ${i.name} (${i.qty} unid.)`).join('\n')}\nTotal: $${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}`);
-    window.open(`https://wa.me/593995849214?text=${message}`, '_blank');
+    const messageIntro = "*🏔️ Hola Quito Fresh! Listos para la Frescura Real? 🍃*\n\nMi selección para disfrutar:\n";
+    const messageItems = cart.map(i => `• *${i.name}* x${i.qty} = *$${(i.price * i.qty).toFixed(2)}*`).join('\n');
+    const totalAmount = cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2);
+    const messageTotal = `\n\n👉 Total a cancelar: *$${totalAmount}*`;
+    const messageOutro = "\n\n📲 *Espero mi pack Cold Pressed!* Gracias.";
+
+    const fullMessage = encodeURIComponent(messageIntro + messageItems + messageTotal + messageOutro);
+    window.open(`https://wa.me/593995849214?text=${fullMessage}`, '_blank');
   };
 
   if (!mounted) return null;
@@ -101,7 +90,7 @@ export default function QuitoFreshMaestroFinal() {
 
         .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
         
-        /* ESTILO GEL-CARAMELO PREMIUM: Con difuminado celeste tropical integrado */
+        /* ESTILO GEL-CARAMELO PREMIUM CORREGIDO: Con difuminado celeste tropical VISIBLE */
         .text-gel-caramelo-premium {
           font-family: 'Titan One', cursive; /* Titan One para la base redonda y orgánica que complementa al bold sans-serif */
           position: relative;
@@ -113,9 +102,9 @@ export default function QuitoFreshMaestroFinal() {
             /* Sombras externas para volumen 3D */
             0px 4px 0px rgba(0,0,0,0.1), 
             0px 8px 15px rgba(0,0,0,0.1),
-            /* NUEVO: Difuminado Celeste Tropical integrado alrededor y debajo del caramelo */
-            0px 0px 30px ${CELESTE_LOGO},
-            0px 0px 50px ${CELESTE_LOGO}99;
+            /* CORRECCIÓN: Difuminado Celeste Tropical POTENTE y VISIBLE alrededor y debajo del caramelo */
+            0px 0px 25px ${CELESTE_LOGO},
+            0px 0px 45px ${CELESTE_LOGO}99;
           filter: url(#gel-viscosity);
           line-height: 1.1;
         }
@@ -131,7 +120,7 @@ export default function QuitoFreshMaestroFinal() {
         
         .bg-accent { position: absolute; pointer-events: none; z-index: 0; opacity: 0.6; }
         
-        /* CORRECCIÓN: Niebla Interactiva reemplazada por Niebla Sensorial de "Respiración" */
+        /* CORRECCIÓN: Niebla Interactiva reemplazada por Niebla Sensorial Criogénica de "Respiración" */
         .sensory-fog-layer {
           position: fixed;
           top: 0; left: 0; width: 100vw; height: 100vh;
@@ -146,7 +135,7 @@ export default function QuitoFreshMaestroFinal() {
         }
       ` }} />
 
-      {/* EFECTO NIEBLA SENSORIAL DE RESPIRACIÓN */}
+      {/* EFECTO NIEBLA SENSORIAL CRIOGÉNICA DE RESPIRACIÓN */}
       <div className="sensory-fog-layer"></div>
 
       {/* NAVEGACIÓN */}
@@ -160,7 +149,7 @@ export default function QuitoFreshMaestroFinal() {
         <img src="1000786975.png" className="bg-accent" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
         <img src="1000786976.png" className="bg-accent" style={{ top: '20px', left: '-50px', width: '250px', opacity: 0.4 }} />
         <div style={{ position: 'relative', zIndex: 2 }}>
-          {/* NUEVO: Título Hero a juego con la fuente 'Poiret One' y efecto Caramelo */}
+          {/* NUEVO: Título Hero a juego con la fuente 'Titan One' y efecto Caramelo Gelatina */}
           <div style={{ fontWeight: 900, fontSize: '12px', color: CELESTE_LOGO, marginBottom: '20px' }}>FRESCURA PURA</div>
           <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: CELESTE_LOGO }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
           <img src="1000786698.png" alt="Logo Hero" style={{ maxWidth: '380px', margin: '0 auto', display: 'block' }} />
@@ -182,7 +171,7 @@ export default function QuitoFreshMaestroFinal() {
         <img src="1000786977.png" className="bg-accent" style={{ bottom: '0', right: '-150px', width: '500px', opacity: 0.15 }} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            {/* NUEVO: Título 'Sobre Nosotros' con efecto Caramelo y fuente Poiret One a juego */}
+            {/* NUEVO: Título 'Sobre Nosotros' con efecto Caramelo Gelatina y fuente Titan One a juego */}
             <h3 className="text-gel-caramelo-premium" style={{ color: CELESTE_LOGO, marginBottom: '20px', fontSize: '1.5rem' }}>Nuestra Misión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina, fomentando un estilo de vida consciente, natural y lleno de energía vital.</p>
           </div>
@@ -201,14 +190,14 @@ export default function QuitoFreshMaestroFinal() {
 
       {/* PRODUCTOS */}
       <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        {/* Título de Sección con efecto Caramelo */}
+        {/* Título de Sección con efecto Caramelo Gelatina */}
         <h2 className="text-gel-caramelo-premium" style={{ textAlign: 'center', fontSize: '4rem', marginBottom: '70px', color: '#1A1A1A' }}>NUESTRO SURTIDO PREMIUM</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
           {products.map(p => (
             <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
               <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
               
-              {/* NUEVO: Nombres de Sabores con efecto Caramelo Gelatina y difuminado celeste tropical */}
+              {/* NUEVO: Nombres de Sabores con efecto Caramelo Gelatina y difuminado celeste tropical VISIBLE */}
               <h3 className="text-gel-caramelo-premium" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
               
               <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
@@ -270,7 +259,7 @@ export default function QuitoFreshMaestroFinal() {
               </div>
               <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
               {/* Botón WhatsApp intácto y funcional */}
-              <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP 📲</button>
+              <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP</button>
             </div>
           )}
         </div>

@@ -56,8 +56,7 @@ export default function QuitoFreshElite() {
   }, []);
 
   const products = [
-    /* Nombre modificado para permitir el quiebre visual */
-    { id: 1, name: "Maracu-mora", desc: "La fusión perfecta: Maracuyá y Mora", price: 1.00, accent: "#E91E63", tag: "SABOR ESTRELLA", available: true },
+    { id: 1, name: "Maracumora", desc: "La fusión perfecta: Maracuyá y Mora", price: 1.00, accent: "#E91E63", tag: "SABOR ESTRELLA", available: true },
     { id: 2, name: "Green Boost", desc: "Manzana, Apio, Espinaca y Jengibre", price: null, accent: "#8CC63F", tag: "PRÓXIMAMENTE", available: false },
     { id: 3, name: "Berry Bliss", desc: "Frutos Rojos y Mora Silvestre", price: null, accent: "#E91E63", tag: "PRÓXIMAMENTE", available: false },
     { id: 4, name: "Gold Citrus", desc: "Maracuyá & Cítricos", price: null, accent: "#FFB300", tag: "PRÓXIMAMENTE", available: false },
@@ -159,40 +158,73 @@ export default function QuitoFreshElite() {
           100% { opacity: 0; transform: scale(2.5) translateY(-20px); }
         }
 
+        /* ACTUALIZACIÓN: Layout flexbox para centrado por defecto */
         .product-card { 
           border: 1.5px solid #EEE; 
           border-radius: 40px; 
           padding: 40px; 
-          text-align: center; 
-          transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+          transition: 0.4s; 
           background: white; 
           position: relative; 
           z-index: 2; 
           overflow: visible; 
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
         }
         .product-card:hover { 
           transform: translateY(-8px); 
           box-shadow: 0 30px 50px rgba(0, 173, 239, 0.1); 
         }
-        .featured { border: 4px solid #E91E63; }
         
-        /* Ajuste de posición para que la botella "abrace" el texto quebrado */
+        /* ACTUALIZACIÓN: Anulación quirúrgica del centrado para el producto estrella */
+        .product-card.featured { 
+          border: 4px solid #E91E63; 
+          text-align: left; 
+          align-items: flex-start;
+        }
+
+        .product-content-wrapper { width: 100%; }
+        
+        /* Layout flexbox interno para asimetría profesional */
+        .product-card.featured .product-content-wrapper {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          gap: 20px; /* Espacio profesional entre texto y botella */
+        }
+        
+        /* ACTUALIZACIÓN: Reposicionamiento de la botella para integrarse dentro del recuadro a la derecha */
         .bottle-ultra-fresh {
-          position: absolute;
-          top: -90px; 
-          right: -15px;
-          width: 190px; 
-          filter: drop-shadow(20px 40px 50px rgba(0,0,0,0.3));
+          position: relative;
+          width: 195px; /* Agrandada quirúrgicamente para protagonismo */
+          filter: drop-shadow(20px 30px 40px rgba(0,0,0,0.2));
           z-index: 10;
           pointer-events: none;
           transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+          order: 2; /* Botella a la derecha */
         }
         .product-card:hover .bottle-ultra-fresh {
-          transform: translateY(-10px) rotate(8deg) scale(1.05);
+          transform: translateY(-10px) rotate(8deg) scale(1.08);
+        }
+
+        /* Contenedor de información para el flexbox destacado */
+        .product-card.featured .product-info-container {
+          flex: 1;
+          max-width: 60%; /* Ancho controlado quirúrgicamente */
+          position: relative;
+          z-index: 5;
         }
 
         .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
         .btn-main:active { transform: scale(0.95); }
+
+        /* Botón siempre al fondo y centrado quirúrgicamente */
+        .product-card .btn-main {
+          margin-top: auto;
+        }
         
         .sensory-fog-layer {
           position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -253,21 +285,25 @@ export default function QuitoFreshElite() {
           {products.map(p => (
             <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
               
-              {p.id === 1 && (
-                <div className="bottle-ultra-fresh">
-                  <img src={BOTELLA_MARACUMORA_ASSET} alt="Maracumora" style={{ width: '100%' }} />
-                </div>
-              )}
+              {/* JSX ACTUALIZADO QUIRÚRGICAMENTE: Layout asimétrico para integración profesional */}
+              <div className="product-content-wrapper">
+                {p.id === 1 && (
+                  <div className="bottle-ultra-fresh">
+                    <img src={BOTELLA_MARACUMORA_ASSET} alt="Maracumora con Gotas" style={{ width: '100%' }} />
+                  </div>
+                )}
 
-              <div style={{ position: 'relative', zIndex: 5 }}>
-                <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
-                {/* Nombre centrado con manejo de guiones para el quiebre */}
-                <h3 className="text-gel-caramelo-premium" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999', wordBreak: 'break-word', lineHeight: 1 }}>
-                  {p.name}
-                </h3>
-                <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
-                {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A' }}>${p.price.toFixed(2)}</div>}
-                
+                <div className="product-info-container" style={{ position: 'relative', zIndex: 5 }}>
+                  <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
+                  <h3 className="text-gel-caramelo-premium" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
+                  
+                  {/* JSX RESTAURADO A ORIGINAL: Sin condicionales de margen ni alineación forzada */}
+                  <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
+                  {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A' }}>${p.price.toFixed(2)}</div>}
+                </div>
+              </div>
+              
+              <div style={{ width: '100%' }}>
                 {p.available ? (
                   <button onClick={() => addToCart(p)} className="btn-main" style={{ background: p.accent }}>AÑADIR AL PACK</button>
                 ) : (

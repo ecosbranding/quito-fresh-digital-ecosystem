@@ -175,19 +175,19 @@ export default function QuitoFreshElite() {
         }
         .featured { border: 4px solid #E91E63; }
         
+        /* ÚNICO CAMBIO: Reposicionamiento de la botella para liberar el texto */
         .bottle-ultra-fresh {
           position: absolute;
-          top: -125px; 
-          right: -25px;
-          width: 205px; 
+          top: -140px; 
+          right: -70px;
+          width: 195px; 
           filter: drop-shadow(20px 40px 50px rgba(0,0,0,0.3));
           z-index: 10;
           pointer-events: none;
           transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .product-card:hover .bottle-ultra-fresh {
-          transform: translateY(-15px) rotate(10deg) scale(1.12);
-          filter: drop-shadow(30px 60px 70px rgba(0,0,0,0.4));
+          transform: translateY(-15px) rotate(10deg) scale(1.1);
         }
 
         .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
@@ -261,9 +261,11 @@ export default function QuitoFreshElite() {
               <div style={{ position: 'relative', zIndex: 5 }}>
                 <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
                 <h3 className="text-gel-caramelo-premium" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
-                {/* Ajuste de margen para que el texto no choque con la botella flotante */}
-                <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px', maxWidth: p.id === 1 ? '160px' : '100%', margin: p.id === 1 ? '0 0 30px' : '0 auto 30px', textAlign: p.id === 1 ? 'left' : 'center' }}>{p.desc}</p>
-                {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A', textAlign: p.id === 1 ? 'left' : 'center' }}>${p.price.toFixed(2)}</div>}
+                
+                {/* JSX RESTAURADO A ORIGINAL: Sin maxWidth ni alineación forzada */}
+                <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
+                {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A' }}>${p.price.toFixed(2)}</div>}
+                
                 {p.available ? (
                   <button onClick={() => addToCart(p)} className="btn-main" style={{ background: p.accent }}>AÑADIR AL PACK</button>
                 ) : (

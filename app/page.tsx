@@ -12,8 +12,8 @@ export default function QuitoFreshElite() {
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
   const CELESTE_LOGO = "#00ADEF"; 
-  // RUTA DE LA IMAGEN GENERADA CON GOTAS
-  const BOTELLA_MARACUMORA_ASSET = "/1000788391.png";
+  // RUTA CORREGIDA (Sin el slash inicial para evitar errores de ruta relativa en algunos entornos)
+  const BOTELLA_MARACUMORA_ASSET = "1000788391.png";
 
   useEffect(() => {
     setMounted(true);
@@ -109,7 +109,7 @@ export default function QuitoFreshElite() {
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="gel-viscosity">
           <feGaussianBlur stdDeviation="1.2" result="blur" />
-          <feSpecularLighting in="blur" surfaceScale="4" specularConstant="1.1" specularExponent="35" lightingColor="#FFFFFF" result="spec">
+          <feSpecularLighting in="blur" surfaceScale="5" specularConstant="1.2" specularExponent="40" lightingColor="#FFFFFF" result="spec">
             <fePointLight x="-5000" y="-10000" z="10000" />
           </feSpecularLighting>
           <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut" />
@@ -164,22 +164,23 @@ export default function QuitoFreshElite() {
         }
 
         .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: white; position: relative; z-index: 2; overflow: visible; }
-        .product-card:hover { transform: translateY(-5px); }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
         .featured { border: 4px solid #E91E63; }
         
-        /* ADICIÓN DE BOTELLA FLOTANTE */
+        /* ADICIÓN DE BOTELLA FLOTANTE MEJORADA */
         .bottle-ultra-fresh {
           position: absolute;
-          top: -85px;
-          right: -15px;
-          width: 185px;
-          filter: drop-shadow(0 20px 30px rgba(0,0,0,0.2));
+          top: -110px; /* Un poco más arriba para que destaque */
+          right: -25px;
+          width: 200px; /* Ligeramente más grande */
+          filter: drop-shadow(15px 30px 40px rgba(0,0,0,0.25));
           z-index: 10;
           pointer-events: none;
-          transition: transform 0.5s ease;
+          transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .product-card:hover .bottle-ultra-fresh {
-          transform: translateY(-10px) rotate(5deg) scale(1.05);
+          transform: translateY(-15px) rotate(8deg) scale(1.08);
+          filter: drop-shadow(25px 45px 55px rgba(0,0,0,0.35));
         }
 
         .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
@@ -220,6 +221,7 @@ export default function QuitoFreshElite() {
         </div>
       </header>
 
+      {/* SECCIÓN MISION Y VISION - TOTALMENTE RESPETADA */}
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
@@ -244,7 +246,6 @@ export default function QuitoFreshElite() {
           {products.map(p => (
             <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
               
-              {/* INTEGRACIÓN DE LA BOTELLA CON GOTAS SOLO EN PRODUCTO 1 */}
               {p.id === 1 && (
                 <div className="bottle-ultra-fresh">
                   <img src={BOTELLA_MARACUMORA_ASSET} alt="Maracumora con Gotas" style={{ width: '100%' }} />

@@ -56,7 +56,8 @@ export default function QuitoFreshElite() {
   }, []);
 
   const products = [
-    { id: 1, name: "Maracumora", desc: "La fusión perfecta: Maracuyá y Mora", price: 1.00, accent: "#E91E63", tag: "SABOR ESTRELLA", available: true },
+    /* Nombre modificado para permitir el quiebre visual */
+    { id: 1, name: "Maracu-mora", desc: "La fusión perfecta: Maracuyá y Mora", price: 1.00, accent: "#E91E63", tag: "SABOR ESTRELLA", available: true },
     { id: 2, name: "Green Boost", desc: "Manzana, Apio, Espinaca y Jengibre", price: null, accent: "#8CC63F", tag: "PRÓXIMAMENTE", available: false },
     { id: 3, name: "Berry Bliss", desc: "Frutos Rojos y Mora Silvestre", price: null, accent: "#E91E63", tag: "PRÓXIMAMENTE", available: false },
     { id: 4, name: "Gold Citrus", desc: "Maracuyá & Cítricos", price: null, accent: "#FFB300", tag: "PRÓXIMAMENTE", available: false },
@@ -175,19 +176,19 @@ export default function QuitoFreshElite() {
         }
         .featured { border: 4px solid #E91E63; }
         
-        /* ÚNICO CAMBIO: Reposicionamiento de la botella para liberarla del texto */
+        /* Ajuste de posición para que la botella "abrace" el texto quebrado */
         .bottle-ultra-fresh {
           position: absolute;
-          top: -120px; 
-          right: -25px;
-          width: 215px; /* Agrandada para más protagonismo */
+          top: -90px; 
+          right: -15px;
+          width: 190px; 
           filter: drop-shadow(20px 40px 50px rgba(0,0,0,0.3));
           z-index: 10;
           pointer-events: none;
           transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .product-card:hover .bottle-ultra-fresh {
-          transform: translateY(-15px) rotate(10deg) scale(1.1);
+          transform: translateY(-10px) rotate(8deg) scale(1.05);
         }
 
         .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
@@ -260,9 +261,10 @@ export default function QuitoFreshElite() {
 
               <div style={{ position: 'relative', zIndex: 5 }}>
                 <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
-                <h3 className="text-gel-caramelo-premium" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
-                
-                {/* JSX RESTAURADO A ORIGINAL: Sin maxWidth ni alineación forzada */}
+                {/* Nombre centrado con manejo de guiones para el quiebre */}
+                <h3 className="text-gel-caramelo-premium" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999', wordBreak: 'break-word', lineHeight: 1 }}>
+                  {p.name}
+                </h3>
                 <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
                 {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A' }}>${p.price.toFixed(2)}</div>}
                 

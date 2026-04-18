@@ -175,12 +175,12 @@ export default function QuitoFreshElite() {
         }
         .featured { border: 4px solid #E91E63; }
         
-        /* ÚNICO CAMBIO: Reposicionamiento de la botella para liberar el texto */
+        /* ÚNICO CAMBIO: Reposicionamiento de la botella para liberarla del texto */
         .bottle-ultra-fresh {
           position: absolute;
-          top: -140px; 
-          right: -70px;
-          width: 195px; 
+          top: -120px; 
+          right: -25px;
+          width: 215px; /* Agrandada para más protagonismo */
           filter: drop-shadow(20px 40px 50px rgba(0,0,0,0.3));
           z-index: 10;
           pointer-events: none;

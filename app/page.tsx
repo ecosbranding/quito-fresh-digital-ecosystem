@@ -106,8 +106,8 @@ export default function QuitoFreshElite() {
       
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="gel-viscosity">
-          <feGaussianBlur stdDeviation="1.5" result="blur" />
-          <feSpecularLighting in="blur" surfaceScale="5" specularConstant="1" specularExponent="40" lightingColor="#FFFFFF" result="spec">
+          <feGaussianBlur stdDeviation="1.2" result="blur" />
+          <feSpecularLighting in="blur" surfaceScale="4" specularConstant="1.1" specularExponent="35" lightingColor="#FFFFFF" result="spec">
             <fePointLight x="-5000" y="-10000" z="10000" />
           </feSpecularLighting>
           <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut" />
@@ -120,35 +120,34 @@ export default function QuitoFreshElite() {
 
         .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
         
-        .text-surtido-limpio {
+        .text-surtido-gel {
           font-family: 'Titan One', cursive;
           color: ${CELESTE_LOGO};
           text-align: center;
           font-size: 4rem;
           margin-bottom: 70px;
           line-height: 1.1;
-          text-shadow: none !important;
-          filter: none !important;
+          filter: url(#gel-viscosity);
+          text-shadow: none;
         }
 
-        .titulo-seccion-limpio {
+        .titulo-seccion-gel {
+          font-family: 'Titan One', cursive;
           color: ${CELESTE_LOGO};
           margin-bottom: 20px;
-          font-size: 1.5rem;
-          font-weight: 900;
+          font-size: 1.8rem;
           text-transform: uppercase;
-          text-shadow: none !important;
-          filter: none !important;
+          filter: url(#gel-viscosity);
+          text-shadow: none;
         }
 
         .text-gel-caramelo-premium {
           font-family: 'Titan One', cursive;
           position: relative;
-          color: white; 
           mix-blend-mode: normal;
-          text-shadow: none !important; /* ACTUALIZADO: Sin sombras */
           filter: url(#gel-viscosity);
           line-height: 1.1;
+          text-shadow: none;
         }
 
         .fog-puff {
@@ -207,11 +206,11 @@ export default function QuitoFreshElite() {
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="titulo-seccion-limpio">Nuestra Misión</h3>
+            <h3 className="titulo-seccion-gel">Nuestra Misión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina.</p>
           </div>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="titulo-seccion-limpio">Nuestra Visión</h3>
+            <h3 className="titulo-seccion-gel">Nuestra Visión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Ser líderes en bienestar premium en Ecuador.</p>
           </div>
           <div style={{ background: CELESTE_LOGO, padding: '50px', borderRadius: '40px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -223,7 +222,7 @@ export default function QuitoFreshElite() {
       </section>
 
       <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        <h2 className="text-surtido-limpio">NUESTRO SURTIDO PREMIUM</h2>
+        <h2 className="text-surtido-gel">NUESTRO SURTIDO PREMIUM</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
           {products.map(p => (
             <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>

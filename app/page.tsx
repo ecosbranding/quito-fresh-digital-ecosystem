@@ -5,24 +5,19 @@ export default function QuitoFreshMaestroFinal() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  
-  // NUEVO: Estado para rastrear el cursor y crear la niebla interactiva
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  // Enlaces de alta prioridad para Meta y WhatsApp
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
 
   useEffect(() => {
     setMounted(true);
     
-    // NUEVO: Listener para interacción de frescura (Niebla y Hielos)
     const handleMouseMove = (e) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener('mousemove', handleMouseMove);
     
-    // Inyección de Meta Tags sin afectar el renderizado visual
     const forceMeta = (property, content) => {
       let el = document.querySelector(`meta[property="${property}"]`);
       if (!el) {
@@ -83,75 +78,46 @@ export default function QuitoFreshMaestroFinal() {
   return (
     <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
       
-      {/* NUEVO: Importación de fuentes Google para el efecto Gelatina (Titan One y Sniglet) */}
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&family=Sniglet:wght@800&display=swap');
 
         .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
         
-        /* ESTILO GEL 3D - Resuelve el problema de las mayúsculas forzando "Capitalize" */
         .text-gel-3d {
           font-family: 'Titan One', cursive;
-          text-transform: capitalize !important; /* Convierte MARACUMORA en Maracumora para que se lea perfecto */
+          text-transform: capitalize !important;
           position: relative;
-          text-shadow: 
-            0px 4px 0px rgba(0,0,0,0.1), 
-            0px 8px 15px rgba(0,0,0,0.1),
-            inset 0px 4px 6px rgba(255,255,255,0.7); /* Brillo superior 3D */
+          text-shadow: 0px 4px 0px rgba(0,0,0,0.1), 0px 8px 15px rgba(0,0,0,0.1);
           line-height: 1.1;
         }
 
-        /* Gotas cayendo del texto Gel */
-        .text-gel-3d::after {
-          content: '💧';
-          position: absolute;
-          font-size: 14px;
-          bottom: -15px;
-          right: 10px;
-          opacity: 0;
-          animation: drop-fall 3s infinite ease-in;
-          filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
-        }
-
-        @keyframes drop-fall {
-          0% { transform: translateY(0); opacity: 0.8; }
-          100% { transform: translateY(20px); opacity: 0; }
-        }
-
         .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); position: relative; z-index: 2; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
         .featured { border: 4px solid #E91E63; }
         .btn-main { background: #8CC63F; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
         .bg-accent { position: absolute; pointer-events: none; z-index: 0; opacity: 0.6; }
         
-        /* NIEBLA INTERACTIVA (Cursor) */
         .interactive-fog {
           position: fixed;
           top: 0; left: 0; width: 100vw; height: 100vh;
           pointer-events: none; z-index: 10;
-          background: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, rgba(240, 248, 255, 0.4) 100%);
-          transition: background 0.1s;
+          background: radial-gradient(circle 200px at var(--mx) var(--my), transparent 0%, rgba(240, 248, 255, 0.4) 100%);
         }
 
-        /* HIELOS FLOTANTES */
         .ice-parallax { position: absolute; pointer-events: none; font-size: 2rem; z-index: 1; opacity: 0.7; }
       ` }} />
 
-      {/* INYECCIÓN DE VARIABLES CSS PARA LA NIEBLA INTERACTIVA */}
-      <div className="interactive-fog" style={{ '--mouse-x': \`\${mousePos.x}px\`, '--mouse-y': \`\${mousePos.y}px\` } as React.CSSProperties}></div>
+      {/* CORRECCIÓN: Se eliminaron las comillas invertidas problemáticas en el style */}
+      <div className="interactive-fog" style={{ '--mx': `${mousePos.x}px`, '--my': `${mousePos.y}px` } as any}></div>
 
-      {/* NAVEGACIÓN */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: '1px solid #EEE' }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
         <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
-      {/* HERO SECTION CON IMÁGENES DE FONDO E INTERACCIÓN DE HIELOS */}
       <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
         <img src="1000786975.png" className="bg-accent" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
         <img src="1000786976.png" className="bg-accent" style={{ top: '20px', left: '-50px', width: '250px', opacity: 0.4 }} />
         
-        {/* Hielos Parallax reactivos al mouse */}
         <div className="ice-parallax" style={{ top: '15%', left: '10%', transform: `translate(${mousePos.x * 0.02}px, ${mousePos.y * 0.02}px)` }}>🧊</div>
         <div className="ice-parallax" style={{ bottom: '20%', right: '15%', transform: `translate(${mousePos.x * -0.03}px, ${mousePos.y * -0.03}px)`, fontSize: '3rem' }}>🧊</div>
 
@@ -162,7 +128,6 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </header>
 
-      {/* BENEFICIOS */}
       <section style={{ display: 'flex', justifyContent: 'center', gap: '50px', padding: '60px 20px', flexWrap: 'wrap', borderBottom: '1px solid #F5F5F5', position: 'relative', zIndex: 2 }}>
         {["100% PRENSADO EN FRÍO", "ORIGEN ANDINO", "ENERGÍA NATURAL"].map((text, i) => (
           <div key={i} style={{ textAlign: 'center', maxWidth: '140px' }}>
@@ -172,7 +137,6 @@ export default function QuitoFreshMaestroFinal() {
         ))}
       </section>
 
-      {/* SOBRE NOSOTROS */}
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <img src="1000786977.png" className="bg-accent" style={{ bottom: '0', right: '-150px', width: '500px', opacity: 0.15 }} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
@@ -192,20 +156,15 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </section>
 
-      {/* PRODUCTOS */}
       <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        {/* Hielo Parallax de la sección productos */}
         <div className="ice-parallax" style={{ top: '5%', right: '5%', transform: `translate(${mousePos.x * 0.015}px, ${mousePos.y * 0.015}px)` }}>🧊</div>
         
-        <h2 className="text-gel-3d" style={{ textAlign: 'center', fontSize: '4rem', marginBottom: '70px', color: '#1A1A1A' }}>NUESTRO SURTIDO</h2>
+        <h2 className="text-gel-3d" style={{ textAlign: 'center', fontSize: '4rem', marginBottom: '70px', color: '#1A1A1A' }}>Nuestro Surtido</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
           {products.map(p => (
             <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
               <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
-              
-              {/* AQUÍ ESTÁ EL EFECTO: Títulos Capitalizados + Fuente Gel 3D */}
               <h3 className="text-gel-3d" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
-              
               <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
               {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px' }}>${p.price.toFixed(2)}</div>}
               {p.available ? (
@@ -218,7 +177,6 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center', position: 'relative', zIndex: 20 }}>
         <img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
         <div className="text-bold" style={{ fontSize: '12px', letterSpacing: '4px', opacity: 0.8, marginBottom: '15px' }}>QUITO FRESH — PUREZA REAL</div>
@@ -227,7 +185,6 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </footer>
 
-      {/* MODAL CARRITO */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>
@@ -241,7 +198,6 @@ export default function QuitoFreshMaestroFinal() {
               cart.map(i => (
                 <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', paddingBottom: '15px', borderBottom: '1px solid #F9F9F9' }}>
                   <div style={{ flex: 1 }}>
-                    {/* El Carrito también hereda la fuente gel 3D limpia */}
                     <div className="text-gel-3d" style={{ fontSize: '1.2rem', color: i.accent }}>{i.name}</div>
                     <div style={{ fontSize: '13px', color: '#8CC63F', fontWeight: 700 }}>${(i.price * i.qty).toFixed(2)}</div>
                   </div>
@@ -262,7 +218,7 @@ export default function QuitoFreshMaestroFinal() {
                 <span>${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}</span>
               </div>
               <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
-              <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP</button>
+              <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP 📲</button>
             </div>
           )}
         </div>

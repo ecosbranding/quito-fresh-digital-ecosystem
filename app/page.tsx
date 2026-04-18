@@ -68,7 +68,7 @@ export default function QuitoFreshElite() {
   const sendWhatsApp = () => {
     const total = cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2);
     const itemsText = cart.map(i => `🥤 *${i.name.toUpperCase()}* — (${i.qty} unid.)`).join('\n');
-    const message = encodeURIComponent(`*🏔️ ¡NUEVO PEDIDO QUITO FRESH! 🍃*\n...\n💰 *TOTAL: $${total}*`);
+    const message = encodeURIComponent(`*🏔️ ¡NUEVO PEDIDO QUITO FRESH! 🍃*\n\n${itemsText}\n\n💰 *TOTAL: $${total}*`);
     window.open(`https://wa.me/593995849214?text=${message}`, '_blank');
   };
 
@@ -77,7 +77,7 @@ export default function QuitoFreshElite() {
   return (
     <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
       
-      {/* FILTRO DE GEL RE-OPTIMIZADO: Sin sombras externas, solo relieve interno */}
+      {/* Filtro de Viscosidad para Efecto Gel */}
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="gel-viscosity-clean">
           <feGaussianBlur stdDeviation="1" result="blur" />
@@ -91,98 +91,59 @@ export default function QuitoFreshElite() {
       
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
-
-        .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
-        
-        /* Título Surtido: Restaurado efecto viscoso pero SIN resplandor azul */
-        .text-surtido-viscoso {
-          font-family: 'Titan One', cursive;
-          color: ${CELESTE_LOGO};
-          text-align: center;
-          font-size: 3.5rem;
-          margin-bottom: 70px;
-          line-height: 1.1;
-          filter: url(#gel-viscosity-clean); /* Regresa el efecto de relieve */
-          text-shadow: none; /* Eliminación de la sombra/aura azul */
-        }
-
-        /* Títulos Misión/Visión: Restaurado relieve de gel */
-        .titulo-seccion-viscoso {
-          font-family: 'Titan One', cursive;
-          color: ${CELESTE_LOGO};
-          margin-bottom: 20px;
-          font-size: 1.8rem;
-          filter: url(#gel-viscosity-clean); /* Efecto gel interno */
-          text-shadow: none;
-        }
-
-        .text-gel-producto {
-          font-family: 'Titan One', cursive;
-          filter: url(#gel-viscosity-clean);
-          line-height: 1.1;
-          text-shadow: none;
-        }
-
-        .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: white; position: relative; z-index: 2; }
+        .text-bold { font-weight: 900; text-transform: uppercase; }
+        .text-gel { font-family: 'Titan One', cursive; filter: url(#gel-viscosity-clean); line-height: 1.1; }
+        .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: white; }
         .featured { border: 4px solid #E91E63; }
         .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
-        
-        .fog-puff {
-          position: fixed; pointer-events: none; z-index: 9999;
-          background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
-          border-radius: 50%; filter: blur(15px);
-          animation: puffOut 1.2s ease-out forwards;
-        }
-        @keyframes puffOut {
-          0% { opacity: 0.6; transform: scale(0.3) translateY(0); }
-          100% { opacity: 0; transform: scale(2.5) translateY(-20px); }
-        }
+        .fog-puff { position: fixed; pointer-events: none; z-index: 9999; background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%); border-radius: 50%; filter: blur(15px); animation: puffOut 1.2s forwards; }
+        @keyframes puffOut { 0% { opacity: 0.6; transform: scale(0.3); } 100% { opacity: 0; transform: scale(2.5); } }
       ` }} />
 
-      {fogParticles.map(p => (
-        <div key={p.id} className="fog-puff" style={{ left: p.x - 50, top: p.y - 50, width: '100px', height: '100px' }} />
-      ))}
-
-      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
+      {/* Navegación */}
+      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'white', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
-        <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
+        <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>
+          MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})
+        </button>
       </nav>
 
-      {/* HERO SECTION SIN IMAGEN AMARILLA */}
-      <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FFFFFF' }}>
-        <div style={{ position: 'relative', zIndex: 2 }}>
-          <div style={{ fontWeight: 900, fontSize: '12px', color: CELESTE_LOGO, marginBottom: '20px' }}>FRESCURA PURA</div>
-          <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: CELESTE_LOGO }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
-          <img src="1000786698.png" alt="Logo Hero" style={{ maxWidth: '380px', margin: '0 auto', display: 'block' }} />
-        </div>
+      {/* Hero */}
+      <header style={{ padding: '80px 20px', textAlign: 'center' }}>
+        <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9 }}>
+          TU VIDA <br/><span style={{ color: CELESTE_LOGO }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.
+        </h1>
       </header>
 
-      {/* SECCIÓN SOBRE NOSOTROS: CON EFECTO GEL RESTAURADO */}
-      <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
+      {/* Misión, Visión y Llevando Felicidad */}
+      <section style={{ padding: '60px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="titulo-seccion-viscoso">Nuestra Misión</h3>
+            <h3 className="text-gel" style={{ color: CELESTE_LOGO, fontSize: '1.8rem' }}>Nuestra Misión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina.</p>
           </div>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="titulo-seccion-viscoso">Nuestra Visión</h3>
+            <h3 className="text-gel" style={{ color: CELESTE_LOGO, fontSize: '1.8rem' }}>Nuestra Visión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Ser líderes en bienestar premium en Ecuador.</p>
           </div>
-          <div style={{ background: CELESTE_LOGO, padding: '50px', borderRadius: '40px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <h3 className="text-bold" style={{ marginBottom: '10px', fontSize: '1.2rem' }}>Llevando Felicidad</h3>
-            <div className="text-bold" style={{ fontSize: '3.5rem', lineHeight: 1 }}>2026</div>
+          <div style={{ background: CELESTE_LOGO, padding: '50px', borderRadius: '40px', color: 'white' }}>
+            <h3 className="text-bold" style={{ fontSize: '1.2rem' }}>Llevando Felicidad</h3>
+            <div className="text-bold" style={{ fontSize: '3.5rem' }}>2026</div>
+            <p style={{ fontSize: '14px', marginTop: '10px' }}>Frescura absoluta del campo directamente a tu mano.</p>
           </div>
         </div>
       </section>
 
-      {/* PRODUCTOS: CON EFECTO GEL RESTAURADO */}
-      <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-        <h2 className="text-surtido-viscoso">NUESTRO SURTIDO PREMIUM</h2>
+      {/* Productos */}
+      <section style={{ padding: '60px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+        <h2 className="text-gel" style={{ color: CELESTE_LOGO, textAlign: 'center', fontSize: '3.5rem', marginBottom: '60px' }}>
+          NUESTRO SURTIDO PREMIUM
+        </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
           {products.map(p => (
             <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
               <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
-              <h3 className="text-gel-producto" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
+              <h3 className="text-gel" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
               <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
               {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px' }}>${p.price.toFixed(2)}</div>}
               <button onClick={() => addToCart(p)} className="btn-main" style={{ background: p.available ? p.accent : '#EEE' }} disabled={!p.available}>
@@ -193,31 +154,46 @@ export default function QuitoFreshElite() {
         </div>
       </section>
 
-      {/* MODAL CARRITO (MANTENIDO) */}
+      {/* Pie de Página Web */}
+      <footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center' }}>
+        <img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
+        <div style={{ fontSize: '10px', opacity: 0.4, letterSpacing: '1px', textTransform: 'uppercase' }}>
+          Hecho por <span style={{ fontWeight: 800 }}>ECOS Branding</span> & <span style={{ fontWeight: 800 }}>ORCA Studios</span> © 2026.
+        </div>
+      </footer>
+
+      {/* Carrito con Suma Total y Vaciar */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>
             <span className="text-bold">TU SELECCIÓN</span>
-            <button onClick={() => setIsCartOpen(false)} style={{ border: 'none', background: 'none', fontSize: '24px' }}>✕</button>
+            <button onClick={() => setIsCartOpen(false)} style={{ border: 'none', background: 'none', fontSize: '24px', cursor: 'pointer' }}>✕</button>
           </div>
           <div style={{ flex: 1, padding: '25px', overflowY: 'auto' }}>
             {cart.map(i => (
-              <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '25px' }}>
-                <div>
+              <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+                <div style={{ flex: 1 }}>
                   <div className="text-bold" style={{ color: i.accent }}>{i.name}</div>
-                  <div style={{ fontSize: '13px' }}>${(i.price * i.qty).toFixed(2)}</div>
+                  <div style={{ fontSize: '13px', color: CELESTE_LOGO, fontWeight: 700 }}>${(i.price * i.qty).toFixed(2)}</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <button onClick={() => updateQty(i.id, -1)}>-</button>
+                  <button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>-</button>
                   <span style={{ fontWeight: 900 }}>{i.qty}</span>
-                  <button onClick={() => updateQty(i.id, 1)}>+</button>
-                  <button onClick={() => removeItem(i.id)}>❌</button>
+                  <button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>+</button>
+                  <button onClick={() => removeItem(i.id)} style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '16px' }}>❌</button>
                 </div>
               </div>
             ))}
           </div>
           {cart.length > 0 && (
-            <div style={{ padding: '30px', borderTop: '1px solid #EEE' }}>
+            <div style={{ padding: '30px', borderTop: `1px solid ${CELESTE_LOGO}22` }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.8rem', fontWeight: 900, marginBottom: '25px' }}>
+                <span>TOTAL</span>
+                <span style={{ color: CELESTE_LOGO }}>${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}</span>
+              </div>
+              <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>
+                VACIAR TODO EL PACK
+              </button>
               <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP 📲</button>
             </div>
           )}

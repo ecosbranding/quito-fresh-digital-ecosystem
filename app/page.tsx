@@ -102,7 +102,6 @@ export default function QuitoFreshElite() {
   return (
     <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
       
-      {/* Mantenemos los filtros SVG por si acaso, pero ya no los usamos en los títulos */}
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="gel-viscosity">
           <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -119,38 +118,34 @@ export default function QuitoFreshElite() {
 
         .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
         
-        /* Títulos Misión y Visión: Limpios y del color del logo */
         .text-surtido-limpio {
           font-family: 'Titan One', cursive;
-          color: ${CELESTE_LOGO}; /* Celeste Tropical exacto del logo */
+          color: ${CELESTE_LOGO};
           text-align: center;
           font-size: 4rem;
           margin-bottom: 70px;
           line-height: 1.1;
-          text-shadow: none; /* Eliminación total de sombras y glow */
-          filter: none; /* Eliminación total del efecto gel/viscosidad */
+          text-shadow: none; 
+          filter: none; 
         }
 
-        /* Títulos Misión y Visión: Limpios y del color del logo */
         .titulo-seccion-limpio {
-          color: ${CELESTE_LOGO}; /* Celeste del Logo */
+          color: ${CELESTE_LOGO};
           margin-bottom: 20px;
           font-size: 1.5rem;
           font-weight: 900;
           text-transform: uppercase;
-          text-shadow: none; /* Sin sombras */
-          filter: none; /* Sin efecto gel */
+          text-shadow: none;
+          filter: none;
         }
 
-        /* El resto de estilos se mantiene intacto */
+        /* ACTUALIZACIÓN: EFECTO CARAMELO SIN SOMBRAS */
         .text-gel-caramelo-premium {
           font-family: 'Titan One', cursive;
           position: relative;
           color: white; 
           mix-blend-mode: normal;
-          text-shadow: 
-            0px 3px 0px rgba(0,0,0,0.1),
-            0px 0px 15px ${CELESTE_LOGO}88;
+          text-shadow: none; /* ELIMINADA LA SOMBRA Y EL GLOW */
           filter: url(#gel-viscosity);
           line-height: 1.1;
         }
@@ -172,8 +167,6 @@ export default function QuitoFreshElite() {
         
         .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
         
-        .bg-accent { position: absolute; pointer-events: none; z-index: 0; opacity: 0.6; }
-        
         .sensory-fog-layer {
           position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
           pointer-events: none; z-index: 10;
@@ -186,22 +179,18 @@ export default function QuitoFreshElite() {
         }
       ` }} />
 
-      {/* RENDER DE RÁFAGAS DE NIEBLA (MANTENIDO) */}
       {fogParticles.map(p => (
         <div key={p.id} className="fog-puff" style={{ left: p.x - 50, top: p.y - 50, width: '100px', height: '100px' }} />
       ))}
 
       <div className="sensory-fog-layer"></div>
 
-      {/* NAVEGACIÓN (MANTENIDO) */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
         <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
-      {/* HERO SECTION (MICRO-AJUSTE: ELIMINACIÓN DE LA IMAGEN AMARILLA DE FONDO) */}
       <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
-        {/* --- CORRECCIÓN: Se eliminó la etiqueta <img> que cargaba '1000786975.png' --- */}
         <div style={{ position: 'relative', zIndex: 2 }}>
           <div style={{ fontWeight: 900, fontSize: '12px', color: CELESTE_LOGO, marginBottom: '20px' }}>FRESCURA PURA</div>
           <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: CELESTE_LOGO }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
@@ -209,16 +198,13 @@ export default function QuitoFreshElite() {
         </div>
       </header>
 
-      {/* SOBRE NOSOTROS (APLICADO MICRO-AJUSTE EN TÍTULOS) */}
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            {/* Título Misión Limpio */}
             <h3 className="titulo-seccion-limpio">Nuestra Misión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina.</p>
           </div>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            {/* Título Visión Limpio */}
             <h3 className="titulo-seccion-limpio">Nuestra Visión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Ser líderes en bienestar premium en Ecuador.</p>
           </div>
@@ -230,15 +216,12 @@ export default function QuitoFreshElite() {
         </div>
       </section>
 
-      {/* PRODUCTOS (APLICADO MICRO-AJUSTE EN TÍTULO DE SECCIÓN) */}
       <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        {/* Título Surtido Limpio y Celeste */}
         <h2 className="text-surtido-limpio">NUESTRO SURTIDO PREMIUM</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
           {products.map(p => (
             <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
               <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
-              {/* Nombres de producto mantienen su estilo de gel original (MANTENIDO) */}
               <h3 className="text-gel-caramelo-premium" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
               <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
               {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A' }}>${p.price.toFixed(2)}</div>}
@@ -252,7 +235,6 @@ export default function QuitoFreshElite() {
         </div>
       </section>
 
-      {/* FOOTER (MANTENIDO) */}
       <footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center', position: 'relative', zIndex: 20 }}>
         <img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
         <div style={{ fontSize: '10px', opacity: 0.4, letterSpacing: '1px', textTransform: 'uppercase' }}>
@@ -260,7 +242,6 @@ export default function QuitoFreshElite() {
         </div>
       </footer>
 
-      {/* MODAL CARRITO CORREGIDO */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
@@ -278,7 +259,6 @@ export default function QuitoFreshElite() {
                   <button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>-</button>
                   <span style={{ fontWeight: 900 }}>{i.qty}</span>
                   <button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>+</button>
-                  {/* APLICADO CORRECCIÓN 2: Eliminar individual */}
                   <button onClick={() => removeItem(i.id)} style={{ marginLeft: '5px', border: 'none', background: 'none', cursor: 'pointer' }}>❌</button>
                 </div>
               </div>
@@ -290,7 +270,6 @@ export default function QuitoFreshElite() {
                 <span>TOTAL</span>
                 <span style={{ color: CELESTE_LOGO }}>${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}</span>
               </div>
-              {/* APLICADO CORRECCIÓN 2: Vaciar carrito */}
               <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
               <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP</button>
             </div>

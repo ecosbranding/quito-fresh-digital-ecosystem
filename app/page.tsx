@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 
-export default function QuitoFreshMaestroFinal() {
+export default function QuitoFreshElite() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -11,7 +11,7 @@ export default function QuitoFreshMaestroFinal() {
 
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
-  const CELESTE_LOGO = "#00ADEF";
+  const CELESTE_LOGO = "#00ADEF"; // Color Celeste Tropical exacto del logo
 
   useEffect(() => {
     setMounted(true);
@@ -67,7 +67,6 @@ export default function QuitoFreshMaestroFinal() {
     setCart(prev => prev.map(item => item.id === id ? { ...item, qty: Math.max(0, item.qty + delta) } : item).filter(i => i.qty > 0));
   };
 
-  // --- CORRECCIÓN 2: ELIMINACIÓN INDIVIDUAL Y VACIADO ---
   const removeItem = (id) => setCart(prev => prev.filter(item => item.id !== id));
   const clearCart = () => setCart([]);
 
@@ -103,6 +102,7 @@ export default function QuitoFreshMaestroFinal() {
   return (
     <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
       
+      {/* Mantenemos los filtros SVG por si acaso, pero ya no los usamos en los títulos */}
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="gel-viscosity">
           <feGaussianBlur stdDeviation="1.5" result="blur" />
@@ -119,6 +119,30 @@ export default function QuitoFreshMaestroFinal() {
 
         .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
         
+        /* Títulos Misión y Visión: Limpios y del color del logo */
+        .text-surtido-limpio {
+          font-family: 'Titan One', cursive;
+          color: ${CELESTE_LOGO}; /* Celeste Tropical exacto del logo */
+          text-align: center;
+          font-size: 4rem;
+          margin-bottom: 70px;
+          line-height: 1.1;
+          text-shadow: none; /* Eliminación total de sombras y glow */
+          filter: none; /* Eliminación total del efecto gel/viscosidad */
+        }
+
+        /* Títulos Misión y Visión: Limpios y del color del logo */
+        .titulo-seccion-limpio {
+          color: ${CELESTE_LOGO}; /* Celeste del Logo */
+          margin-bottom: 20px;
+          font-size: 1.5rem;
+          font-weight: 900;
+          text-transform: uppercase;
+          text-shadow: none; /* Sin sombras */
+          filter: none; /* Sin efecto gel */
+        }
+
+        /* El resto de estilos se mantiene intacto */
         .text-gel-caramelo-premium {
           font-family: 'Titan One', cursive;
           position: relative;
@@ -128,17 +152,6 @@ export default function QuitoFreshMaestroFinal() {
             0px 3px 0px rgba(0,0,0,0.1),
             0px 0px 15px ${CELESTE_LOGO}88;
           filter: url(#gel-viscosity);
-          line-height: 1.1;
-        }
-
-        /* CORRECCIÓN 1: TÍTULO SURTIDO PREMIUM LIMPIO */
-        .text-surtido-limpio {
-          font-family: 'Titan One', cursive;
-          color: #FFFFFF; /* Blanco puro */
-          text-shadow: 0px 0px 15px ${CELESTE_LOGO}99; /* Glow celeste para que destaque en el fondo */
-          text-align: center;
-          font-size: 4rem;
-          margin-bottom: 70px;
           line-height: 1.1;
         }
 
@@ -173,22 +186,22 @@ export default function QuitoFreshMaestroFinal() {
         }
       ` }} />
 
-      {/* RENDER DE RÁFAGAS DE NIEBLA */}
+      {/* RENDER DE RÁFAGAS DE NIEBLA (MANTENIDO) */}
       {fogParticles.map(p => (
         <div key={p.id} className="fog-puff" style={{ left: p.x - 50, top: p.y - 50, width: '100px', height: '100px' }} />
       ))}
 
       <div className="sensory-fog-layer"></div>
 
-      {/* NAVEGACIÓN */}
+      {/* NAVEGACIÓN (MANTENIDO) */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
         <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
-      {/* HERO */}
+      {/* HERO SECTION (MICRO-AJUSTE: ELIMINACIÓN DE LA IMAGEN AMARILLA DE FONDO) */}
       <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
-        <img src="1000786975.png" className="bg-accent" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
+        {/* --- CORRECCIÓN: Se eliminó la etiqueta <img> que cargaba '1000786975.png' --- */}
         <div style={{ position: 'relative', zIndex: 2 }}>
           <div style={{ fontWeight: 900, fontSize: '12px', color: CELESTE_LOGO, marginBottom: '20px' }}>FRESCURA PURA</div>
           <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: CELESTE_LOGO }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
@@ -196,15 +209,17 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </header>
 
-      {/* SOBRE NOSOTROS */}
+      {/* SOBRE NOSOTROS (APLICADO MICRO-AJUSTE EN TÍTULOS) */}
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="text-gel-caramelo-premium" style={{ color: CELESTE_LOGO, marginBottom: '20px', fontSize: '1.5rem' }}>Nuestra Misión</h3>
+            {/* Título Misión Limpio */}
+            <h3 className="titulo-seccion-limpio">Nuestra Misión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina.</p>
           </div>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="text-gel-caramelo-premium" style={{ color: CELESTE_LOGO, marginBottom: '20px', fontSize: '1.5rem' }}>Nuestra Visión</h3>
+            {/* Título Visión Limpio */}
+            <h3 className="titulo-seccion-limpio">Nuestra Visión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Ser líderes en bienestar premium en Ecuador.</p>
           </div>
           <div style={{ background: CELESTE_LOGO, padding: '50px', borderRadius: '40px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -215,14 +230,15 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </section>
 
-      {/* PRODUCTOS */}
+      {/* PRODUCTOS (APLICADO MICRO-AJUSTE EN TÍTULO DE SECCIÓN) */}
       <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        {/* APLICADO CORRECCIÓN 1: Título Limpio */}
+        {/* Título Surtido Limpio y Celeste */}
         <h2 className="text-surtido-limpio">NUESTRO SURTIDO PREMIUM</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
           {products.map(p => (
             <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
               <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
+              {/* Nombres de producto mantienen su estilo de gel original (MANTENIDO) */}
               <h3 className="text-gel-caramelo-premium" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
               <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
               {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A' }}>${p.price.toFixed(2)}</div>}
@@ -236,7 +252,7 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </section>
 
-      {/* FOOTER */}
+      {/* FOOTER (MANTENIDO) */}
       <footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center', position: 'relative', zIndex: 20 }}>
         <img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
         <div style={{ fontSize: '10px', opacity: 0.4, letterSpacing: '1px', textTransform: 'uppercase' }}>
@@ -276,7 +292,7 @@ export default function QuitoFreshMaestroFinal() {
               </div>
               {/* APLICADO CORRECCIÓN 2: Vaciar carrito */}
               <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
-              <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP</button>
+              <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP 📲</button>
             </div>
           )}
         </div>

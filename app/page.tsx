@@ -12,7 +12,6 @@ export default function QuitoFreshElite() {
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
   const CELESTE_LOGO = "#00ADEF"; 
-  // RUTA CORREGIDA (Sin el slash inicial para evitar errores de ruta relativa en algunos entornos)
   const BOTELLA_MARACUMORA_ASSET = "1000788391.png";
 
   useEffect(() => {
@@ -108,8 +107,8 @@ export default function QuitoFreshElite() {
       
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="gel-viscosity">
-          <feGaussianBlur stdDeviation="1.2" result="blur" />
-          <feSpecularLighting in="blur" surfaceScale="5" specularConstant="1.2" specularExponent="40" lightingColor="#FFFFFF" result="spec">
+          <feGaussianBlur stdDeviation="1.5" result="blur" />
+          <feSpecularLighting in="blur" surfaceScale="6" specularConstant="1.5" specularExponent="50" lightingColor="#FFFFFF" result="spec">
             <fePointLight x="-5000" y="-10000" z="10000" />
           </feSpecularLighting>
           <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut" />
@@ -130,7 +129,6 @@ export default function QuitoFreshElite() {
           margin-bottom: 70px;
           line-height: 1.1;
           filter: url(#gel-viscosity);
-          text-shadow: none;
         }
 
         .titulo-seccion-gel {
@@ -140,16 +138,13 @@ export default function QuitoFreshElite() {
           font-size: 1.8rem;
           text-transform: uppercase;
           filter: url(#gel-viscosity);
-          text-shadow: none;
         }
 
         .text-gel-caramelo-premium {
           font-family: 'Titan One', cursive;
           position: relative;
-          mix-blend-mode: normal;
           filter: url(#gel-viscosity);
           line-height: 1.1;
-          text-shadow: none;
         }
 
         .fog-puff {
@@ -163,24 +158,36 @@ export default function QuitoFreshElite() {
           100% { opacity: 0; transform: scale(2.5) translateY(-20px); }
         }
 
-        .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: white; position: relative; z-index: 2; overflow: visible; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .product-card { 
+          border: 1.5px solid #EEE; 
+          border-radius: 40px; 
+          padding: 40px; 
+          text-align: center; 
+          transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+          background: white; 
+          position: relative; 
+          z-index: 2; 
+          overflow: visible; 
+        }
+        .product-card:hover { 
+          transform: translateY(-8px); 
+          box-shadow: 0 30px 50px rgba(0, 173, 239, 0.1); 
+        }
         .featured { border: 4px solid #E91E63; }
         
-        /* ADICIÓN DE BOTELLA FLOTANTE MEJORADA */
         .bottle-ultra-fresh {
           position: absolute;
-          top: -110px; /* Un poco más arriba para que destaque */
+          top: -125px; 
           right: -25px;
-          width: 200px; /* Ligeramente más grande */
-          filter: drop-shadow(15px 30px 40px rgba(0,0,0,0.25));
+          width: 205px; 
+          filter: drop-shadow(20px 40px 50px rgba(0,0,0,0.3));
           z-index: 10;
           pointer-events: none;
-          transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .product-card:hover .bottle-ultra-fresh {
-          transform: translateY(-15px) rotate(8deg) scale(1.08);
-          filter: drop-shadow(25px 45px 55px rgba(0,0,0,0.35));
+          transform: translateY(-15px) rotate(10deg) scale(1.12);
+          filter: drop-shadow(30px 60px 70px rgba(0,0,0,0.4));
         }
 
         .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
@@ -221,7 +228,6 @@ export default function QuitoFreshElite() {
         </div>
       </header>
 
-      {/* SECCIÓN MISION Y VISION - TOTALMENTE RESPETADA */}
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
@@ -248,15 +254,16 @@ export default function QuitoFreshElite() {
               
               {p.id === 1 && (
                 <div className="bottle-ultra-fresh">
-                  <img src={BOTELLA_MARACUMORA_ASSET} alt="Maracumora con Gotas" style={{ width: '100%' }} />
+                  <img src={BOTELLA_MARACUMORA_ASSET} alt="Maracumora" style={{ width: '100%' }} />
                 </div>
               )}
 
               <div style={{ position: 'relative', zIndex: 5 }}>
                 <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
                 <h3 className="text-gel-caramelo-premium" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
-                <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px', maxWidth: p.id === 1 ? '180px' : '100%', margin: '0 auto 30px' }}>{p.desc}</p>
-                {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A' }}>${p.price.toFixed(2)}</div>}
+                {/* Ajuste de margen para que el texto no choque con la botella flotante */}
+                <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px', maxWidth: p.id === 1 ? '160px' : '100%', margin: p.id === 1 ? '0 0 30px' : '0 auto 30px', textAlign: p.id === 1 ? 'left' : 'center' }}>{p.desc}</p>
+                {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A', textAlign: p.id === 1 ? 'left' : 'center' }}>${p.price.toFixed(2)}</div>}
                 {p.available ? (
                   <button onClick={() => addToCart(p)} className="btn-main" style={{ background: p.accent }}>AÑADIR AL PACK</button>
                 ) : (

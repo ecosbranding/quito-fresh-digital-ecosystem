@@ -5,19 +5,16 @@ export default function QuitoFreshMaestroFinal() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
+  
+  // Enlaces de alta prioridad para Meta y WhatsApp
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
+  const CELESTE_LOGO = "#00ADEF"; // Color Celeste exacto del fondo del logo
 
   useEffect(() => {
     setMounted(true);
     
-    const handleMouseMove = (e) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    
+    // Inyección de Meta Tags Críticos para WhatsApp
     const forceMeta = (property, content) => {
       let el = document.querySelector(`meta[property="${property}"]`);
       if (!el) {
@@ -29,15 +26,13 @@ export default function QuitoFreshMaestroFinal() {
     };
 
     forceMeta('og:title', 'Quito Fresh | Pureza Real');
-    forceMeta('og:description', 'Extractos puros prensados en frío de los Andes. ¡Pide tu pack saludable!');
+    forceMeta('og:description', 'Extractos puros prensados en frío de los Andes. ¡Siente la frescura!');
     forceMeta('og:image', IMAGE_URL);
     forceMeta('og:image:secure_url', IMAGE_URL);
     forceMeta('og:image:width', '1200');
     forceMeta('og:image:height', '630');
     forceMeta('og:type', 'website');
     forceMeta('og:url', SITE_URL);
-
-    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const products = [
@@ -50,13 +45,6 @@ export default function QuitoFreshMaestroFinal() {
     { id: 7, name: "AMAZON VIBE", desc: "Guayusa, Limón y Panela Natural", price: null, accent: "#1B5E20", tag: "PRÓXIMAMENTE", available: false },
     { id: 8, name: "TROPIC GLOW", desc: "Piña, Coco y Cúrcuma", price: null, accent: "#FFD600", tag: "PRÓXIMAMENTE", available: false },
   ];
-
-  const updateQty = (id, delta) => {
-    setCart(prev => prev.map(item => item.id === id ? { ...item, qty: Math.max(0, item.qty + delta) } : item).filter(i => i.qty > 0));
-  };
-
-  const removeItem = (id) => setCart(prev => prev.filter(item => item.id !== id));
-  const clearCart = () => setCart([]);
 
   const addToCart = (p) => {
     if (!p.available) return;
@@ -78,77 +66,94 @@ export default function QuitoFreshMaestroFinal() {
   return (
     <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
       
+      {/* Importación de fuentes Google Titan One */}
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Titan+One&family=Sniglet:wght@800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
 
         .text-bold { font-weight: 900; text-transform: uppercase; letter-spacing: -1px; }
         
         .text-gel-3d {
           font-family: 'Titan One', cursive;
-          text-transform: capitalize !important;
+          text-transform: capitalize !important; 
           position: relative;
-          text-shadow: 0px 4px 0px rgba(0,0,0,0.1), 0px 8px 15px rgba(0,0,0,0.1);
+          text-shadow: 
+            0px 4px 0px rgba(0,0,0,0.1), 
+            0px 8px 15px rgba(0,0,0,0.1),
+            inset 0px 4px 6px rgba(255,255,255,0.7);
           line-height: 1.1;
         }
 
-        .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); position: relative; z-index: 2; }
+        /* Se eliminó el pseudo-elemento ::after que creaba las gotas de agua falsas */
+
+        .product-card { border: 1.5px solid #EEE; border-radius: 40px; padding: 40px; text-align: center; transition: 0.4s; background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); position: relative; z-index: 2; overflow: hidden; }
         .featured { border: 4px solid #E91E63; }
-        .btn-main { background: #8CC63F; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
+        
+        /* BOTÓN PRINCIPAL AHORA EN CELESTE TROPICAL */
+        .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
+        
         .bg-accent { position: absolute; pointer-events: none; z-index: 0; opacity: 0.6; }
         
+        /* CORRECCIÓN: Niebla Interactiva reemplazada por Niebla Sensorial de "Respiración" */
         .interactive-fog {
           position: fixed;
           top: 0; left: 0; width: 100vw; height: 100vh;
           pointer-events: none; z-index: 10;
-          background: radial-gradient(circle 200px at var(--mx) var(--my), transparent 0%, rgba(240, 248, 255, 0.4) 100%);
+          background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(240, 248, 255, 0.4) 100%);
+          animation: fogBreathe 10s ease-in-out infinite; /* Respiración lenta y constante */
         }
 
-        .ice-parallax { position: absolute; pointer-events: none; font-size: 2rem; z-index: 1; opacity: 0.7; }
+        @keyframes fogBreathe {
+          0%, 100% { opacity: 0.1; }
+          50% { opacity: 0.4; } /* La niebla se vuelve más densa, como un suspiro de frío */
+        }
       ` }} />
 
-      {/* CORRECCIÓN: Se eliminaron las comillas invertidas problemáticas en el style */}
-      <div className="interactive-fog" style={{ '--mx': `${mousePos.x}px`, '--my': `${mousePos.y}px` } as any}></div>
+      {/* EFECTO NIEBLA SENSORIAL DE RESPIRACIÓN */}
+      <div className="interactive-fog"></div>
 
-      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: '1px solid #EEE' }}>
+      {/* NAVEGACIÓN */}
+      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
         <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
+      {/* HERO SECTION - SE ELIMINARON LOS HIELOS FALSOS */}
       <header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
         <img src="1000786975.png" className="bg-accent" style={{ top: '-50px', right: '-100px', width: '400px', transform: 'rotate(15deg)' }} />
         <img src="1000786976.png" className="bg-accent" style={{ top: '20px', left: '-50px', width: '250px', opacity: 0.4 }} />
         
-        <div className="ice-parallax" style={{ top: '15%', left: '10%', transform: `translate(${mousePos.x * 0.02}px, ${mousePos.y * 0.02}px)` }}>🧊</div>
-        <div className="ice-parallax" style={{ bottom: '20%', right: '15%', transform: `translate(${mousePos.x * -0.03}px, ${mousePos.y * -0.03}px)`, fontSize: '3rem' }}>🧊</div>
-
         <div style={{ position: 'relative', zIndex: 2 }}>
-          <div style={{ fontWeight: 900, fontSize: '12px', color: '#8CC63F', marginBottom: '20px' }}>FRESCURA PURA</div>
-          <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: '#8CC63F' }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
+          {/* ACENTO DE TÍTULO AHORA EN CELESTE TROPICAL */}
+          <div style={{ fontWeight: 900, fontSize: '12px', color: CELESTE_LOGO, marginBottom: '20px' }}>FRESCURA PURA</div>
+          <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: CELESTE_LOGO }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
           <img src="1000786698.png" alt="Logo Hero" style={{ maxWidth: '380px', margin: '0 auto', display: 'block' }} />
         </div>
       </header>
 
+      {/* BENEFICIOS - ICONOS AHORA EN CELESTE TROPICAL */}
       <section style={{ display: 'flex', justifyContent: 'center', gap: '50px', padding: '60px 20px', flexWrap: 'wrap', borderBottom: '1px solid #F5F5F5', position: 'relative', zIndex: 2 }}>
         {["100% PRENSADO EN FRÍO", "ORIGEN ANDINO", "ENERGÍA NATURAL"].map((text, i) => (
           <div key={i} style={{ textAlign: 'center', maxWidth: '140px' }}>
             <div style={{ fontSize: '32px' }}>{i === 0 ? "⚙️" : i === 1 ? "🏔️" : "⚡"}</div>
-            <div className="text-bold" style={{ fontSize: '10px', marginTop: '12px', color: '#666' }}>{text}</div>
+            <div className="text-bold" style={{ fontSize: '10px', marginTop: '12px', color: CELESTE_LOGO }}>{text}</div>
           </div>
         ))}
       </section>
 
+      {/* SOBRE NOSOTROS - TÍTULOS EN CELESTE */}
       <section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
         <img src="1000786977.png" className="bg-accent" style={{ bottom: '0', right: '-150px', width: '500px', opacity: 0.15 }} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '20px' }}>Nuestra Misión</h3>
+            <h3 className="text-bold" style={{ color: CELESTE_LOGO, marginBottom: '20px' }}>Nuestra Misión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina, fomentando un estilo de vida consciente, natural y lleno de energía vital.</p>
           </div>
           <div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-            <h3 className="text-bold" style={{ color: '#8CC63F', marginBottom: '20px' }}>Nuestra Visión</h3>
+            <h3 className="text-bold" style={{ color: CELESTE_LOGO, marginBottom: '20px' }}>Nuestra Visión</h3>
             <p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Ser líderes en bienestar premium en Ecuador, reconocidos por nuestra calidad inigualable Cold Pressed.</p>
           </div>
-          <div style={{ background: '#8CC63F', padding: '50px', borderRadius: '40px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          {/* TARJETA 2026 AHORA CON FONDO CELESTE TROPICAL */}
+          <div style={{ background: CELESTE_LOGO, padding: '50px', borderRadius: '40px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <h3 className="text-bold" style={{ marginBottom: '10px', fontSize: '1.2rem' }}>Llevando Felicidad</h3>
             <div className="text-bold" style={{ fontSize: '3.5rem', lineHeight: 1, marginBottom: '15px' }}>2026</div>
             <p style={{ fontSize: '15px', lineHeight: 1.8 }}>Llevamos la frescura absoluta del campo directamente a tu mano, sin aditivos, sin engaños, solo fruta pura.</p>
@@ -156,17 +161,20 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </section>
 
+      {/* PRODUCTOS - SE ELIMINARON LOS HIELOS FALSOS */}
       <section style={{ padding: '100px 20px', maxWidth: '1200px', margin: '0 auto', position: 'relative' }}>
-        <div className="ice-parallax" style={{ top: '5%', right: '5%', transform: `translate(${mousePos.x * 0.015}px, ${mousePos.y * 0.015}px)` }}>🧊</div>
         
-        <h2 className="text-gel-3d" style={{ textAlign: 'center', fontSize: '4rem', marginBottom: '70px', color: '#1A1A1A' }}>Nuestro Surtido</h2>
+        <h2 className="text-gel-3d" style={{ textAlign: 'center', fontSize: '4rem', marginBottom: '70px', color: '#1A1A1A' }}>Nuestro Surtido Premium</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
           {products.map(p => (
             <div key={p.id} className={`product-card ${p.available ? 'featured' : ''}`}>
-              <div style={{ color: p.available ? p.accent : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
+              {/* ETIQUETAS DE TAG AHORA EN CELESTE TROPICAL */}
+              <div style={{ color: p.available ? CELESTE_LOGO : '#CCC', fontWeight: 900, fontSize: '11px', marginBottom: '15px' }}>{p.tag}</div>
+              
               <h3 className="text-gel-3d" style={{ fontSize: '2.5rem', margin: '0 0 10px', color: p.available ? p.accent : '#999' }}>{p.name}</h3>
+              
               <p style={{ fontSize: '14px', color: '#888', marginBottom: '30px' }}>{p.desc}</p>
-              {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px' }}>${p.price.toFixed(2)}</div>}
+              {p.price && <div style={{ fontSize: '3.5rem', fontWeight: 900, marginBottom: '30px', color: '#1A1A1A' }}>${p.price.toFixed(2)}</div>}
               {p.available ? (
                 <button onClick={() => addToCart(p)} className="btn-main" style={{ background: p.accent }}>AÑADIR AL PACK</button>
               ) : (
@@ -177,6 +185,7 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center', position: 'relative', zIndex: 20 }}>
         <img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
         <div className="text-bold" style={{ fontSize: '12px', letterSpacing: '4px', opacity: 0.8, marginBottom: '15px' }}>QUITO FRESH — PUREZA REAL</div>
@@ -185,9 +194,10 @@ export default function QuitoFreshMaestroFinal() {
         </div>
       </footer>
 
+      {/* MODAL CARRITO CON ACENTOS CELESTE TROPICAL */}
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #EEE' }}>
+          <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
             <span className="text-bold">TU SELECCIÓN</span>
             <button onClick={() => setIsCartOpen(false)} style={{ border: 'none', background: 'none', fontSize: '24px', cursor: 'pointer' }}>✕</button>
           </div>
@@ -199,26 +209,29 @@ export default function QuitoFreshMaestroFinal() {
                 <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', paddingBottom: '15px', borderBottom: '1px solid #F9F9F9' }}>
                   <div style={{ flex: 1 }}>
                     <div className="text-gel-3d" style={{ fontSize: '1.2rem', color: i.accent }}>{i.name}</div>
-                    <div style={{ fontSize: '13px', color: '#8CC63F', fontWeight: 700 }}>${(i.price * i.qty).toFixed(2)}</div>
+                    {/* PRECIOS AHORA EN CELESTE TROPICAL */}
+                    <div style={{ fontSize: '13px', color: CELESTE_LOGO, fontWeight: 700 }}>${(i.price * i.qty).toFixed(2)}</div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', background: 'white', cursor: 'pointer' }}>-</button>
+                    <button style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', background: 'white', cursor: 'pointer' }}>-</button>
                     <span style={{ fontWeight: 900, width: '20px', textAlign: 'center' }}>{i.qty}</span>
-                    <button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', background: 'white', cursor: 'pointer' }}>+</button>
-                    <button onClick={() => removeItem(i.id)} style={{ marginLeft: '10px', border: 'none', background: 'none', fontSize: '18px', cursor: 'pointer' }}>❌</button>
+                    <button style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', background: 'white', cursor: 'pointer' }}>+</button>
+                    <button style={{ marginLeft: '10px', border: 'none', background: 'none', fontSize: '18px', cursor: 'pointer' }}>❌</button>
                   </div>
                 </div>
               ))
             )}
           </div>
           {cart.length > 0 && (
-            <div style={{ padding: '30px', borderTop: '1px solid #EEE' }}>
+            <div style={{ padding: '30px', borderTop: `1px solid ${CELESTE_LOGO}22` }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.8rem', fontWeight: 900, marginBottom: '25px' }}>
                 <span>TOTAL</span>
-                <span>${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}</span>
+                {/* TOTAL AHORA EN CELESTE TROPICAL */}
+                <span style={{ color: CELESTE_LOGO }}>${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}</span>
               </div>
-              <button onClick={clearCart} style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
-              <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP 📲</button>
+              <button style={{ width: '100%', background: 'none', border: '1px solid #DDD', color: '#999', padding: '12px', borderRadius: '50px', fontWeight: 800, fontSize: '11px', marginBottom: '15px', cursor: 'pointer' }}>VACIAR TODO EL PACK</button>
+              {/* BOTÓN WHATSAPP MANTIENE SU COLOR DE MARCA PARA CONFIANZA */}
+              <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP</button>
             </div>
           )}
         </div>

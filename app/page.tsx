@@ -11,7 +11,7 @@ export default function QuitoFreshElite() {
 
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
-  const CELESTE_LOGO = "#00ADEF"; // Color Celeste Tropical exacto del logo
+  const CELESTE_LOGO = "#00ADEF"; 
 
   useEffect(() => {
     setMounted(true);
@@ -45,6 +45,8 @@ export default function QuitoFreshElite() {
     forceMeta('og:description', 'Extractos puros prensados en frío de los Andes.');
     forceMeta('og:image', IMAGE_URL);
     forceMeta('og:url', SITE_URL);
+    forceMeta('og:type', 'website');
+    forceMeta('twitter:card', 'summary_large_image');
 
     return () => {
       window.removeEventListener('mousemove', handleInteraction);
@@ -125,8 +127,8 @@ export default function QuitoFreshElite() {
           font-size: 4rem;
           margin-bottom: 70px;
           line-height: 1.1;
-          text-shadow: none; 
-          filter: none; 
+          text-shadow: none !important;
+          filter: none !important;
         }
 
         .titulo-seccion-limpio {
@@ -135,17 +137,16 @@ export default function QuitoFreshElite() {
           font-size: 1.5rem;
           font-weight: 900;
           text-transform: uppercase;
-          text-shadow: none;
-          filter: none;
+          text-shadow: none !important;
+          filter: none !important;
         }
 
-        /* ACTUALIZACIÓN: EFECTO CARAMELO SIN SOMBRAS */
         .text-gel-caramelo-premium {
           font-family: 'Titan One', cursive;
           position: relative;
           color: white; 
           mix-blend-mode: normal;
-          text-shadow: none; /* ELIMINADA LA SOMBRA Y EL GLOW */
+          text-shadow: none !important; /* ACTUALIZADO: Sin sombras */
           filter: url(#gel-viscosity);
           line-height: 1.1;
         }
@@ -166,6 +167,7 @@ export default function QuitoFreshElite() {
         .featured { border: 4px solid #E91E63; }
         
         .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
+        .btn-main:active { transform: scale(0.95); }
         
         .sensory-fog-layer {
           position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -177,6 +179,10 @@ export default function QuitoFreshElite() {
           0%, 100% { opacity: 0.1; transform: scale(1); }
           50% { opacity: 0.5; transform: scale(1.05); }
         }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: ${CELESTE_LOGO}; border-radius: 10px; }
       ` }} />
 
       {fogParticles.map(p => (
@@ -256,9 +262,9 @@ export default function QuitoFreshElite() {
                   <div style={{ fontSize: '13px', color: CELESTE_LOGO, fontWeight: 700 }}>${(i.price * i.qty).toFixed(2)}</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>-</button>
+                  <button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', cursor: 'pointer' }}>-</button>
                   <span style={{ fontWeight: 900 }}>{i.qty}</span>
-                  <button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>+</button>
+                  <button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', cursor: 'pointer' }}>+</button>
                   <button onClick={() => removeItem(i.id)} style={{ marginLeft: '5px', border: 'none', background: 'none', cursor: 'pointer' }}>❌</button>
                 </div>
               </div>

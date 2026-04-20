@@ -5,28 +5,13 @@ export default function QuitoFreshElite() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [fogParticles, setFogParticles] = useState([]);
   const [activeProductId, setActiveProductId] = useState(null);
 
-  const SITE_URL = "https://quitofresh.vercel.app"; 
   const CELESTE_LOGO = "#00ADEF"; 
   const BOTELLA_MARACUMORA_ASSET = "/1000788391.png";
 
   useEffect(() => {
     setMounted(true);
-    const handleInteraction = (e) => {
-      const x = e.clientX || (e.touches && e.touches[0].clientX);
-      const y = e.clientY || (e.touches && e.touches[0].clientY);
-      setMousePos({ x, y });
-      const id = Math.random();
-      setFogParticles(prev => [...prev.slice(-15), { id, x, y }]);
-      setTimeout(() => {
-        setFogParticles(prev => prev.filter(p => p.id !== id));
-      }, 1000);
-    };
-    window.addEventListener('mousemove', handleInteraction);
-    return () => window.removeEventListener('mousemove', handleInteraction);
   }, []);
 
   const products = [
@@ -54,26 +39,34 @@ export default function QuitoFreshElite() {
 
   return (
     <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
+      
+      {/* EFECTO DE GOTAS DE SUDOR FRÍO (Reemplaza la niebla) */}
+      <div className="sweat-container">
+        {[...Array(15)].map((_, i) => (
+          <div key={i} className="drop" style={{ 
+            left: `${Math.random() * 100}%`, 
+            animationDelay: `${Math.random() * 5}s`,
+            animationDuration: `${2 + Math.random() * 4}s` 
+          }}></div>
+        ))}
+      </div>
+
       <style dangerouslySetInnerHTML={{ __html: `
         @import url('https://fonts.googleapis.com/css2?family=Titan+One&display=swap');
+        
+        /* Animación de Gotas */
+        .sweat-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; overflow: hidden; }
+        .drop { position: absolute; width: 2px; height: 15px; background: rgba(0, 173, 239, 0.2); border-radius: 20px; top: -20px; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(110vh); } }
+
         .text-bold { font-weight: 900; text-transform: uppercase; }
         .text-surtido-gel { font-family: 'Titan One', cursive; color: ${CELESTE_LOGO}; text-align: center; font-size: 3.5rem; margin-bottom: 50px; }
         
-        /* CONTENEDOR DE LA RUEDA AJUSTADO */
         .wheel-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 80px; padding: 50px 20px 150px; scrollbar-width: none; }
         .wheel-container::-webkit-scrollbar { display: none; }
         
-        .product-card { 
-          flex: 0 0 300px; 
-          scroll-snap-align: center; 
-          position: relative; 
-          display: flex; 
-          flex-direction: column; 
-          align-items: center; 
-          justify-content: center;
-        }
+        .product-card { flex: 0 0 300px; scroll-snap-align: center; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
-        /* NOMBRE VERTICAL: No se tapa, centrado con la botella */
         .vertical-name { 
           position: absolute; 
           left: 0; 
@@ -85,16 +78,10 @@ export default function QuitoFreshElite() {
           transition: 0.5s;
         }
 
-        .bottle-img { 
-          width: 180px; /* Tamaño controlado */
-          z-index: 2; 
-          cursor: pointer; 
-          transition: transform 0.3s; 
-        }
+        .bottle-img { width: 180px; z-index: 2; cursor: pointer; transition: transform 0.3s; }
         .bottle-img:hover { transform: scale(1.05); }
         .bottle-blur { filter: blur(4px) grayscale(0.5); opacity: 0.7; }
 
-        /* CUADRO DE INFORMACIÓN CENTRADO AL CLICK */
         .info-modal { 
           position: absolute; 
           top: 50%; 
@@ -116,19 +103,20 @@ export default function QuitoFreshElite() {
         .btn-add { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 12px; font-weight: 900; width: 100%; cursor: pointer; margin-top: 15px; }
       ` }} />
 
-      <nav style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <nav style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, background: 'white', zIndex: 1000 }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '50px' }} />
         <button onClick={() => setIsCartOpen(true)} style={{ background: CELESTE_LOGO, color: 'white', border: 'none', borderRadius: '20px', padding: '10px 20px', fontWeight: 800 }}>
           MI PACK ({cart.length})
         </button>
       </nav>
 
+      {/* Header y Secciones de Misión/Visión permanecen iguales... */}
+      
       <section style={{ padding: '60px 0' }}>
         <h2 className="text-surtido-gel">NUESTRO SURTIDO PREMIUM</h2>
         <div className="wheel-container">
           {products.map(p => (
             <div key={p.id} className="product-card">
-              {/* Nombre difuminado si no está disponible, o sólido si sí */}
               <div className="vertical-name" style={{ 
                 color: p.accent, 
                 opacity: p.available ? 0.8 : 0.3,
@@ -143,7 +131,6 @@ export default function QuitoFreshElite() {
                 onClick={() => setActiveProductId(activeProductId === p.id ? null : p.id)}
               />
 
-              {/* Ficha técnica centrada */}
               <div className={`info-modal ${activeProductId === p.id ? 'active' : ''}`}>
                 <div style={{ textAlign: 'right', cursor: 'pointer', fontWeight: 900 }} onClick={() => setActiveProductId(null)}>✕</div>
                 <p style={{ color: p.accent, fontSize: '10px', fontWeight: 800, margin: 0 }}>{p.tag}</p>
@@ -155,7 +142,7 @@ export default function QuitoFreshElite() {
                     <button className="btn-add" style={{ background: p.accent }} onClick={() => addToCart(p)}>AÑADIR AL PACK</button>
                   </>
                 ) : (
-                  <div style={{ marginTop: '20px', color: '#999', fontWeight: 800 }}>PRÓXIMAMENTE</div>
+                  <div style={{ marginTop: '20px', color: '#999', fontWeight: 800, textAlign: 'center' }}>PRÓXIMAMENTE</div>
                 )}
               </div>
             </div>
@@ -163,7 +150,9 @@ export default function QuitoFreshElite() {
         </div>
       </section>
 
-      {/* El resto de tu código (Misión, Visión, Footer) se mantiene igual abajo */}
+      <footer style={{ background: '#000', color: 'white', padding: '40px 20px', textAlign: 'center' }}>
+        <div style={{ fontSize: '10px', opacity: 0.4 }}>Quito Fresh © 2026.</div>
+      </footer>
     </div>
   );
 }

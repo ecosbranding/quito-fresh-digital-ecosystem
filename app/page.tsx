@@ -8,34 +8,18 @@ const [mounted, setMounted] = useState(false);
 const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 const [fogParticles, setFogParticles] = useState([]);
 
-// ESTADO AÑADIDO SOLO PARA EL CLICK DE LA RUEDA
+// ESTADO DE LA RUEDA
 const [activeProductId, setActiveProductId] = useState(1);
 const wheelRef = useRef(null);
 
 const SITE_URL = "https://quitofresh.vercel.app"; 
 const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
 const CELESTE_LOGO = "#00ADEF"; 
-// RUTA DE LA IMAGEN GENERADA CON GOTAS
 const BOTELLA_MARACUMORA_ASSET = "/1000788391.png";
 
 useEffect(() => {
 setMounted(true);
-const handleInteraction = (e) => {
-const x = e.clientX || (e.touches && e.touches[0].clientX);
-const y = e.clientY || (e.touches && e.touches[0].clientY);
-setMousePos({ x, y });
 
-const id = Math.random();
-setFogParticles(prev => [...prev.slice(-15), { id, x, y }]);
-setTimeout(() => {
-fogParticles.filter(p => p.id !== id);
-}, 1000);
-};
-
-window.addEventListener('mousemove', handleInteraction);
-window.addEventListener('touchmove', handleInteraction);
-
-// TU CÓDIGO ORIGINAL INTACTO
 const forceMeta = (property, content) => {
 let el = document.querySelector(`meta[property="${property}"]`);
 if (!el) {
@@ -52,11 +36,6 @@ forceMeta('og:image', IMAGE_URL);
 forceMeta('og:url', SITE_URL);
 forceMeta('og:type', 'website');
 forceMeta('twitter:card', 'summary_large_image');
-
-return () => {
-window.removeEventListener('mousemove', handleInteraction);
-window.removeEventListener('touchmove', handleInteraction);
-};
 
 }, []);
 
@@ -86,10 +65,9 @@ return [...prev, { ...p, qty: 1 }];
 setIsCartOpen(true);
 };
 
-// TU CÓDIGO ORIGINAL INTACTO
 const sendWhatsApp = () => {
 const total = cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2);
-const itemsText = cart.map(i => 🥤 *${i.name.toUpperCase()}* — (${i.qty} unid.)).join('\n');
+const itemsText = cart.map(i => `🥤 *${i.name.toUpperCase()}* — (${i.qty} unid.)`).join('\n');
 const message = encodeURIComponent(
 `*🏔️ ¡NUEVO PEDIDO QUITO FRESH! 🍃*\n` +
 `*────────────────────*\n\n` +
@@ -149,22 +127,11 @@ filter: url(#gel-viscosity);
 line-height: 1.1;
 }
 
-.fog-puff {
-position: fixed; pointer-events: none; z-index: 9999;
-background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
-border-radius: 50%; filter: blur(15px);
-animation: puffOut 1.2s ease-out forwards;
-}
-@keyframes puffOut {
-0% { opacity: 0.6; transform: scale(0.3); }
-100% { opacity: 0; transform: scale(2.5) translateY(-20px); }
-}
-
-/* --- ESTILOS DE LA RUEDA CORREGIDOS PARA $25K DÓLARES --- */
-.wheel-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 50px; padding: 100px 10%; scrollbar-width: none; -ms-overflow-style: none; }
+/* RUEDA DE PRODUCTOS $25K */
+.wheel-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 50px; padding: 100px 10%; scrollbar-width: none; }
 .wheel-container::-webkit-scrollbar { display: none; }
 
-.wheel-item { flex: 0 0 320px; scroll-snap-align: center; display: flex; flex-direction: column; align-items: center; position: relative; transition: 0.5s ease; cursor: pointer; }
+.wheel-item { flex: 0 0 320px; scroll-snap-align: center; display: flex; flex-direction: column; align-items: center; position: relative; cursor: pointer; }
 
 .vertical-name { 
 position: absolute; left: -90px; top: 40%; transform: rotate(-90deg) translateY(-50%); 
@@ -172,7 +139,7 @@ font-family: 'Titan One', cursive; font-size: 4.5rem; white-space: nowrap; trans
 z-index: 1; pointer-events: none;
 }
 
-.bottle-wheel { width: 220px; transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); z-index: 2; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15)); }
+.bottle-wheel { width: 220px; transition: 0.5s ease; z-index: 2; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.15)); }
 .bottle-dim { opacity: 0.3; filter: grayscale(1) blur(1px); }
 
 .info-overlay { 
@@ -181,39 +148,16 @@ background: white; border: 1.5px solid #EEE; width: 300px; border-radius: 40px; 
 z-index: 5; margin-top: -30px;
 }
 .info-overlay.active { max-height: 500px; opacity: 1; margin-top: 20px; padding: 40px; }
-/* --- FIN DE ESTILOS CORREGIDOS --- */
 
 .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
-.btn-main:active { transform: scale(0.95); }
-
-.sensory-fog-layer {
-position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-pointer-events: none; z-index: 10;
-background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(240, 248, 255, 0.4) 100%);
-animation: fogBreathe 8s ease-in-out infinite;
-}
-@keyframes fogBreathe {
-0%, 100% { opacity: 0.1; transform: scale(1); }
-50% { opacity: 0.5; transform: scale(1.05); }
-}
-
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: ${CELESTE_LOGO}; border-radius: 10px; }
 ` }} />
-
-{fogParticles.map(p => (
-<div key={p.id} className="fog-puff" style={{ left: p.x - 50, top: p.y - 50, width: '100px', height: '100px' }} />
-))}
-
-<div className="sensory-fog-layer"></div>
 
 <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
 <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
 <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
 </nav>
 
-<header style={{ position: 'relative', padding: '100px 20px', textAlign: 'center', overflow: 'hidden', backgroundColor: '#FDFDFD' }}>
+<header style={{ padding: '100px 20px', textAlign: 'center', backgroundColor: '#FDFDFD' }}>
 <div style={{ position: 'relative', zIndex: 2 }}>
 <div style={{ fontWeight: 900, fontSize: '12px', color: CELESTE_LOGO, marginBottom: '20px' }}>FRESCURA PURA</div>
 <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9, margin: '0 0 40px' }}>TU VIDA <br/><span style={{ color: CELESTE_LOGO }}>SALUDABLE</span> <br/>EMPIEZA AQUÍ.</h1>
@@ -221,25 +165,6 @@ animation: fogBreathe 8s ease-in-out infinite;
 </div>
 </header>
 
-<section style={{ position: 'relative', padding: '100px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px', position: 'relative', zIndex: 2 }}>
-<div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-<h3 className="titulo-seccion-gel">Nuestra Misión</h3>
-<p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Nutrir a nuestra comunidad con extractos puros de la tierra andina.</p>
-</div>
-<div style={{ background: '#F9F9F9', padding: '50px', borderRadius: '40px' }}>
-<h3 className="titulo-seccion-gel">Nuestra Visión</h3>
-<p style={{ fontSize: '15px', lineHeight: 1.8, color: '#444' }}>Ser líderes en bienestar premium en Ecuador.</p>
-</div>
-<div style={{ background: CELESTE_LOGO, padding: '50px', borderRadius: '40px', color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-<h3 className="text-bold" style={{ marginBottom: '10px', fontSize: '1.2rem' }}>Llevando Felicidad</h3>
-<div className="text-bold" style={{ fontSize: '3.5rem', lineHeight: 1, marginBottom: '15px' }}>2026</div>
-<p style={{ fontSize: '15px', lineHeight: 1.8 }}>Frescura absoluta del campo directamente a tu mano.</p>
-</div>
-</div>
-</section>
-
-{/* SECCIÓN RUEDA INTEGRADA - CAPTURA 1 Y 2 CORREGIDAS */}
 <section style={{ padding: '80px 0', position: 'relative' }}>
 <h2 className="text-surtido-gel">NUESTRO SURTIDO PREMIUM</h2>
 <div className="wheel-container" ref={wheelRef}>
@@ -268,7 +193,7 @@ style={{ filter: !p.available ? 'grayscale(1)' : '' }}
 <button onClick={(e) => { e.stopPropagation(); addToCart(p); }} className="btn-main" style={{ background: p.accent }}>AÑADIR AL PACK</button>
 </>
 ) : (
-<button disabled style={{ background: '#F5F5F5', color: '#BBB', border: 'none', padding: '18px', borderRadius: '50px', fontWeight: 900, width: '100%' }}>PRÓXIMAMENTE</button>
+<div style={{ color: '#BBB', fontWeight: 900, padding: '20px' }}>PRÓXIMAMENTE</div>
 )}
 </div>
 </div>
@@ -276,11 +201,9 @@ style={{ filter: !p.available ? 'grayscale(1)' : '' }}
 </div>
 </section>
 
-<footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center', position: 'relative', zIndex: 20 }}>
-<img src="1000786698.png" alt="Footer Logo" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
-<div style={{ fontSize: '10px', opacity: 0.4, letterSpacing: '1px', textTransform: 'uppercase' }}>
-Hecho por <span style={{ fontWeight: 800 }}>ECOS Branding</span> & <span style={{ fontWeight: 800 }}>ORCA Studios</span> © 2026.
-</div>
+<footer style={{ background: '#000', color: 'white', padding: '80px 20px', textAlign: 'center' }}>
+<img src="1000786698.png" style={{ height: '55px', marginBottom: '30px', filter: 'brightness(2)' }} />
+<div style={{ fontSize: '10px', opacity: 0.4 }}>Hecho por ECOS Branding & ORCA Studios © 2026.</div>
 </footer>
 
 {isCartOpen && (
@@ -297,9 +220,9 @@ Hecho por <span style={{ fontWeight: 800 }}>ECOS Branding</span> & <span style={
 <div style={{ fontSize: '13px', color: CELESTE_LOGO, fontWeight: 700 }}>${(i.price * i.qty).toFixed(2)}</div>
 </div>
 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-<button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', cursor: 'pointer' }}>-</button>
+<button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>-</button>
 <span style={{ fontWeight: 900 }}>{i.qty}</span>
-<button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE', cursor: 'pointer' }}>+</button>
+<button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>+</button>
 <button onClick={() => removeItem(i.id)}>❌</button>
 </div>
 </div>
@@ -311,7 +234,6 @@ Hecho por <span style={{ fontWeight: 800 }}>ECOS Branding</span> & <span style={
 <span>TOTAL</span>
 <span style={{ color: CELESTE_LOGO }}>${cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2)}</span>
 </div>
-<button onClick={clearCart} style={{ width: '100%', marginBottom: '10px', background: 'none', border: '1px solid #DDD', borderRadius: '50px', padding: '10px' }}>VACIAR PACK</button>
 <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP</button>
 </div>
 )}

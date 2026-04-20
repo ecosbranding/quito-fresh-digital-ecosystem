@@ -9,6 +9,7 @@ const LOGO = "/1000786698.png";
 export default function QuitoFresh() {
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   /* =========================
      📊 META PIXEL SAFE TRACK
@@ -24,6 +25,7 @@ export default function QuitoFresh() {
   };
 
   useEffect(() => {
+    setMounted(true);
     track("PageView");
   }, []);
 
@@ -94,68 +96,63 @@ ${items}
     }
   };
 
+  // Prevenir errores de hidratación
+  if (!mounted) return null;
+
   return (
     <div className="page">
+      {/* CORRECCIÓN: Estilos inyectados de forma segura */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .page { font-family: Inter, sans-serif; background: #fff; color: #111; }
+        .hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; padding: 0 20px; }
+        .overlay { position: absolute; inset: 0; background: radial-gradient(circle at top, #fff 40%, #f5f5f5); }
+        .heroContent { position: relative; z-index: 2; max-width: 720px; }
+        .kicker { font-size: 12px; font-weight: 700; color: #2d5a27; letter-spacing: 1px; }
+        .hero h1 { font-size: 4rem; font-weight: 900; letter-spacing: -2px; }
+        .hero h1 span { display: block; color: #2d5a27; }
+        .sub { opacity: 0.7; margin-top: 10px; }
+        .cta { margin-top: 25px; padding: 16px 28px; border-radius: 999px; background: #2d5a27; color: white; border: none; font-weight: 700; cursor: pointer; }
+        .heroImg { position: absolute; bottom: -40px; width: 420px; opacity: 0.9; filter: drop-shadow(0 40px 60px rgba(0,0,0,.15)); }
+        .trust { display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; padding: 40px 20px; font-weight: 600; }
+        .products { padding: 80px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .card { border: 1px solid #eee; padding: 20px; border-radius: 18px; }
+        .card button { margin-top: 10px; width: 100%; padding: 10px; border-radius: 10px; border: none; background: #2d5a27; color: white; cursor: pointer; }
+        .card button:disabled { background: #ccc; }
+        .scarcity { text-align: center; padding: 40px 20px; background: #f6f6f6; font-weight: 600; }
+        .cart { position: fixed; right: 0; top: 0; width: 320px; height: 100%; background: white; padding: 20px; border-left: 1px solid #eee; z-index: 1000; }
+        .wa { width: 100%; background: #25d366; color: white; border: none; padding: 14px; border-radius: 12px; margin-top: 20px; font-weight: 700; cursor: pointer; }
+        .total { margin-top: 20px; font-weight: 900; }
+      ` }} />
 
-      {/* =========================
-          🧠 HERO
-      ========================== */}
       <section className="hero">
         <div className="overlay" />
-
         <div className="heroContent">
           <p className="kicker">QUITO · FRESH · COLD PRESSED</p>
-
-          <h1>
-            Energía natural
-            <span>en su forma más pura</span>
-          </h1>
-
-          <p className="sub">
-            Jugos prensados en frío · ingredientes locales · entrega en 24h
-          </p>
-
-          <button
-            className="cta"
-            onClick={() => {
-              setOpen(true);
-              track("ViewContent");
-            }}
-          >
+          <h1>Energía natural <span>en su forma más pura</span></h1>
+          <p className="sub">Jugos prensados en frío · ingredientes locales · entrega en 24h</p>
+          <button className="cta" onClick={() => { setOpen(true); track("ViewContent"); }}>
             Ordenar ahora
           </button>
         </div>
-
         <img src={HERO_IMG} className="heroImg" alt="Quito Fresh" />
       </section>
 
-      {/* =========================
-          🧠 TRUST
-      ========================== */}
       <section className="trust">
         <div>🚚 24h entrega</div>
         <div>🌱 Natural</div>
         <div>❄️ Cold pressed</div>
       </section>
 
-      {/* =========================
-          💰 PRODUCTS
-      ========================== */}
       <section className="products">
         <h2>Más pedidos hoy</h2>
-
         <div className="grid">
           {products?.map((p) => (
             <div key={p.id} className="card">
               <h3>{p.name}</h3>
               <p>{p.desc}</p>
-
               <strong>${p.price}</strong>
-
-              <button
-                disabled={!p.available}
-                onClick={() => add(p)}
-              >
+              <button disabled={!p.available} onClick={() => add(p)}>
                 {p.available ? "Añadir" : "Agotado"}
               </button>
             </div>
@@ -163,22 +160,19 @@ ${items}
         </div>
       </section>
 
-      {/* =========================
-          ⚡ SCARCITY
-      ========================== */}
       <section className="scarcity">
         ⚡ Producción limitada diaria en Quito — calidad artesanal
       </section>
 
-      {/* =========================
-          🛒 CART
-      ========================== */}
       {open && (
         <aside className="cart">
-          <h3>Tu pedido</h3>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h3>Tu pedido</h3>
+            <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>✕</button>
+          </div>
 
           {cart?.map((i) => (
-            <div key={i.id}>
+            <div key={i.id} style={{ marginBottom: '10px' }}>
               {i.name} x{i.qty}
             </div>
           ))}
@@ -190,155 +184,6 @@ ${items}
           </button>
         </aside>
       )}
-
-      {/* =========================
-          🎨 STYLES
-      ========================== */}
-      <style jsx>{`
-        .page {
-          font-family: Inter, sans-serif;
-          background: #fff;
-          color: #111;
-        }
-
-        .hero {
-          height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-          position: relative;
-          overflow: hidden;
-          padding: 0 20px;
-        }
-
-        .overlay {
-          position: absolute;
-          inset: 0;
-          background: radial-gradient(circle at top, #fff 40%, #f5f5f5);
-        }
-
-        .heroContent {
-          position: relative;
-          z-index: 2;
-          max-width: 720px;
-        }
-
-        .kicker {
-          font-size: 12px;
-          font-weight: 700;
-          color: #2d5a27;
-          letter-spacing: 1px;
-        }
-
-        .hero h1 {
-          font-size: 4rem;
-          font-weight: 900;
-          letter-spacing: -2px;
-        }
-
-        .hero h1 span {
-          display: block;
-          color: #2d5a27;
-        }
-
-        .sub {
-          opacity: 0.7;
-          margin-top: 10px;
-        }
-
-        .cta {
-          margin-top: 25px;
-          padding: 16px 28px;
-          border-radius: 999px;
-          background: #2d5a27;
-          color: white;
-          border: none;
-          font-weight: 700;
-          cursor: pointer;
-        }
-
-        .heroImg {
-          position: absolute;
-          bottom: -40px;
-          width: 420px;
-          opacity: 0.9;
-          filter: drop-shadow(0 40px 60px rgba(0,0,0,.15));
-        }
-
-        .trust {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          text-align: center;
-          padding: 40px 20px;
-          font-weight: 600;
-        }
-
-        .products {
-          padding: 80px 20px;
-        }
-
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 16px;
-        }
-
-        .card {
-          border: 1px solid #eee;
-          padding: 20px;
-          border-radius: 18px;
-        }
-
-        .card button {
-          margin-top: 10px;
-          width: 100%;
-          padding: 10px;
-          border-radius: 10px;
-          border: none;
-          background: #2d5a27;
-          color: white;
-          cursor: pointer;
-        }
-
-        .card button:disabled {
-          background: #ccc;
-        }
-
-        .scarcity {
-          text-align: center;
-          padding: 40px 20px;
-          background: #f6f6f6;
-          font-weight: 600;
-        }
-
-        .cart {
-          position: fixed;
-          right: 0;
-          top: 0;
-          width: 320px;
-          height: 100%;
-          background: white;
-          padding: 20px;
-          border-left: 1px solid #eee;
-        }
-
-        .wa {
-          width: 100%;
-          background: #25d366;
-          color: white;
-          border: none;
-          padding: 14px;
-          border-radius: 12px;
-          margin-top: 20px;
-          font-weight: 700;
-        }
-
-        .total {
-          margin-top: 20px;
-          font-weight: 900;
-        }
-      `}</style>
     </div>
   );
 }

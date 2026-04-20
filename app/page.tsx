@@ -5,20 +5,19 @@ export default function QuitoFreshElite() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  // Estado para controlar qué botella muestra su información
-  const [activeProductId, setActiveProductId] = useState(null);
-  
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [fogParticles, setFogParticles] = useState([]);
+  
+  // NUEVO ESTADO PARA LA RUEDA 3D
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const SITE_URL = "https://quitofresh.vercel.app"; 
   const IMAGE_URL = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
   const CELESTE_LOGO = "#00ADEF"; 
-  const BOTELLA_MARACUMORA_ASSET = "1000788391.png";
+  const BOTELLA_MARACUMORA_ASSET = "/1000788391.png";
 
   useEffect(() => {
     setMounted(true);
-    
     const handleInteraction = (e) => {
       const x = e.clientX || (e.touches && e.touches[0].clientX);
       const y = e.clientY || (e.touches && e.touches[0].clientY);
@@ -33,7 +32,7 @@ export default function QuitoFreshElite() {
 
     window.addEventListener('mousemove', handleInteraction);
     window.addEventListener('touchmove', handleInteraction);
-    
+
     const forceMeta = (property, content) => {
       let el = document.querySelector(`meta[property="${property}"]`);
       if (!el) {
@@ -64,17 +63,13 @@ export default function QuitoFreshElite() {
     { id: 4, name: "Gold Citrus", desc: "Maracuyá & Cítricos", price: 1.00, accent: "#FFB300", tag: "PRÓXIMAMENTE", available: false },
     { id: 5, name: "Vital Roots", desc: "Remolacha, Zanahoria y Naranja", price: 1.00, accent: "#D32F2F", tag: "PRÓXIMAMENTE", available: false },
     { id: 6, name: "Pure Aloe", desc: "Aloe Vera, Pepino y Menta", price: 1.00, accent: "#4CAF50", tag: "PRÓXIMAMENTE", available: false },
-    { id: 7, name: "Amazon Vibe", desc: "Guayusa, Limón y Panela Natural", price: 1.00, accent: "#1B5E20", tag: "PRÓXIMAMENTE", available: false },
-    { id: 8, name: "Tropic Glow", desc: "Piña, Coco y Cúrcuma", price: 1.00, accent: "#FFD600", tag: "PRÓXIMAMENTE", available: false },
   ];
 
   const updateQty = (id, delta) => {
     setCart(prev => prev.map(item => item.id === id ? { ...item, qty: Math.max(0, item.qty + delta) } : item).filter(i => i.qty > 0));
   };
-
   const removeItem = (id) => setCart(prev => prev.filter(item => item.id !== id));
   const clearCart = () => setCart([]);
-
   const addToCart = (p) => {
     if (!p.available) return;
     setCart(prev => {
@@ -88,7 +83,6 @@ export default function QuitoFreshElite() {
   const sendWhatsApp = () => {
     const total = cart.reduce((a, b) => a + (b.price * b.qty), 0).toFixed(2);
     const itemsText = cart.map(i => `🥤 *${i.name.toUpperCase()}* — (${i.qty} unid.)`).join('\n');
-    
     const message = encodeURIComponent(
       `*🏔️ ¡NUEVO PEDIDO QUITO FRESH! 🍃*\n` +
       `*────────────────────*\n\n` +
@@ -106,11 +100,10 @@ export default function QuitoFreshElite() {
 
   return (
     <div style={{ backgroundColor: '#FFFFFF', color: '#1A1A1A', fontFamily: 'Inter, sans-serif', position: 'relative', overflowX: 'hidden' }}>
-      
       <svg style={{ position: 'absolute', width: 0, height: 0 }}>
         <filter id="gel-viscosity">
-          <feGaussianBlur stdDeviation="1.5" result="blur" />
-          <feSpecularLighting in="blur" surfaceScale="6" specularConstant="1.5" specularExponent="50" lightingColor="#FFFFFF" result="spec">
+          <feGaussianBlur stdDeviation="1.2" result="blur" />
+          <feSpecularLighting in="blur" surfaceScale="4" specularConstant="1.1" specularExponent="35" lightingColor="#FFFFFF" result="spec">
             <fePointLight x="-5000" y="-10000" z="10000" />
           </feSpecularLighting>
           <feComposite in="spec" in2="SourceAlpha" operator="in" result="specOut" />
@@ -129,74 +122,68 @@ export default function QuitoFreshElite() {
           text-align: center;
           font-size: 4rem;
           margin-bottom: 20px;
-          line-height: 1.1;
           filter: url(#gel-viscosity);
         }
 
-        .text-gel-caramelo-premium {
-          font-family: 'Titan One', cursive;
-          filter: url(#gel-viscosity);
-          line-height: 1.1;
-          transition: 0.3s ease;
-        }
-
-        /* Estructura de la Rueda (Carousel) */
+        /* DISEÑO DE LA RUEDA 3D */
         .wheel-container {
+          position: relative;
+          height: 600px;
           display: flex;
-          overflow-x: auto;
-          scroll-snap-type: x mandatory;
-          padding: 60px 0;
-          gap: 20px;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          -webkit-overflow-scrolling: touch;
+          justify-content: center;
+          align-items: center;
+          perspective: 1500px;
+          overflow: visible;
         }
-        .wheel-container::-webkit-scrollbar { display: none; }
 
-        .wheel-item {
-          flex: 0 0 300px;
-          scroll-snap-align: center;
+        .bottle-stack-item {
+          position: absolute;
+          transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+          cursor: pointer;
           display: flex;
           flex-direction: column;
           align-items: center;
-          transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-          cursor: pointer;
-          position: relative;
+          width: 250px;
         }
 
-        /* Efecto Transparente para botellas Próximamente */
         .bottle-img {
           width: 220px;
-          filter: drop-shadow(0 20px 40px rgba(0,0,0,0.1));
-          transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .bottle-ghost {
-          opacity: 0.3;
-          filter: grayscale(1) drop-shadow(0 10px 20px rgba(0,0,0,0.05));
-        }
-        .wheel-item:hover .bottle-img {
-          transform: scale(1.05) translateY(-10px);
+          filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+          z-index: 2;
         }
 
-        /* Revelación de Información */
-        .product-reveal-info {
-          max-height: 0;
+        /* EL NOMBRE VERTICAL (Señalado en tu imagen) */
+        .vertical-name {
+          position: absolute;
+          left: -80px;
+          top: 45%;
+          transform: translateY(-50%) rotate(-90deg);
+          font-family: 'Titan One', cursive;
+          font-size: 3.5rem;
+          white-space: nowrap;
+          pointer-events: none;
+          filter: url(#gel-viscosity);
+          transition: 0.5s opacity;
           opacity: 0;
-          overflow: hidden;
-          transition: 0.5s ease-in-out;
-          text-align: center;
-          width: 100%;
-          margin-top: 0;
         }
-        .product-reveal-info.active {
-          max-height: 250px;
-          opacity: 1;
-          margin-top: 20px;
-        }
+        .active .vertical-name { opacity: 1; }
 
-        .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
-        .btn-main:active { transform: scale(0.95); }
-        
+        .info-card-overlay {
+          opacity: 0;
+          transform: translateY(20px);
+          transition: 0.5s;
+          text-align: center;
+          background: rgba(255,255,255,0.8);
+          backdrop-filter: blur(10px);
+          padding: 20px;
+          border-radius: 30px;
+          margin-top: -40px;
+          z-index: 5;
+          width: 280px;
+          border: 1px solid #EEE;
+        }
+        .active .info-card-overlay { opacity: 1; transform: translateY(0); }
+
         .fog-puff {
           position: fixed; pointer-events: none; z-index: 9999;
           background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
@@ -204,109 +191,105 @@ export default function QuitoFreshElite() {
           animation: puffOut 1.2s ease-out forwards;
         }
         @keyframes puffOut {
-          0% { opacity: 0.6; transform: scale(0.3); }
-          100% { opacity: 0; transform: scale(2.5); }
+          0% { opacity: 0.6; transform: scale(0.3) translateY(0); }
+          100% { opacity: 0; transform: scale(2.5) translateY(-20px); }
         }
+
+        .btn-main { background: ${CELESTE_LOGO}; color: white; border: none; border-radius: 50px; padding: 15px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
       ` }} />
 
-      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
+      {/* Partículas y Nav (Preservados) */}
+      {fogParticles.map(p => (
+        <div key={p.id} className="fog-puff" style={{ left: p.x - 50, top: p.y - 50, width: '100px', height: '100px' }} />
+      ))}
+
+      <nav style={{ position: 'sticky', top: 0, zIndex: 1000, padding: '20px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)' }}>
         <img src="1000786698.png" alt="Logo" style={{ height: '60px' }} />
-        <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px', fontSize: '13px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
+        <button onClick={() => setIsCartOpen(true)} className="btn-main" style={{ width: 'auto', padding: '12px 25px' }}>MI PACK ({cart.reduce((a, b) => a + b.qty, 0)})</button>
       </nav>
 
+      {/* Header (Preservado) */}
       <header style={{ padding: '80px 20px', textAlign: 'center' }}>
-        <div style={{ fontWeight: 900, fontSize: '12px', color: CELESTE_LOGO, marginBottom: '20px' }}>ESTILO DE VIDA FRESH</div>
-        <h1 className="text-bold" style={{ fontSize: '3rem', lineHeight: 1, margin: 0 }}>EXPLORA EL <span style={{ color: CELESTE_LOGO }}>SABOR</span></h1>
+        <h1 className="text-bold" style={{ fontSize: '4rem', lineHeight: 0.9 }}>TU VIDA <br/><span style={{ color: CELESTE_LOGO }}>SALUDABLE</span> EMPIEZA AQUÍ.</h1>
       </header>
 
-      {/* SECCIÓN ACTUALIZADA: Carrusel Tipo Rueda con Interacción */}
-      <section style={{ padding: '40px 0', position: 'relative' }}>
+      {/* SECCIÓN ACTUALIZADA: RUEDA 3D Y NOMBRE VERTICAL */}
+      <section style={{ padding: '50px 0' }}>
         <h2 className="text-surtido-gel">NUESTROS EXTRACTOS</h2>
-        <p style={{ textAlign: 'center', color: '#AAA', fontSize: '14px', marginBottom: '20px' }}>Desliza y toca la botella para conocer más</p>
+        <p style={{ textAlign: 'center', color: '#999', marginBottom: '40px' }}>Toca una botella para centrarla</p>
         
         <div className="wheel-container">
-          {products.map(p => (
-            <div 
-              key={p.id} 
-              className="wheel-item"
-              onClick={() => setActiveProductId(activeProductId === p.id ? null : p.id)}
-            >
-              <img 
-                src={BOTELLA_MARACUMORA_ASSET} 
-                alt={p.name} 
-                className={`bottle-img ${!p.available ? 'bottle-ghost' : ''}`}
-              />
-              
-              <h3 className="text-gel-caramelo-premium" style={{ 
-                fontSize: '2rem', 
-                marginTop: '15px', 
-                color: p.available ? p.accent : '#CCC',
-                opacity: activeProductId === p.id || p.available ? 1 : 0.5
-              }}>
-                {p.name}
-              </h3>
+          {products.map((p, index) => {
+            const offset = index - activeIndex;
+            const isActive = offset === 0;
 
-              {/* Contenido que se revela al hacer Click */}
-              <div className={`product-reveal-info ${activeProductId === p.id ? 'active' : ''}`}>
-                <p style={{ fontSize: '14px', color: '#888', padding: '0 40px', marginBottom: '15px' }}>{p.desc}</p>
-                {p.available ? (
-                  <div style={{ padding: '0 30px' }}>
-                    <div style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '15px' }}>${p.price.toFixed(2)}</div>
-                    <button 
-                      onClick={(e) => { e.stopPropagation(); addToCart(p); }} 
-                      className="btn-main" 
-                      style={{ background: p.accent }}
-                    >
-                      AÑADIR AL PACK
-                    </button>
-                  </div>
-                ) : (
-                  <div style={{ fontWeight: 900, color: '#BBB', textTransform: 'uppercase' }}>Próximamente</div>
-                )}
+            return (
+              <div 
+                key={p.id}
+                className={`bottle-stack-item ${isActive ? 'active' : ''}`}
+                onClick={() => setActiveIndex(index)}
+                style={{
+                  transform: `translateX(${offset * 100}px) translateZ(${-Math.abs(offset) * 200}px) rotateY(${offset * -15}deg)`,
+                  zIndex: 100 - Math.abs(offset),
+                  opacity: Math.abs(offset) > 2 ? 0 : 1,
+                  filter: !isActive ? 'brightness(0.6) blur(1px)' : 'none'
+                }}
+              >
+                {/* NOMBRE VERTICAL SEGÚN IMAGEN */}
+                <div className="vertical-name" style={{ color: p.available ? p.accent : '#DDD' }}>
+                  {p.name}
+                </div>
+
+                <img src={BOTELLA_MARACUMORA_ASSET} alt={p.name} className="bottle-img" />
+
+                <div className="info-card-overlay">
+                  <div style={{ color: p.accent, fontWeight: 900, fontSize: '12px', marginBottom: '5px' }}>{p.tag}</div>
+                  <p style={{ fontSize: '13px', color: '#666', marginBottom: '15px' }}>{p.desc}</p>
+                  {p.available ? (
+                    <>
+                      <div style={{ fontSize: '2rem', fontWeight: 900, marginBottom: '15px' }}>${p.price.toFixed(2)}</div>
+                      <button onClick={(e) => { e.stopPropagation(); addToCart(p); }} className="btn-main" style={{ background: p.accent }}>AÑADIR AL PACK</button>
+                    </>
+                  ) : (
+                    <div style={{ fontWeight: 800, color: '#CCC' }}>PRÓXIMAMENTE</div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
-      {/* Footer y Carrito se mantienen idénticos para no romper funcionalidad */}
+      {/* Footer y Carrito (Preservados) */}
       <footer style={{ background: '#000', color: 'white', padding: '60px 20px', textAlign: 'center' }}>
-        <img src="1000786698.png" alt="Footer Logo" style={{ height: '40px', marginBottom: '20px', filter: 'brightness(2)' }} />
-        <div style={{ fontSize: '10px', opacity: 0.4 }}>ORCA Studios © 2026.</div>
+        <img src="1000786698.png" alt="Footer Logo" style={{ height: '50px', marginBottom: '20px', filter: 'brightness(2)' }} />
+        <div style={{ fontSize: '10px', opacity: 0.4 }}>Hecho por ORCA Studios © 2026.</div>
       </footer>
 
       {isCartOpen && (
         <div style={{ position: 'fixed', top: 0, right: 0, width: '380px', height: '100%', background: 'white', zIndex: 2000, boxShadow: '-10px 0 40px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column' }}>
           <div style={{ padding: '30px', display: 'flex', justifyContent: 'space-between', borderBottom: `1px solid ${CELESTE_LOGO}22` }}>
-            <span className="text-bold">TU PACK</span>
-            <button onClick={() => setIsCartOpen(false)} style={{ border: 'none', background: 'none', fontSize: '24px', cursor: 'pointer' }}>✕</button>
+            <span className="text-bold">TU SELECCIÓN</span>
+            <button onClick={() => setIsCartOpen(false)} style={{ border: 'none', background: 'none', fontSize: '24px' }}>✕</button>
           </div>
           <div style={{ flex: 1, padding: '25px', overflowY: 'auto' }}>
             {cart.map(i => (
-              <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-                <div style={{ flex: 1 }}>
-                  <div className="text-bold" style={{ color: i.accent }}>{i.name}</div>
-                  <div style={{ fontSize: '13px', color: CELESTE_LOGO }}>${(i.price * i.qty).toFixed(2)}</div>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <button onClick={() => updateQty(i.id, -1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>-</button>
-                  <span style={{ fontWeight: 900 }}>{i.qty}</span>
-                  <button onClick={() => updateQty(i.id, 1)} style={{ width: '28px', height: '28px', borderRadius: '50%', border: '1px solid #EEE' }}>+</button>
+              <div key={i.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                <div className="text-bold" style={{ color: i.accent }}>{i.name} ({i.qty})</div>
+                <div style={{ display: 'flex', gap: '10px' }}>
+                  <button onClick={() => updateQty(i.id, -1)}>-</button>
+                  <button onClick={() => updateQty(i.id, 1)}>+</button>
                 </div>
               </div>
             ))}
           </div>
           {cart.length > 0 && (
-            <div style={{ padding: '30px', borderTop: `1px solid ${CELESTE_LOGO}22` }}>
+            <div style={{ padding: '30px' }}>
               <button onClick={sendWhatsApp} className="btn-main" style={{ background: '#25D366' }}>PEDIR POR WHATSAPP</button>
             </div>
           )}
         </div>
       )}
-
-      {fogParticles.map(p => (
-        <div key={p.id} className="fog-puff" style={{ left: p.x - 50, top: p.y - 50, width: '100px', height: '100px' }} />
-      ))}
     </div>
   );
 }

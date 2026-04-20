@@ -3,14 +3,15 @@
 import { useEffect, useMemo, useState } from "react";
 
 const WA = "593995849214";
-const IMG = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
+const IMG = "/1000786698.png"; // 👈 debe estar en /public
+const HERO_IMG = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
 
-export default function QuitoFreshSystem() {
+export default function QuitoFresh() {
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
 
   /* =========================
-     📊 META ADS TRACKING CORE
+     📊 SAFE TRACKING (NO BREAK BUILD)
   ========================== */
   const track = (event, data = {}) => {
     if (typeof window !== "undefined" && window.fbq) {
@@ -27,12 +28,12 @@ export default function QuitoFreshSystem() {
   ========================== */
   const products = [
     { id: 1, name: "Maracumora", price: 1, desc: "Energía tropical premium", available: true },
-    { id: 2, name: "Green Boost", price: 1.2, desc: "Detox + claridad mental", available: true },
-    { id: 3, name: "Berry Bliss", price: 1.3, desc: "Antioxidantes intensos", available: false },
+    { id: 2, name: "Green Boost", price: 1.2, desc: "Detox + energía limpia", available: true },
+    { id: 3, name: "Berry Bliss", price: 1.3, desc: "Antioxidantes naturales", available: false },
   ];
 
   /* =========================
-     🛒 CART LOGIC
+     🛒 CART SAFE LOGIC
   ========================== */
   const add = (p) => {
     if (!p.available) return;
@@ -40,7 +41,7 @@ export default function QuitoFreshSystem() {
     track("AddToCart", {
       content_name: p.name,
       value: p.price,
-      currency: "USD"
+      currency: "USD",
     });
 
     setCart((prev) => {
@@ -62,15 +63,17 @@ export default function QuitoFreshSystem() {
   );
 
   /* =========================
-     📲 WHATSAPP CONVERSION
+     📲 WHATSAPP SAFE (NO SSR ERRORS)
   ========================== */
   const checkout = () => {
     track("InitiateCheckout", {
       value: total,
-      currency: "USD"
+      currency: "USD",
     });
 
-    const items = cart.map(i => `🥤 ${i.name} x${i.qty}`).join("\n");
+    const items = cart
+      ?.map((i) => `🥤 ${i.name} x${i.qty}`)
+      .join("\n");
 
     const msg = encodeURIComponent(
 `🌿 QUITO FRESH — PEDIDO PREMIUM
@@ -82,14 +85,16 @@ ${items}
 🚚 Entrega en Quito en 24h`
     );
 
-    window.open(`https://wa.me/${WA}?text=${msg}`, "_blank");
+    if (typeof window !== "undefined") {
+      window.open(`https://wa.me/${WA}?text=${msg}`, "_blank");
+    }
   };
 
   return (
     <div className="page">
 
       {/* =========================
-          🧠 HERO APPLE-LEVEL
+          🧠 HERO (APPLE STYLE)
       ========================== */}
       <section className="hero">
         <div className="overlay" />
@@ -103,7 +108,7 @@ ${items}
           </h1>
 
           <p className="sub">
-            Jugos prensados en frío · ingredientes locales · producción diaria en Quito
+            Jugos prensados en frío · ingredientes locales · entrega en 24h
           </p>
 
           <button
@@ -117,15 +122,15 @@ ${items}
           </button>
         </div>
 
-        <img src={IMG} className="heroImg" />
+        <img src={HERO_IMG} className="heroImg" alt="Quito Fresh" />
       </section>
 
       {/* =========================
-          🧠 TRUST STRIP
+          🧠 TRUST
       ========================== */}
       <section className="trust">
         <div>🚚 24h entrega</div>
-        <div>🌱 100% natural</div>
+        <div>🌱 Natural</div>
         <div>❄️ Cold pressed</div>
       </section>
 
@@ -136,7 +141,7 @@ ${items}
         <h2>Más pedidos hoy</h2>
 
         <div className="grid">
-          {products.map(p => (
+          {products?.map((p) => (
             <div key={p.id} className="card">
               <h3>{p.name}</h3>
               <p>{p.desc}</p>
@@ -158,7 +163,7 @@ ${items}
           ⚡ SCARCITY
       ========================== */}
       <section className="scarcity">
-        ⚡ Solo producción limitada diaria en Quito — calidad artesanal
+        ⚡ Producción limitada diaria en Quito — calidad artesanal
       </section>
 
       {/* =========================
@@ -168,7 +173,7 @@ ${items}
         <aside className="cart">
           <h3>Tu pedido</h3>
 
-          {cart.map(i => (
+          {cart?.map((i) => (
             <div key={i.id}>
               {i.name} x{i.qty}
             </div>
@@ -183,11 +188,11 @@ ${items}
       )}
 
       {/* =========================
-          🎨 STYLES (APPLE + DTC)
+          🎨 SAFE STYLES
       ========================== */}
       <style jsx>{`
         .page {
-          font-family: Inter;
+          font-family: Inter, sans-serif;
           background: #fff;
           color: #111;
         }
@@ -248,11 +253,6 @@ ${items}
           border: none;
           font-weight: 700;
           cursor: pointer;
-          transition: transform .2s ease;
-        }
-
-        .cta:hover {
-          transform: scale(1.03);
         }
 
         .heroImg {

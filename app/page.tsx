@@ -3,19 +3,23 @@
 import { useEffect, useMemo, useState } from "react";
 
 const WA = "593995849214";
-const IMG = "/1000786698.png"; // 👈 debe estar en /public
 const HERO_IMG = "https://i.postimg.cc/mD4X574X/Preview-WhatsApp-Quito-Fresh.jpg";
+const LOGO = "/1000786698.png";
 
 export default function QuitoFresh() {
   const [cart, setCart] = useState([]);
   const [open, setOpen] = useState(false);
 
   /* =========================
-     📊 SAFE TRACKING (NO BREAK BUILD)
+     📊 META PIXEL SAFE TRACK
   ========================== */
   const track = (event, data = {}) => {
-    if (typeof window !== "undefined" && window.fbq) {
-      window.fbq("track", event, data);
+    try {
+      if (typeof window !== "undefined" && window.fbq) {
+        window.fbq("track", event, data);
+      }
+    } catch (err) {
+      // evita romper producción
     }
   };
 
@@ -27,13 +31,13 @@ export default function QuitoFresh() {
      🧠 PRODUCTS
   ========================== */
   const products = [
-    { id: 1, name: "Maracumora", price: 1, desc: "Energía tropical premium", available: true },
+    { id: 1, name: "Maracumora", price: 1, desc: "Energía tropical natural", available: true },
     { id: 2, name: "Green Boost", price: 1.2, desc: "Detox + energía limpia", available: true },
-    { id: 3, name: "Berry Bliss", price: 1.3, desc: "Antioxidantes naturales", available: false },
+    { id: 3, name: "Berry Bliss", price: 1.3, desc: "Antioxidantes premium", available: false },
   ];
 
   /* =========================
-     🛒 CART SAFE LOGIC
+     🛒 CART LOGIC
   ========================== */
   const add = (p) => {
     if (!p.available) return;
@@ -63,7 +67,7 @@ export default function QuitoFresh() {
   );
 
   /* =========================
-     📲 WHATSAPP SAFE (NO SSR ERRORS)
+     📲 WHATSAPP SAFE
   ========================== */
   const checkout = () => {
     track("InitiateCheckout", {
@@ -94,7 +98,7 @@ ${items}
     <div className="page">
 
       {/* =========================
-          🧠 HERO (APPLE STYLE)
+          🧠 HERO
       ========================== */}
       <section className="hero">
         <div className="overlay" />
@@ -188,7 +192,7 @@ ${items}
       )}
 
       {/* =========================
-          🎨 SAFE STYLES
+          🎨 STYLES
       ========================== */}
       <style jsx>{`
         .page {
@@ -197,7 +201,6 @@ ${items}
           color: #111;
         }
 
-        /* HERO */
         .hero {
           height: 100vh;
           display: flex;
@@ -263,7 +266,6 @@ ${items}
           filter: drop-shadow(0 40px 60px rgba(0,0,0,.15));
         }
 
-        /* TRUST */
         .trust {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
@@ -272,7 +274,6 @@ ${items}
           font-weight: 600;
         }
 
-        /* PRODUCTS */
         .products {
           padding: 80px 20px;
         }
@@ -304,7 +305,6 @@ ${items}
           background: #ccc;
         }
 
-        /* SCARCITY */
         .scarcity {
           text-align: center;
           padding: 40px 20px;
@@ -312,7 +312,6 @@ ${items}
           font-weight: 600;
         }
 
-        /* CART */
         .cart {
           position: fixed;
           right: 0;
